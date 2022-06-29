@@ -2,8 +2,10 @@ import React, { useContext, useState, useEffect } from 'react';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, storage } from '../firebase';
 import {
+  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
   signOut,
   sendPasswordResetEmail,
   onAuthStateChanged,
@@ -26,6 +28,11 @@ export function AuthProvider({ children }) {
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
+
+  const signInWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider);
+  };
 
   function login(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -80,6 +87,7 @@ export function AuthProvider({ children }) {
     updateEmailFn,
     updatePasswordFn,
     // upload,
+    signInWithGoogle,
   };
 
   // only want to render children if loading is set to false

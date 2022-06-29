@@ -1,49 +1,28 @@
 import './App.css';
 
 import { auth } from './firebase.js';
-import { signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
+import { AuthProvider } from './contexts/AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import SignIn from './components/authenticate/SignIn';
 import ChatRoom from './components/navbar/chat/ChatRoom';
+import SignOut from './components/authenticate/SignOut';
 
 function App() {
   const [user] = useAuthState(auth);
   return (
-    <div className='App'>
-      <header>
-        <h1>⚛️🔥💬</h1>
-        <SignOut />
-      </header>
-
-      <section>{user ? <ChatRoom /> : <SignIn />}</section>
-    </div>
-  );
-}
-
-function SignIn() {
-  const signInWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider);
-  };
-
-  return (
     <>
-      <button className='sign-in' onClick={signInWithGoogle}>
-        Sign in with Google
-      </button>
-      <p>
-        Do not violate the community guidelines or you will be banned for life!
-      </p>
-    </>
-  );
-}
+      <AuthProvider>
+        <div className='App'>
+          <header>
+            <h1>⚛️🔥💬</h1>
+            <SignOut />
+          </header>
 
-function SignOut() {
-  return (
-    auth.currentUser && (
-      <button className='sign-out' onClick={() => signOut(auth)}>
-        Sign Out
-      </button>
-    )
+          <section>{user ? <ChatRoom /> : <SignIn />}</section>
+        </div>
+      </AuthProvider>
+    </>
   );
 }
 
