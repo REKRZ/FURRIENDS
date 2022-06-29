@@ -6,7 +6,7 @@ import { getFirestore, serverTimestamp } from 'firebase/firestore';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyD9hnauiIC_tTLo0IS5c0tvlo3c18Z10_Q',
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: 'furriends-32ebf.firebaseapp.com',
   projectId: 'furriends-32ebf',
   storageBucket: 'furriends-32ebf.appspot.com',

@@ -1,5 +1,7 @@
+/* eslint-disable */
+
 import React, { useContext, useState, useEffect } from 'react';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+// import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { auth, storage } from '../firebase';
 import {
   GoogleAuthProvider,
@@ -11,7 +13,7 @@ import {
   onAuthStateChanged,
   updateEmail,
   updatePassword,
-  updateProfile,
+  // updateProfile,
 } from 'firebase/auth';
 
 const AuthContext = React.createContext();
