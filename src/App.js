@@ -26,9 +26,11 @@ function App() {
           <section>{user ? <ChatRoom /> : <SignIn />}</section>
         </div> */}
         <Router>
-          <Route path='/' element={<Home />} />
-          <Route path='/signup' element={<SignUp />} />
-          <Route path='/signin' element={<SignIn />} />
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/signup' element={<SignUp />} />
+            <Route path='/signin' element={<SignIn />} />
+          </Routes>
         </Router>
       </AuthProvider>
     </>
