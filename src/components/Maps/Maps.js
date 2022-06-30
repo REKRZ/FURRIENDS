@@ -34,6 +34,8 @@ const App = () => {
     const addMarker = () => {
       const element = document.createElement("div");
       element.className = "marker";
+
+      //make this dynamic with user profile image
       element.style.backgroundImage = `url("https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/uk/advisor/wp-content/uploads/2021/05/short-coated-tan-puppy-stockpack-unsplash-scaled.jpg")`;
       const marker = new tt.Marker({
         draggable: true,
