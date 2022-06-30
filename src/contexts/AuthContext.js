@@ -79,6 +79,7 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
+  // ask Zach re: unsubscribing? 
 
   const value = {
     currentUser,
