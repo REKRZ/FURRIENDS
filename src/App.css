@@ -3,13 +3,12 @@ body {
 }
 
 .marker {
-  background-image: url("https://media-be.chewy.com/wp-content/uploads/2018/02/26125022/puppy-dog-eyes-1024x548.jpg");
   background-size: cover;
   width: 22px;
   height: 22px;
-  background-color: red;
+  /* background-color: red; */
   border-radius: 11px;
-  border: solid 3px darkslategray;
+  border: solid 3px rgb(7, 165, 28);
 }
 
 .App {
