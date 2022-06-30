@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-// import * as tt from "@tomtom-international/web-sdk-maps";
 import "../../App.css";
 import "@tomtom-international/web-sdk-maps/dist/maps.css";
 import * as tt from "@tomtom-international/web-sdk-maps";
 
 const App = () => {
   const [map, setMap] = useState({});
-  const [lat, setLat] = useState(40.7567286);
-  const [lng, setLng] = useState(-73.8810199);
-  // const [mapElement, setMapElement] = useState({});
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
   const mapElement = useRef();
 
   useEffect(() => {
@@ -55,7 +53,6 @@ const App = () => {
     return () => map.remove();
   }, [lat, lng]);
 
-  console.log(map);
   return (
     <>
       {map && (

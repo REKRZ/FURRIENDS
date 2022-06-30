@@ -22,7 +22,6 @@ function App() {
           </header>
 
           <section>{user ? <ChatRoom /> : <SignIn />}</section>
-          <Maps />
         </div>
       </AuthProvider>
     </>
