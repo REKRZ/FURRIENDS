@@ -14,7 +14,7 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <div className='App'>
+        <div className="App">
           <header>
             <h1>⚛️🔥💬</h1>
             <SignOut />
