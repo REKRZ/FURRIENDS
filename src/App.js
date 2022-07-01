@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import './App.css';
+// import './App.css';
 
 import { auth } from './firebase.js';
 import { AuthProvider } from './contexts/AuthContext';
@@ -31,6 +31,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/profile' element={<Profile />} />
           </Routes>
         </Router>
       </AuthProvider>
