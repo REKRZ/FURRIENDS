@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
@@ -73,6 +74,7 @@ export default function Home() {
     getAllFriendsPosts();
 
     setAllPosts([...userPosts, ...friendsPosts]);
+    // eslint-disable-next-line
   }, []);
 
   // console.log('friends', friends);

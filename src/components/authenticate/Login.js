@@ -6,14 +6,13 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login, currentUser } = useAuth();
+  const { login, currentUser, signInWithGoogle } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     try {
       setError('');
       setLoading(true);
@@ -28,6 +27,20 @@ export default function Login() {
     // passwordRef.current.value = "";
   }
 
+  async function handleGoogleSignIn(e) {
+    e.preventDefault();
+    try {
+      setError('');
+      setLoading(true);
+      await signInWithGoogle();
+      // below line sends you to home page
+      navigate('/');
+    } catch {
+      setError('Failed to sign in.');
+    }
+    setLoading(false);
+  }
+
   return (
     <div className='h-screen flex flex-col items-center justify-center'>
       {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
@@ -36,12 +49,7 @@ export default function Login() {
       {error && (
         <div className='alert alert-warning shadow-lg max-w-fit'>
           <div>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='stroke-current flex-shrink-0 h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-            >
+            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current flex-shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -59,28 +67,15 @@ export default function Login() {
           <strong>Login</strong>
         </h1>
         <label>Email</label>
-        <input
-          type='email'
-          placeholder='email...'
-          id='email'
-          name='email'
-          ref={emailRef}
-          className='mb-3'
-          required
-        ></input>
+        <input type='email' placeholder='email...' id='email' name='email' ref={emailRef} className='mb-3' required></input>
         <label>Password</label>
-        <input
-          type='password'
-          placeholder='password...'
-          id='password'
-          name='password'
-          ref={passwordRef}
-          className='mb-3'
-          required
-        ></input>
+        <input type='password' placeholder='password...' id='password' name='password' ref={passwordRef} className='mb-3' required></input>
 
         <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
-          Login
+          Sign in
+        </button>
+        <button disabled={loading} className='btn mb-5' onClick={handleGoogleSignIn}>
+          Sign in with Google
         </button>
         <div className='flex justify-center text-sm'>
           <div>Need an account?</div>
