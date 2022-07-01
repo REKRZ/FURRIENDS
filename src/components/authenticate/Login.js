@@ -1,29 +1,27 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import SignOut from './SignOut';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-export default function SignUp() {
+export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const passwordConfirmRef = useRef();
-  const { signup, currentUser } = useAuth();
+  const { login, currentUser } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-      return setError('Passwords do not match!');
-    }
-
     try {
       setError('');
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await login(emailRef.current.value, passwordRef.current.value);
+      // below line sends you to home page
+      navigate('/');
     } catch {
-      setError('Failed to create an account.');
+      setError('Failed to sign in.');
     }
     setLoading(false);
     // emailRef.current.value = "";
@@ -58,7 +56,7 @@ export default function SignUp() {
       {/* THIS IS THE FORM ELEMENT */}
       <div className='form-control mt-5'>
         <h1 className='flex justify-center text-xl mb-3'>
-          <strong>Sign-up</strong>
+          <strong>Login</strong>
         </h1>
         <label>Email</label>
         <input
@@ -80,23 +78,14 @@ export default function SignUp() {
           className='mb-3'
           required
         ></input>
-        <label>Password Confirmation</label>
-        <input
-          type='password'
-          placeholder='re-type password...'
-          id='passwordConfirmation'
-          name='passwordConfirmation'
-          ref={passwordConfirmRef}
-          className='mb-5'
-          required
-        ></input>
+
         <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
-          Sign Up
+          Login
         </button>
         <div className='flex justify-center text-sm'>
-          <div>Already have an account?</div>
+          <div>Need an account?</div>
           <div className='underline mx-2'>
-            <Link to='/login'>Log In</Link>
+            <Link to='/signup'>Sign Up</Link>
           </div>
         </div>
         {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
