@@ -69,14 +69,14 @@ export default function Home() {
 
   useEffect(() => {
     if (friendsPosts.length) {
-      setAllPosts([...userPosts, ...friendsPosts]);
+      const combined = [...userPosts, ...friendsPosts];
+      const timeOrderedCombined = combined.sort(
+        (a, b) => a.createdAt.seconds - b.createdAt.seconds
+      );
+      setAllPosts(timeOrderedCombined);
     }
   }, [friendsPosts]);
 
-  // console.log('friends', friends);
-  // console.log('userPosts', userPosts);
-  // console.log('friendsPosts', friendsPosts);
-  // console.log('allPosts', allPosts);
   return (
     <div className='flex flex-col w-full'>
       {allPosts.map((post, i) => (
