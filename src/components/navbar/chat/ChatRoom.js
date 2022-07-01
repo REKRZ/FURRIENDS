@@ -6,7 +6,8 @@ import ChatMessage from './ChatMessage';
 
 export default function ChatRoom() {
   const dummy = useRef();
-  const messagesRef = collection(db, 'messages');
+  const { uid, photoURL } = auth.currentUser;
+  const messagesRef = collection(db, 'profiles', uid, 'messages');
   const q = query(messagesRef, orderBy('createdAt'), limit(25));
 
   const [messages] = useCollectionData(q, { idField: 'id' });
@@ -16,7 +17,7 @@ export default function ChatRoom() {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    const { uid, photoURL } = auth.currentUser;
+    // const { uid, photoURL } = auth.currentUser;
 
     await addDoc(messagesRef, {
       text: formValue,
@@ -26,7 +27,7 @@ export default function ChatRoom() {
     });
 
     setFormValue('');
-    dummy.current.scrollIntoView({ behavior: 'smooth' });
+    dummy.current.scrollIntoView({ behavior: 'auto' });
   };
 
   return (
