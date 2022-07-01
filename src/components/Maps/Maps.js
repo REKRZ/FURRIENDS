@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
-import "../../App.css";
-import "@tomtom-international/web-sdk-maps/dist/maps.css";
-import * as tt from "@tomtom-international/web-sdk-maps";
+import React, { useEffect, useState, useRef } from 'react';
+import '../../App.css';
+import '@tomtom-international/web-sdk-maps/dist/maps.css';
+import * as tt from '@tomtom-international/web-sdk-maps';
 
 const App = () => {
   const [map, setMap] = useState({});
@@ -30,8 +30,8 @@ const App = () => {
     });
 
     const addMarker = () => {
-      const element = document.createElement("div");
-      element.className = "marker";
+      const element = document.createElement('div');
+      element.className = 'marker';
 
       //make this dynamic with user profile image
       element.style.backgroundImage = `url("https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/uk/advisor/wp-content/uploads/2021/05/short-coated-tan-puppy-stockpack-unsplash-scaled.jpg")`;
@@ -42,7 +42,7 @@ const App = () => {
         .setLngLat([lng, lat])
         .addTo(map);
 
-      marker.on("dragend", () => {
+      marker.on('dragend', () => {
         const lngLat = marker.getLngLat();
         setLng(lngLat.lng);
         setLat(lngLat.lat);
@@ -56,8 +56,8 @@ const App = () => {
   return (
     <>
       {map && (
-        <div className="App">
-          <div ref={mapElement} style={{ height: "80vh", width: "100%" }}></div>
+        <div className='App'>
+          <div ref={mapElement} style={{ height: '80vh', width: '100%' }}></div>
         </div>
       )}
     </>

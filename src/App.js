@@ -12,6 +12,7 @@ import SignUp from './components/authenticate/SignUp';
 import Login from './components/authenticate/Login';
 import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
+import { Navbar } from './components/navbar/Navbar.jsx';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -27,11 +28,13 @@ function App() {
           <section>{user ? <ChatRoom /> : <SignIn />}</section>
         </div> */}
         <Router>
+          <Navbar />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
             <Route path='/profile' element={<Profile />} />
+            <Route path='/map' element={<Maps />} />
           </Routes>
         </Router>
       </AuthProvider>
