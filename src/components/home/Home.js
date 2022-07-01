@@ -49,7 +49,6 @@ export default function Home() {
 
   useEffect(() => {
     // get list of friend posts (after getting friend IDs) and set friendsPosts state
-    // let allFriendsPosts = [];
     const getAllFriendsPosts = () => {
       friends?.forEach(({ friendId }) => {
         const friendsPostsRef = collection(db, 'profiles', friendId, 'posts');
@@ -57,15 +56,9 @@ export default function Home() {
         const getFriendsPosts = async () => {
           const friendsPostsSnapshot = await getDocs(qFriendsPosts);
           if (friendsPostsSnapshot) {
-            // friendsPostsSnapshot.forEach((doc) => {
-            // allFriendsPosts.push({ ...doc.data(), id: doc.id });
-            setFriendsPosts((current) => [
-              ...current,
-              friendsPostsSnapshot,
-              // { ...doc.data(), id: doc.id },
-            ]);
-            // });
-            // here
+            friendsPostsSnapshot.forEach((doc) => {
+              setFriendsPosts((current) => [...current, doc.data()]);
+            });
           }
         };
         getFriendsPosts();
@@ -76,7 +69,6 @@ export default function Home() {
 
   useEffect(() => {
     if (friendsPosts.length) {
-      console.log('4', friendsPosts);
       setAllPosts([...userPosts, ...friendsPosts]);
     }
   }, [friendsPosts]);
