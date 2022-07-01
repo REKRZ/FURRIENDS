@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
 export const Navbar = () => {
-  const { logout, currentUser } = useAuth();
-  console.log('DISPLAY NAME:', currentUser);
+  const { logout } = useAuth();
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1'>
@@ -17,25 +16,25 @@ export const Navbar = () => {
         <ul className='menu menu-horizontal p-0'>
           <li>
             <Link to='/' href='#'>
-              Item 1
+              Home
             </Link>
           </li>
           <li tabIndex='0' className='mx-2'>
             <Link to='/' href='#'>
-              Parent
+              Chat
               <svg className='fill-current' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'>
                 <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
               </svg>
             </Link>
             <ul className='p-2 bg-base-100'>
               <li>
-                <Link to='/' href='#'>
-                  Submenu 1
+                <Link to='/chatroom' href='#'>
+                  Group Chat
                 </Link>
               </li>
               <li>
                 <Link to='/' href='#'>
-                  Submenu 2
+                  Future individual chat
                 </Link>
               </li>
             </ul>

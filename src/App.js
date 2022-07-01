@@ -12,7 +12,8 @@ import SignUp from './components/authenticate/SignUp';
 import Login from './components/authenticate/Login';
 import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
-import { Navbar } from './components/navbar/Navbar.jsx';
+import { Navbar } from './components/navbar/Navbar.js';
+import { LandingPage } from './components/home/LandingPage.js';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -35,6 +36,8 @@ function App() {
             <Route path='/signup' element={<SignUp />} />
             <Route path='/profile' element={<Profile />} />
             <Route path='/map' element={<Maps />} />
+            <Route path='/landing' element={<LandingPage />} />
+            <Route path='/chatroom' element={<ChatRoom />} />
           </Routes>
         </Router>
       </AuthProvider>
