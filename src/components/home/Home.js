@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export default function Home() {
-  const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState([]); // friend list of ids
   const [userPosts, setUserPosts] = useState([]);
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
@@ -20,20 +20,6 @@ export default function Home() {
   const qFriends = query(friendsRef);
 
   useEffect(() => {
-    // get list of friend IDs and set friends state
-    const getFriends = async () => {
-      const friendsListSnapshot = await getDocs(qFriends);
-      if (friendsListSnapshot) {
-        let list = [];
-        friendsListSnapshot.forEach((doc) => {
-          list.push({ friendId: doc.id });
-        });
-        setFriends(list);
-      }
-      console.log('1');
-    };
-    getFriends();
-
     // get list of user posts and set userPosts state
     const getUserPosts = async () => {
       const userPostsSnapshot = await getDocs(qUserPosts);
@@ -44,36 +30,56 @@ export default function Home() {
         });
         setUserPosts(allUserPosts);
       }
-      console.log('2');
     };
     getUserPosts();
 
-    // get list of friend posts (after getting friend IDs) and set friendsPosts state
-    const getAllFriendsPosts = async () => {
-      if (friends.length !== 0) {
-        let allFriendsPosts = [];
-        friends.forEach(({ friendId }) => {
-          const friendsPostsRef = collection(db, 'profiles', friendId, 'posts');
-          const qFriendsPosts = query(friendsPostsRef);
-
-          const getFriendsPosts = async () => {
-            const friendsPostsSnapshot = await getDocs(qFriendsPosts);
-            if (friendsPostsSnapshot) {
-              friendsPostsSnapshot.forEach((doc) => {
-                allFriendsPosts.push({ ...doc.data(), id: doc.id });
-              });
-            }
-          };
-          getFriendsPosts();
+    // get list of friend IDs and set friends state
+    const getFriends = async () => {
+      const friendsListSnapshot = await getDocs(qFriends);
+      if (friendsListSnapshot) {
+        let list = [];
+        friendsListSnapshot.forEach((doc) => {
+          list.push({ friendId: doc.id });
         });
-        setFriendsPosts(allFriendsPosts);
+        setFriends(list);
       }
-      console.log('3');
+    };
+    getFriends();
+  }, []);
+
+  useEffect(() => {
+    // get list of friend posts (after getting friend IDs) and set friendsPosts state
+    // let allFriendsPosts = [];
+    const getAllFriendsPosts = () => {
+      friends?.forEach(({ friendId }) => {
+        const friendsPostsRef = collection(db, 'profiles', friendId, 'posts');
+        const qFriendsPosts = query(friendsPostsRef);
+        const getFriendsPosts = async () => {
+          const friendsPostsSnapshot = await getDocs(qFriendsPosts);
+          if (friendsPostsSnapshot) {
+            // friendsPostsSnapshot.forEach((doc) => {
+            // allFriendsPosts.push({ ...doc.data(), id: doc.id });
+            setFriendsPosts((current) => [
+              ...current,
+              friendsPostsSnapshot,
+              // { ...doc.data(), id: doc.id },
+            ]);
+            // });
+            // here
+          }
+        };
+        getFriendsPosts();
+      });
     };
     getAllFriendsPosts();
+  }, [friends]);
 
-    setAllPosts([...userPosts, ...friendsPosts]);
-  }, []);
+  useEffect(() => {
+    if (friendsPosts.length) {
+      console.log('4', friendsPosts);
+      setAllPosts([...userPosts, ...friendsPosts]);
+    }
+  }, [friendsPosts]);
 
   // console.log('friends', friends);
   // console.log('userPosts', userPosts);
@@ -91,7 +97,7 @@ export default function Home() {
               </figure>
               <div className='card-body'>
                 <h6 className='card-title'>{post.caption}</h6>
-                <p>If a dog chews shoes whose shoes does he choose???</p>
+                <p>If a dog chews shoes whose shoes does he choose??</p>
                 <div className='card-actions justify-end'>
                   <div className='badge badge-outline'>{post.displayName}</div>
                 </div>
