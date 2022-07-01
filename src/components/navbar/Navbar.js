@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export const Navbar = () => {
-  const { logout } = useAuth();
+  const [displayName, setDisplayName] = useState('Guest');
+  const [userId, setUserId] = useState('');
+  const { logout, currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser) {
+      setUserId(currentUser.uid);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      const userRef = doc(db, 'profiles', userId);
+      onSnapshot(userRef, (doc) => {
+        const avatarName = doc.data().displayName;
+        setDisplayName(avatarName);
+      });
+    }
+  }, []);
+
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1'>
         <Link className='btn btn-ghost normal-case text-xl' to='/' href='#'>
           Furriends
         </Link>
-        <div>Welcome User!</div>
+        <div>{`Welcome ${displayName}!`}</div>
       </div>
       <div className='flex-none'>
         <ul className='menu menu-horizontal p-0'>
