@@ -1,29 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 export const Navbar = () => {
-  const [displayName, setDisplayName] = useState('Guest');
-  const [userId, setUserId] = useState('');
   const { logout, currentUser } = useAuth();
+  const [displayName, setDisplayName] = useState('Guest');
 
   useEffect(() => {
     if (currentUser) {
-      setUserId(currentUser.uid);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (userId) {
+      const userId = currentUser.uid;
       const userRef = doc(db, 'profiles', userId);
-      onSnapshot(userRef, (doc) => {
-        const avatarName = doc.data().displayName;
-        setDisplayName(avatarName);
-      });
+      const getProfile = async function () {
+        getDoc(userRef).then((doc) => {
+          console.log(doc.data(), doc.id);
+          setDisplayName(doc.data().displayName);
+        });
+      };
+      getProfile();
     }
-  }, []);
+  }, [currentUser]);
 
   return (
     <div className='navbar bg-base-300'>
