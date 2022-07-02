@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import SignOut from './SignOut';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
   const emailRef = useRef();
@@ -10,6 +10,7 @@ export default function SignUp() {
   const { signup, currentUser } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +23,8 @@ export default function SignUp() {
       setError('');
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      // below line sends you to home page
+      navigate('/');
     } catch {
       setError('Failed to create an account.');
     }
@@ -38,12 +41,7 @@ export default function SignUp() {
       {error && (
         <div className='alert alert-warning shadow-lg max-w-fit'>
           <div>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='stroke-current flex-shrink-0 h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-            >
+            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current flex-shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -61,35 +59,11 @@ export default function SignUp() {
           <strong>Sign-up</strong>
         </h1>
         <label>Email</label>
-        <input
-          type='email'
-          placeholder='email...'
-          id='email'
-          name='email'
-          ref={emailRef}
-          className='mb-3'
-          required
-        ></input>
+        <input type='email' placeholder='email...' id='email' name='email' ref={emailRef} className='mb-3' required></input>
         <label>Password</label>
-        <input
-          type='password'
-          placeholder='password...'
-          id='password'
-          name='password'
-          ref={passwordRef}
-          className='mb-3'
-          required
-        ></input>
+        <input type='password' placeholder='password...' id='password' name='password' ref={passwordRef} className='mb-3' required></input>
         <label>Password Confirmation</label>
-        <input
-          type='password'
-          placeholder='re-type password...'
-          id='passwordConfirmation'
-          name='passwordConfirmation'
-          ref={passwordConfirmRef}
-          className='mb-5'
-          required
-        ></input>
+        <input type='password' placeholder='re-type password...' id='passwordConfirmation' name='passwordConfirmation' ref={passwordConfirmRef} className='mb-5' required></input>
         <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
           Sign Up
         </button>

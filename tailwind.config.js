@@ -2,7 +2,11 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        hero: "url('https://storage.googleapis.com/petbacker/images/blog/2018/super-dog.jpg')",
+      },
+    },
   },
   plugins: [require('daisyui')],
   daisyui: {
