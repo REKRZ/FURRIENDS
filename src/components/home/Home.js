@@ -45,6 +45,7 @@ export default function Home() {
       }
     };
     getFriends();
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -70,35 +71,32 @@ export default function Home() {
   useEffect(() => {
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
-      const timeOrderedCombined = combined.sort(
-        (a, b) => a.createdAt.seconds - b.createdAt.seconds
-      );
+      const timeOrderedCombined = combined.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
       setAllPosts(timeOrderedCombined);
     }
+    // eslint-disable-next-line
   }, [friendsPosts]);
 
   return (
     <div className='flex flex-col w-full'>
       {allPosts.map((post, i) => (
-        <>
-          <div key={i}>
-            {/* <div className='grid h-300 card bg-base-300 rounded-box place-items-center'> */}
-            <div className='card lg:card-side bg-base-100 shadow-xl'>
-              <figure>
-                <img src={`${post.uploadedPhoto}`} alt='pic' />
-              </figure>
-              <div className='card-body'>
-                <h6 className='card-title'>{post.caption}</h6>
-                <p>If a dog chews shoes whose shoes does he choose??</p>
-                <div className='card-actions justify-end'>
-                  <div className='badge badge-outline'>{post.displayName}</div>
-                </div>
+        <div key={i}>
+          {/* <div className='grid h-300 card bg-base-300 rounded-box place-items-center'> */}
+          <div className='card lg:card-side bg-base-100 shadow-xl'>
+            <figure>
+              <img src={`${post.uploadedPhoto}`} alt='pic' />
+            </figure>
+            <div className='card-body'>
+              <h6 className='card-title'>{post.caption}</h6>
+              <p>If a dog chews shoes whose shoes does he choose??</p>
+              <div className='card-actions justify-end'>
+                <div className='badge badge-outline'>{post.displayName}</div>
               </div>
             </div>
-            {/* </div> */}
-            <div className='divider'></div>
           </div>
-        </>
+          {/* </div> */}
+          <div className='divider'></div>
+        </div>
       ))}
     </div>
   );
