@@ -71,7 +71,7 @@ const Maps = () => {
             <div className='text-5xl border-b-4 border-purple-300 text-center content-center'>Places</div>
             {results?.map((park, i) => (
               <div key={i} className='ml-3 w-full p-5'>
-                <PlacesCard dogParks={park} />
+                <PlacesCard dogParks={park} num={i} />
               </div>
             ))}
           </div>
