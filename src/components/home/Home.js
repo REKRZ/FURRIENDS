@@ -11,7 +11,7 @@ export default function Home() {
   const [allPosts, setAllPosts] = useState([]);
 
   const { user } = useAuth();
-  const testUser = 'einAZyfrMPSjySXmwUyGOUGSk5n1';
+  const testUser = 'FkelnLabBQcfVCrQsv4H6fXJj0t2';
 
   const userPostsRef = collection(db, 'profiles', testUser, 'posts');
   const qUserPosts = query(userPostsRef);
