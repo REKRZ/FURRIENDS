@@ -34,7 +34,7 @@ export default function Login() {
       setLoading(true);
       await signInWithGoogle();
       // below line sends you to home page
-      navigate('/');
+      navigate('/landing');
     } catch {
       setError('Failed to sign in.');
     }

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useCallback } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -7,6 +7,7 @@ import { db } from '../../firebase';
 export const Navbar = () => {
   const { logout, currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('Guest');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -22,6 +23,12 @@ export const Navbar = () => {
     }
   }, [currentUser]);
 
+  const handleLogout = useCallback(() => {
+    logout();
+    setDisplayName('Guest');
+    navigate('/landing');
+  }, []);
+
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1'>
@@ -31,13 +38,13 @@ export const Navbar = () => {
         <div>{`Welcome ${displayName}!`}</div>
       </div>
       <div className='flex-none'>
-        <ul className='menu menu-horizontal p-0'>
+        <ul className='menu menu-horizontal p-0 '>
           <li>
             <Link to='/' href='#'>
               Home
             </Link>
           </li>
-          <li tabIndex='0' className='mx-2'>
+          <li tabIndex='0' className='mx-2 '>
             <Link to='/' href='#'>
               Chat
               <svg className='fill-current' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'>
@@ -87,7 +94,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <button className='badge' onClick={logout}>
+              <button className='badge' onClick={handleLogout}>
                 Logout
               </button>
             </li>
