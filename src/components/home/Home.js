@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import AddPost from '../navbar/post/AddPost';
 
 export default function Home() {
   const [friends, setFriends] = useState([]); // friend list of ids
@@ -79,6 +80,9 @@ export default function Home() {
 
   return (
     <div className='flex flex-col w-full'>
+      <div>
+        <AddPost />
+      </div>
       {allPosts.map((post, i) => (
         <>
           <div key={i}>
