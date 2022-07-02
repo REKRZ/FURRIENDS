@@ -1,15 +1,15 @@
+.marker {
+  background-size: cover;
+  width: 37px;
+  height: 30px;
+  background-color: red;
+  border-radius: 20px;
+  border: solid 2px rgb(7, 165, 28);
+}
 /* body {
   background-color: #282c34;
 }
 
-.marker {
-  background-size: cover;
-  width: 30px;
-  height: 30px;
-  background-color: red;
-  border-radius: 11px;
-  border: solid 2px rgb(7, 165, 28);
-}
 
 .App {
   text-align: center;
