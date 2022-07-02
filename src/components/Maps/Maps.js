@@ -64,7 +64,7 @@ const Maps = () => {
 
   const { results } = dogParks;
   return (
-    <div className='flex flex-row h-screen overflow-visible'>
+    <div className='flex flex-row h-screen'>
       {map && (
         <div className='flex flex-row h-screen w-full lg:flex-row'>
           <div className='flex flex-col flex-grow overflow-y-auto w-1/3 border border-purple-300'>
@@ -75,7 +75,7 @@ const Maps = () => {
               </div>
             ))}
           </div>
-          <div ref={mapElement} style={{ height: '80vh', width: '100%' }}></div>
+          <div ref={mapElement} style={{ height: '100%', width: '100%' }} />
         </div>
       )}
     </div>
