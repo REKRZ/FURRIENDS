@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase';
+import ProfileCard from './ProfileCard';
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -21,7 +22,6 @@ const Profile = () => {
 
     userPostsSnapshot.forEach((doc) => {
       posts.push(doc.data());
-      console.log(posts);
     });
     setUserPosts(posts);
   }, []);
@@ -38,18 +38,7 @@ const Profile = () => {
 
   return (
     <div className='flex w-full'>
-      <div className='card w-48 h-96 bg-base-100 shadow-xl'>
-        <figure className='px-10 pt-10'>
-          <img src={userInfo.photoURL} alt='profileImage' className='rounded-xl' />
-        </figure>
-        <div className='card-body items-center text-center'>
-          <h2 className='card-title'>{userInfo.displayName}</h2>
-          <p>{userInfo.bio}</p>
-          <div className='card-actions'>
-            <button className=' btn-primary btn-sm rounded'>Edit Profile</button>
-          </div>
-        </div>
-      </div>
+      <ProfileCard userInfo={userInfo} />
       <div className='grid flex-grow card bg-base-300 rounded-box place-items-center'>
         {userPosts?.map(({ uploadedPhoto, caption, displayName }, i) => (
           <div key={i}>
