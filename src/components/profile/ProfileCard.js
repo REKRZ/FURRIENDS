@@ -3,7 +3,7 @@ import React from 'react';
 const ProfileCard = ({ userInfo }) => {
   const { photoURL, displayName, bio } = userInfo;
   return (
-    <div className='card w-48 h-96 bg-base-100 shadow-xl'>
+    <div className='card w-60 h-96 bg-base-100 shadow-xl'>
       <figure className='px-10 pt-10'>
         <img src={photoURL} alt='profileImage' className='rounded-xl' />
       </figure>

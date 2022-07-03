@@ -22,7 +22,6 @@ const Profile = () => {
 
     userPostsSnapshot.forEach((doc) => {
       posts.push(doc.data());
-      console.log(posts);
     });
     setUserPosts(posts);
   }, []);
