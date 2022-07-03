@@ -101,7 +101,7 @@ export const Navbar = () => {
             className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'
           >
             <li>
-              <Link className='justify-between' to='/' href='#'>
+              <Link className='justify-between' to='/profile' href='#'>
                 Profile
                 <span className='badge'>New</span>
               </Link>
