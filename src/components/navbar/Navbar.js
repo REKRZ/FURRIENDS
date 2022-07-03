@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import AddPost from './post/AddPost';
 
 export const Navbar = () => {
   const { logout, currentUser } = useAuth();
@@ -26,13 +27,13 @@ export const Navbar = () => {
   const handleLogout = useCallback(() => {
     logout();
     setDisplayName('Guest');
-    navigate('/landing');
+    navigate('/');
   }, []);
 
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1'>
-        <Link className='btn btn-ghost normal-case text-xl' to='/' href='#'>
+        <Link className='btn btn-ghost normal-case text-xl' to='/home' href='#'>
           Furriends
         </Link>
         <div>{`Welcome ${displayName}!`}</div>
@@ -40,14 +41,21 @@ export const Navbar = () => {
       <div className='flex-none'>
         <ul className='menu menu-horizontal p-0 '>
           <li>
-            <Link to='/' href='#'>
+            {/* <Link to='/' href='#'>
               Home
-            </Link>
+            </Link> */}
+            <AddPost />
           </li>
           <li tabIndex='0' className='mx-2 '>
-            <Link to='/' href='#'>
+            <Link to='/home' href='#'>
               Chat
-              <svg className='fill-current' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'>
+              <svg
+                className='fill-current'
+                xmlns='http://www.w3.org/2000/svg'
+                width='20'
+                height='20'
+                viewBox='0 0 24 24'
+              >
                 <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
               </svg>
             </Link>
@@ -73,15 +81,25 @@ export const Navbar = () => {
       </div>
       <div className='flex-none gap-2 mx-2'>
         <div className='form-control'>
-          <input type='text' placeholder='Search' className='input input-bordered' />
+          <input
+            type='text'
+            placeholder='Search'
+            className='input input-bordered'
+          />
         </div>
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
-              <img src='https://placeimg.com/80/80/people' alt='https://placeimg.com/80/80/people' />
+              <img
+                src='https://placeimg.com/80/80/people'
+                alt='https://placeimg.com/80/80/people'
+              />
             </div>
           </label>
-          <ul tabIndex='0' className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'>
+          <ul
+            tabIndex='0'
+            className='mt-3 p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'
+          >
             <li>
               <Link className='justify-between' to='/profile' href='#'>
                 Profile
@@ -89,7 +107,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to='/' href='#'>
+              <Link to='/home' href='#'>
                 Settings
               </Link>
             </li>

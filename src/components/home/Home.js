@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
+import AddPost from '../navbar/post/AddPost';
 
 export default function Home() {
   const [friends, setFriends] = useState([]); // friend list of ids
@@ -10,13 +11,13 @@ export default function Home() {
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
-  const { user } = useAuth();
-  const testUser = 'FkelnLabBQcfVCrQsv4H6fXJj0t2';
+  const { currentUser } = useAuth();
+  const { uid } = currentUser;
 
-  const userPostsRef = collection(db, 'profiles', testUser, 'posts');
+  const userPostsRef = collection(db, 'profiles', uid, 'posts');
   const qUserPosts = query(userPostsRef);
 
-  const friendsRef = collection(db, 'profiles', testUser, 'friends');
+  const friendsRef = collection(db, 'profiles', uid, 'friends');
   const qFriends = query(friendsRef);
 
   useEffect(() => {
@@ -71,7 +72,9 @@ export default function Home() {
   useEffect(() => {
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
-      const timeOrderedCombined = combined.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
+      const timeOrderedCombined = combined.sort(
+        (a, b) => a.createdAt.seconds - b.createdAt.seconds
+      );
       setAllPosts(timeOrderedCombined);
     }
     // eslint-disable-next-line
