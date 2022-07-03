@@ -72,7 +72,9 @@ export default function Home() {
   useEffect(() => {
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
-      const timeOrderedCombined = combined.sort((a, b) => a.createdAt.seconds - b.createdAt.seconds);
+      const timeOrderedCombined = combined.sort(
+        (a, b) => a.createdAt.seconds - b.createdAt.seconds
+      );
       setAllPosts(timeOrderedCombined);
     }
     // eslint-disable-next-line
@@ -80,9 +82,6 @@ export default function Home() {
 
   return (
     <div className='flex flex-col w-full'>
-      <div>
-        <AddPost />
-      </div>
       {allPosts.map((post, i) => (
         <div key={i}>
           {/* <div className='grid h-300 card bg-base-300 rounded-box place-items-center'> */}
