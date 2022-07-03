@@ -11,13 +11,13 @@ export default function Home() {
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
 
-  const { user } = useAuth();
-  const testUser = 'FkelnLabBQcfVCrQsv4H6fXJj0t2';
+  const { currentUser } = useAuth();
+  const { uid } = currentUser;
 
-  const userPostsRef = collection(db, 'profiles', testUser, 'posts');
+  const userPostsRef = collection(db, 'profiles', uid, 'posts');
   const qUserPosts = query(userPostsRef);
 
-  const friendsRef = collection(db, 'profiles', testUser, 'friends');
+  const friendsRef = collection(db, 'profiles', uid, 'friends');
   const qFriends = query(friendsRef);
 
   useEffect(() => {

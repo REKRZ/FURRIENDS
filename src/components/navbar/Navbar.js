@@ -27,13 +27,13 @@ export const Navbar = () => {
   const handleLogout = useCallback(() => {
     logout();
     setDisplayName('Guest');
-    navigate('/landing');
+    navigate('/');
   }, []);
 
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1'>
-        <Link className='btn btn-ghost normal-case text-xl' to='/' href='#'>
+        <Link className='btn btn-ghost normal-case text-xl' to='/home' href='#'>
           Furriends
         </Link>
         <div>{`Welcome ${displayName}!`}</div>
@@ -47,7 +47,7 @@ export const Navbar = () => {
             <AddPost />
           </li>
           <li tabIndex='0' className='mx-2 '>
-            <Link to='/' href='#'>
+            <Link to='/home' href='#'>
               Chat
               <svg
                 className='fill-current'
@@ -107,7 +107,7 @@ export const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link to='/' href='#'>
+              <Link to='/home' href='#'>
                 Settings
               </Link>
             </li>

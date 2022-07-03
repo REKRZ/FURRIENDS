@@ -18,7 +18,7 @@ export default function Login() {
       setLoading(true);
       await login(emailRef.current.value, passwordRef.current.value);
       // below line sends you to home page
-      navigate('/');
+      navigate('/home');
     } catch {
       setError('Failed to sign in.');
     }
@@ -34,7 +34,7 @@ export default function Login() {
       setLoading(true);
       await signInWithGoogle();
       // below line sends you to home page
-      navigate('/landing');
+      navigate('/home');
     } catch {
       setError('Failed to sign in.');
     }
@@ -49,7 +49,12 @@ export default function Login() {
       {error && (
         <div className='alert alert-warning shadow-lg max-w-fit'>
           <div>
-            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current flex-shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='stroke-current flex-shrink-0 h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+            >
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -67,14 +72,34 @@ export default function Login() {
           <strong>Login</strong>
         </h1>
         <label>Email</label>
-        <input type='email' placeholder='email...' id='email' name='email' ref={emailRef} className='mb-3' required></input>
+        <input
+          type='email'
+          placeholder='email...'
+          id='email'
+          name='email'
+          ref={emailRef}
+          className='mb-3'
+          required
+        ></input>
         <label>Password</label>
-        <input type='password' placeholder='password...' id='password' name='password' ref={passwordRef} className='mb-3' required></input>
+        <input
+          type='password'
+          placeholder='password...'
+          id='password'
+          name='password'
+          ref={passwordRef}
+          className='mb-3'
+          required
+        ></input>
 
         <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
           Sign in
         </button>
-        <button disabled={loading} className='btn mb-5' onClick={handleGoogleSignIn}>
+        <button
+          disabled={loading}
+          className='btn mb-5'
+          onClick={handleGoogleSignIn}
+        >
           Sign in with Google
         </button>
         <div className='flex justify-center text-sm'>
