@@ -10,9 +10,6 @@ const Profile = () => {
   const { currentUser } = useAuth();
   const { uid } = currentUser;
 
-  // const userPostsRef = collection(db, 'profiles', currentUser.uid, 'posts');
-  // const qUserPosts = query(userPostsRef);
-
   const userInfoRef = doc(db, 'profiles', uid);
   const qUserInfo = query(userInfoRef);
 
@@ -24,7 +21,6 @@ const Profile = () => {
 
     userPostsSnapshot.forEach((doc) => {
       posts.push(doc.data());
-      // setUserPosts([...userPosts, doc.data()]);
       console.log(posts);
     });
     setUserPosts(posts);
@@ -39,19 +35,6 @@ const Profile = () => {
     getUserInfo();
     getUserPosts();
   }, []);
-
-  // <div className='mb-60 grid w-1/3 flex-col card bg-base-300 rounded-box place-items-center'>
-  //   <div className='pt-5'>{userInfo.displayName}</div>
-  //   <div className='avatar p-40'>
-  //     <div className='w-auto rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
-  //       <img src={userInfo.photoURL} alt='tibetan mastiff' />
-  //     </div>
-  //   </div>
-  //   <div>
-  //     <button className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'>Edit Profile</button>
-  //   </div>
-  //   <div className='pt-20'>{userInfo.bio}</div>
-  // </div>
 
   return (
     <div className='flex w-full'>
