@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase';
+import EditProfile from './EditProfile';
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -21,7 +22,6 @@ const Profile = () => {
 
     userPostsSnapshot.forEach((doc) => {
       posts.push(doc.data());
-      console.log(posts);
     });
     setUserPosts(posts);
   }, []);
@@ -46,7 +46,7 @@ const Profile = () => {
           <h2 className='card-title'>{userInfo.displayName}</h2>
           <p>{userInfo.bio}</p>
           <div className='card-actions'>
-            <button className=' btn-primary btn-sm rounded'>Edit Profile</button>
+            <EditProfile userInfo={userInfo} uid={uid} />
           </div>
         </div>
       </div>
