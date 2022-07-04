@@ -43,9 +43,7 @@ export default function AddPost() {
     uploadTask.on(
       'stage_changed',
       (snapshot) => {
-        const prog = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
+        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         setProgress(prog);
       },
       (err) => console.log(err),
@@ -77,7 +75,7 @@ export default function AddPost() {
   return (
     <>
       {/* <!-- The button to open modal --> */}
-      <label htmlFor='my-modal-3' className='btn modal-button'>
+      <label htmlFor='my-modal-3' className='btn btn-ghost normal'>
         Create Post
       </label>
       {/*
@@ -85,10 +83,7 @@ export default function AddPost() {
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box relative'>
-          <label
-            htmlFor='my-modal-3'
-            className='btn btn-sm btn-circle absolute right-2 top-2'
-          >
+          <label htmlFor='my-modal-3' className='btn btn-sm btn-circle absolute right-2 top-2'>
             ✕
           </label>
           <h3 className='text-lg font-bold'>Create a post!</h3>
@@ -98,24 +93,12 @@ export default function AddPost() {
               <button type='submit'>Upload</button>
             </form>
             <hr />
-            {progress < 100 ? (
-              <h3>Uploaded {progress}%</h3>
-            ) : (
-              <h3>Upload Complete!</h3>
-            )}
+            {progress < 100 ? <h3>Uploaded {progress}%</h3> : <h3>Upload Complete!</h3>}
           </div>
           <form onSubmit={handleSubmit}>
             <p className='py-4'>insert caption here</p>
-            <input
-              type='text'
-              placeholder='pupdate your friends!'
-              className='input input-bordered input-info w-full max-w-xs'
-              ref={captionRef}
-            />
-            <button
-              type='submit'
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'
-            >
+            <input type='text' placeholder='pupdate your friends!' className='input input-bordered input-info w-full max-w-xs' ref={captionRef} />
+            <button type='submit' className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'>
               <label htmlFor='my-modal-3'>Share</label>
             </button>
           </form>
