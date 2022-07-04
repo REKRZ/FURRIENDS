@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
 import { db } from '../../firebase';
-import EditProfile from './EditProfile';
 import ProfileCard from './ProfileCard';
 
 const Profile = () => {

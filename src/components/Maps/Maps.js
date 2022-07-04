@@ -4,13 +4,22 @@ import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import * as tt from '@tomtom-international/web-sdk-maps';
 import { getDogParks } from '../../api/getDogParks';
 import PlacesCard from './PlacesCard';
+import { useAuth } from '../../contexts/AuthContext';
+import { query, getDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const Maps = () => {
   const [map, setMap] = useState({});
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+  const [userInfo, setUserInfo] = useState({});
   const [dogParks, setDogParks] = useState([]);
   const mapElement = useRef();
+  const { currentUser } = useAuth();
+  const { uid } = currentUser;
+
+  const userInfoRef = doc(db, 'profiles', uid);
+  const qUserInfo = query(userInfoRef);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -18,6 +27,13 @@ const Maps = () => {
       setLng(longitude);
       console.log(latitude, longitude);
     });
+
+    const getUserInfo = async () => {
+      const userInfoSnapshot = await getDoc(qUserInfo);
+      userInfoSnapshot ? setUserInfo(userInfoSnapshot.data()) : console.log('no such document!');
+    };
+
+    getUserInfo();
   }, []);
 
   useEffect(() => {
@@ -42,8 +58,7 @@ const Maps = () => {
       const element = document.createElement('div');
       element.className = 'marker';
 
-      //make this dynamic with user profile image
-      element.style.backgroundImage = `url("https://thumbor.forbes.com/thumbor/fit-in/x/https://www.forbes.com/uk/advisor/wp-content/uploads/2021/05/short-coated-tan-puppy-stockpack-unsplash-scaled.jpg")`;
+      element.style.backgroundImage = `url("${userInfo.photoURL}")`;
       const marker = new tt.Marker({
         draggable: true,
         element: element,
@@ -70,7 +85,7 @@ const Maps = () => {
           <div className='flex flex-col flex-grow overflow-y-auto w-1/3 border border-purple-300'>
             <div className='text-5xl border-b-4 border-purple-300 text-center content-center'>Places</div>
             {results?.map((park, i) => (
-              <div key={i} className='ml-3 w-full p-5'>
+              <div key={i} className='w-full p-5'>
                 <PlacesCard dogParks={park} num={i} />
               </div>
             ))}

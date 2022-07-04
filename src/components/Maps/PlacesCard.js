@@ -3,7 +3,7 @@ import React from 'react';
 const PlacesCard = ({ dogParks, num }) => {
   const { poi, address } = dogParks;
   return (
-    <div className='card card-compact w-96 bg-base-100 shadow-xl bg-white'>
+    <div className='card card-compact w-auto bg-base-100 shadow-xl bg-white'>
       <figure>
         <img src={`https://loremflickr.com/440/225/dogs&cats?random${num}`} alt='parks' />
       </figure>
