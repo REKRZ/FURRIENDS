@@ -35,7 +35,7 @@ export const Navbar = () => {
     <div className='navbar bg-base-300 '>
       <div className='flex-1 '>
         <Link className='btn btn-ghost mr-10 normal-case text-xl' to='/home' href='#'>
-          Furriends
+          <img src='/images/logo.svg' alt='logo' className='object-scale-down h-12' />
         </Link>
         <div className='text-lg'>{`Welcome ${displayName}!`}</div>
       </div>
