@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
@@ -80,6 +81,10 @@ export default function Home() {
     // eslint-disable-next-line
   }, [friendsPosts]);
 
+  const updateLikes = async (id) => {
+    console.log(id);
+  };
+
   return (
     <div className='container my-12 mx-auto px-4 md:px-12'>
       <div className='flex flex-wrap -mx-1 lg:-mx-4'>
@@ -89,26 +94,62 @@ export default function Home() {
             className='my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'
           >
             <article className='overflow-hidden rounded-lg shadow-lg'>
-              <a href='#'>
-                <img src={`${post.uploadedPhoto}`} alt='pic' />
+              <a className='w-full h-full' href='#'>
+                <img
+                  className='block object-scale-down h-80 w-full'
+                  src={`${post.uploadedPhoto}`}
+                  alt='pic'
+                />
               </a>
 
               <header className='flex items-center justify-between leading-tight p-2 md:p-4'>
                 <h1 className='text-lg'>
-                  <a
-                    className='no-underline hover:underline text-black'
-                    href='#'
-                  >
+                  <a className='no-underline hover:underline' href='#'>
                     {post.caption}
                   </a>
                 </h1>
                 <p className='text-grey-darker text-sm'>
                   {post.createdAt.toDate().toDateString()}
                 </p>
-                <div className='justify-end'>
+                {/* <div className='justify-end'>
                   <div className='badge badge-outline'>{post.displayName}</div>
-                </div>
+                </div> */}
               </header>
+              <footer className='flex items-center justify-between leading-none p-2 md:p-4'>
+                <a
+                  className='flex items-center no-underline hover:underline '
+                  href='#'
+                >
+                  <img
+                    alt='Placeholder'
+                    className='block rounded-full'
+                    src='https://picsum.photos/32/32/?random'
+                  />
+                  <p className='ml-2 text-sm'>{post.displayName}</p>
+                </a>
+                <a
+                  className='flex items-center no-underline text-grey-darker hover:text-red-dark'
+                  href='#'
+                >
+                  <p className='pr-2'>{post.likes}</p>
+                  <span className='hidden'>Like</span>
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    className='h-6 w-6'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    stroke='currentColor'
+                    strokeWidth={2}
+                    onClick={() => updateLikes(post.uid)}
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
+                    />
+                  </svg>
+                </a>
+              </footer>
             </article>
             <div className='divider'></div>
           </div>
