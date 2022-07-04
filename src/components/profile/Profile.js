@@ -39,7 +39,7 @@ const Profile = () => {
 
   return (
     <div className='flex w-full'>
-      <ProfileCard userInfo={userInfo} />
+      <ProfileCard userInfo={userInfo} uid={uid} />
       <div className='grid flex-grow card bg-base-300 rounded-box place-items-center'>
         {userPosts?.map(({ uploadedPhoto, caption, displayName }, i) => (
           <div key={i}>

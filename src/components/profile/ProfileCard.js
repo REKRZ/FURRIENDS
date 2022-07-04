@@ -1,6 +1,7 @@
 import React from 'react';
+import EditProfile from './EditProfile';
 
-const ProfileCard = ({ userInfo }) => {
+const ProfileCard = ({ userInfo, uid }) => {
   const { photoURL, displayName, bio } = userInfo;
   return (
     <div className='card w-60 h-96 bg-base-100 shadow-xl'>
@@ -11,7 +12,7 @@ const ProfileCard = ({ userInfo }) => {
         <h2 className='card-title'>{displayName}</h2>
         <p>{bio}</p>
         <div className='card-actions'>
-          <button className=' btn-primary btn-sm rounded'>Edit Profile</button>
+          <EditProfile userInfo={userInfo} uid={uid} />
         </div>
       </div>
     </div>
