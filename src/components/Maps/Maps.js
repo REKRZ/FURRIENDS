@@ -5,7 +5,7 @@ import * as tt from '@tomtom-international/web-sdk-maps';
 import { getDogParks } from '../../api/getDogParks';
 import PlacesCard from './PlacesCard';
 import { useAuth } from '../../contexts/AuthContext';
-import { query, getDoc, doc } from 'firebase/firestore';
+import { query, getDoc, doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 const Maps = () => {
@@ -25,7 +25,6 @@ const Maps = () => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setLat(latitude);
       setLng(longitude);
-      console.log(latitude, longitude);
     });
 
     const getUserInfo = async () => {
@@ -40,6 +39,7 @@ const Maps = () => {
     getDogParks(lat, lng).then((parks) => {
       setDogParks(parks);
     });
+    console.log(lat, lng);
   }, [lat, lng]);
 
   useEffect(() => {
@@ -56,15 +56,28 @@ const Maps = () => {
 
     const addMarker = () => {
       const element = document.createElement('div');
-      element.className = 'marker';
+      const pawIcon = document.createElement('div');
 
+      element.className = 'marker';
       element.style.backgroundImage = `url("${userInfo.photoURL}")`;
+
+      pawIcon.className = 'marker';
+      pawIcon.style.backgroundImage = `url("https://cdn-icons-png.flaticon.com/512/12/12638.png")`;
+
       const marker = new tt.Marker({
         draggable: true,
         element: element,
       })
         .setLngLat([lng, lat])
         .addTo(map);
+
+      dogParks?.results?.map((park) =>
+        new tt.Marker({
+          element: pawIcon,
+        })
+          .setLngLat([park.position.lon, park.position.lat])
+          .addTo(map)
+      );
 
       marker.on('dragend', () => {
         const lngLat = marker.getLngLat();
@@ -75,11 +88,11 @@ const Maps = () => {
     setMap(map);
     addMarker();
     return () => map.remove();
-  }, [lat, lng, dogParks]);
+  }, [lat, lng, dogParks, userInfo]);
 
   const { results } = dogParks;
   return (
-    <div className='flex flex-row h-screen'>
+    <div className='flex flex-row'>
       {map && (
         <div className='flex flex-row h-screen w-full lg:flex-row'>
           <div className='flex flex-col flex-grow overflow-y-auto w-1/3 border border-purple-300'>

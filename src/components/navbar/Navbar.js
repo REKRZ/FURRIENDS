@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
+import Maps from '../Maps/Maps';
 
 export const Navbar = () => {
   const { logout, currentUser } = useAuth();
@@ -66,7 +67,7 @@ export const Navbar = () => {
           </li>
           <li>
             <Link to='/map' href='#' className='btn btn-ghost'>
-              Map
+              Maps
             </Link>
           </li>
         </ul>
