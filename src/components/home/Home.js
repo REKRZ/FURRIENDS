@@ -73,7 +73,7 @@ export default function Home() {
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
       const timeOrderedCombined = combined.sort(
-        (a, b) => a.createdAt.seconds - b.createdAt.seconds
+        (a, b) => b.createdAt.seconds - a.createdAt.seconds
       );
       setAllPosts(timeOrderedCombined);
     }
@@ -81,15 +81,50 @@ export default function Home() {
   }, [friendsPosts]);
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className='container my-12 mx-auto px-4 md:px-12'>
+      <div className='flex flex-wrap -mx-1 lg:-mx-4'>
+        {allPosts.map((post, i) => (
+          <div
+            key={i}
+            className='my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'
+          >
+            <article className='overflow-hidden rounded-lg shadow-lg'>
+              <a href='#'>
+                <img src={`${post.uploadedPhoto}`} alt='pic' />
+              </a>
+
+              <header className='flex items-center justify-between leading-tight p-2 md:p-4'>
+                <h1 className='text-lg'>
+                  <a
+                    className='no-underline hover:underline text-black'
+                    href='#'
+                  >
+                    {post.caption}
+                  </a>
+                </h1>
+                <p className='text-grey-darker text-sm'>
+                  {post.createdAt.toDate().toDateString()}
+                </p>
+                <div className='justify-end'>
+                  <div className='badge badge-outline'>{post.displayName}</div>
+                </div>
+              </header>
+            </article>
+            <div className='divider'></div>
+          </div>
+        ))}
+      </div>
+      {/* <div className='flex flex-col w-full'>
       {allPosts.map((post, i) => (
-        <div key={i}>
-          {/* <div className='grid h-300 card bg-base-300 rounded-box place-items-center'> */}
-          <div className='card lg:card-side bg-base-100 shadow-xl'>
-            <figure>
-              <img src={`${post.uploadedPhoto}`} alt='pic' />
-            </figure>
-            <div className='card-body'>
+        <div key={i} className='flex p-10'>
+          <div className='card lg:card-side bg-base-600 shadow-xl'>
+            <div className='w-3/4'>
+              <figure className='max-w-max max-h-max'>
+                <img src={`${post.uploadedPhoto}`} alt='pic' />
+              </figure>
+            </div>
+
+            <div className='card-body w-1/4'>
               <h6 className='card-title'>{post.caption}</h6>
               <p>If a dog chews shoes whose shoes does he choose??</p>
               <div className='card-actions justify-end'>
@@ -97,10 +132,10 @@ export default function Home() {
               </div>
             </div>
           </div>
-          {/* </div> */}
           <div className='divider'></div>
         </div>
       ))}
+    </div> */}
     </div>
   );
 }
