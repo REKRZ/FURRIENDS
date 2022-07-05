@@ -68,6 +68,7 @@ const Maps = () => {
         .addTo(map);
 
       dogParks?.results?.forEach((park) => {
+        const popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([park.position.lon, park.position.lat]).setHTML(park.poi.name);
         let pawIcon = document.createElement('div');
         pawIcon.className = 'marker';
         pawIcon.style.backgroundImage = `url("https://jazzfoundation.org/wp-content/uploads/2019/04/nyc-parks-logo.jpg")`;
@@ -76,7 +77,8 @@ const Maps = () => {
           element: pawIcon,
         })
           .setLngLat([park.position.lon, park.position.lat])
-          .addTo(map);
+          .addTo(map)
+          .setPopup(popup);
       });
 
       marker.on('dragend', () => {
