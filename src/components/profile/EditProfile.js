@@ -29,9 +29,11 @@ const EditProfile = ({ userInfo, uid }) => {
 
   return (
     <div>
-      <label htmlFor='my-modal-6' className=' btn btn-primary modal-button btn-md rounded'>
+      {/* BUTTON TO OPEN MODAL*/}
+      <label htmlFor='my-modal-6' className='btn btn-primary modal-button btn-md rounded'>
         Edit Profile
       </label>
+      {/* BELOW IS THE MODAL CODE */}
       <input type='checkbox' id='my-modal-6' className='modal-toggle' />
       <div className='modal modal-bottom sm:modal-middle'>
         <div className='modal-box'>
