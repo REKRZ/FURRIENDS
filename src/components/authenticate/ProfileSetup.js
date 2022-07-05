@@ -19,6 +19,8 @@ export default function ProfileSetup() {
   const petSizeRef = useRef();
   const photoURLRef = useRef();
 
+  const navigate = useNavigate();
+
   // logic to create user profile (document) in profile collection
   useEffect(() => {
     async function createUserProf() {
@@ -39,20 +41,25 @@ export default function ProfileSetup() {
   }, []);
 
   // logic to update user profile (document) in profile collection with user submitted form data
-  async function handleSubmit(event) {
-    event.preventDefeault();
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    console.log('YOU GOT INTO THE HANDLE SUBMIT')
 
     try {
       const newUserDocRef = doc(db, 'profiles', uid);
       await updateDoc(newUserDocRef, {
-        bio: bioRef,
-        displayName: displayNameRef,
-        ownerName: ownerNameRef,
-        petBreed: petBreedRef,
-        petName: petNameRef,
-        petSize: petSizeRef,
-        photoURL: photoURLRef
+        bio: bioRef.current.value,
+        displayName: displayNameRef.current.value,
+        ownerName: ownerNameRef.current.value,
+        petBreed: petBreedRef.current.value,
+        petName: petNameRef.current.value,
+        petSize: petSizeRef.current.value,
+        photoURL: photoURLRef.current.value,
       });
+
+      navigate('/home');
+
     } catch (error) {
       console.log(error);
     }
@@ -60,10 +67,10 @@ export default function ProfileSetup() {
 
   return (
     <div className='h-screen flex flex-col items-center justify-center'>
-      <h1 className='flex justify-center text-gray-300 text-xl mb-3'>
-          <strong>Profile Setup</strong>
-        </h1>
-      <form className='w-full max-w-lg'>
+      <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
+        <strong>Profile Setup</strong>
+      </h1>
+      <div className='w-full max-w-lg'>
         <div className='flex flex-wrap -mx-3 mb-6'>
           <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
             <label
@@ -196,7 +203,15 @@ export default function ProfileSetup() {
             <p className='text-gray-600 text-xs italic'>.jpg or .png</p>
           </div>
         </div>
-      </form>
+        <div className='flex items-center justify-center mb-6'>
+          <button
+            className='btn'
+            onClick={handleSubmit}
+          >
+            Create Profile
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
