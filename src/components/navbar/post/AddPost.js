@@ -9,7 +9,8 @@ import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
 export default function AddPost() {
   const navigate = useNavigate();
   const captionRef = useRef();
-  const [displayName, setDisplayName] = useState(0);
+  const [displayName, setDisplayName] = useState('');
+  const [profilePic, setProfilePic] = useState('');
   const [progress, setProgress] = useState(0);
   const [picURL, setPicURL] = useState('');
   const { currentUser } = useAuth();
@@ -21,6 +22,7 @@ export default function AddPost() {
       const getName = async function () {
         getDoc(userRef).then((doc) => {
           setDisplayName(doc.data().displayName);
+          setProfilePic(doc.data().photoURL);
         });
       };
       getName();
@@ -43,7 +45,9 @@ export default function AddPost() {
     uploadTask.on(
       'stage_changed',
       (snapshot) => {
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgress(prog);
       },
       (err) => console.log(err),
@@ -64,6 +68,7 @@ export default function AddPost() {
         displayName: displayName,
         likes: 0,
         uid: currentUser.uid,
+        profilePic: profilePic,
         uploadedPhoto: picURL,
       });
       navigate('/home');
@@ -83,7 +88,10 @@ export default function AddPost() {
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box relative'>
-          <label htmlFor='my-modal-3' className='btn btn-sm btn-circle absolute right-2 top-2'>
+          <label
+            htmlFor='my-modal-3'
+            className='btn btn-sm btn-circle absolute right-2 top-2'
+          >
             ✕
           </label>
           <h3 className='text-lg font-bold'>Create a post!</h3>
@@ -93,12 +101,24 @@ export default function AddPost() {
               <button type='submit'>Upload</button>
             </form>
             <hr />
-            {progress < 100 ? <h3>Uploaded {progress}%</h3> : <h3>Upload Complete!</h3>}
+            {progress < 100 ? (
+              <h3>Uploaded {progress}%</h3>
+            ) : (
+              <h3>Upload Complete!</h3>
+            )}
           </div>
           <form onSubmit={handleSubmit}>
             <p className='py-4'>insert caption here</p>
-            <input type='text' placeholder='pupdate your friends!' className='input input-bordered input-info w-full max-w-xs' ref={captionRef} />
-            <button type='submit' className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'>
+            <input
+              type='text'
+              placeholder='pupdate your friends!'
+              className='input input-bordered input-info w-full max-w-xs'
+              ref={captionRef}
+            />
+            <button
+              type='submit'
+              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'
+            >
               <label htmlFor='my-modal-3'>Share</label>
             </button>
           </form>

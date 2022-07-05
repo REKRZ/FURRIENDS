@@ -2,15 +2,15 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { collection, query, getDocs } from 'firebase/firestore';
+import { collection, query, getDocs, getDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import AddPost from '../navbar/post/AddPost';
 
 export default function Home() {
   const [friends, setFriends] = useState([]); // friend list of ids
   const [userPosts, setUserPosts] = useState([]);
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
+  const [usersInfo, setUsersInfo] = useState([]);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -71,6 +71,7 @@ export default function Home() {
   }, [friends]);
 
   useEffect(() => {
+    // combine all posts
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
       const timeOrderedCombined = combined.sort(
@@ -78,10 +79,11 @@ export default function Home() {
       );
       setAllPosts(timeOrderedCombined);
     }
+
     // eslint-disable-next-line
   }, [friendsPosts]);
 
-  const updateLikes = async (id) => {
+  const updateLikes = (id) => {
     console.log(id);
   };
 
@@ -97,7 +99,7 @@ export default function Home() {
               <a className='w-full h-full' href='#'>
                 <img
                   className='block object-scale-down h-80 w-full'
-                  src={`${post.uploadedPhoto}`}
+                  src={post.uploadedPhoto}
                   alt='pic'
                 />
               </a>
@@ -111,9 +113,6 @@ export default function Home() {
                 <p className='text-grey-darker text-sm'>
                   {post.createdAt.toDate().toDateString()}
                 </p>
-                {/* <div className='justify-end'>
-                  <div className='badge badge-outline'>{post.displayName}</div>
-                </div> */}
               </header>
               <footer className='flex items-center justify-between leading-none p-2 md:p-4'>
                 <a
@@ -121,9 +120,9 @@ export default function Home() {
                   href='#'
                 >
                   <img
-                    alt='Placeholder'
-                    className='block rounded-full'
-                    src='https://picsum.photos/32/32/?random'
+                    alt=''
+                    className='block rounded-full h-7 w-7 mr-1'
+                    src={post.profilePic}
                   />
                   <p className='ml-2 text-sm'>{post.displayName}</p>
                 </a>
@@ -155,28 +154,12 @@ export default function Home() {
           </div>
         ))}
       </div>
-      {/* <div className='flex flex-col w-full'>
-      {allPosts.map((post, i) => (
-        <div key={i} className='flex p-10'>
-          <div className='card lg:card-side bg-base-600 shadow-xl'>
-            <div className='w-3/4'>
-              <figure className='max-w-max max-h-max'>
-                <img src={`${post.uploadedPhoto}`} alt='pic' />
-              </figure>
-            </div>
-
-            <div className='card-body w-1/4'>
-              <h6 className='card-title'>{post.caption}</h6>
-              <p>If a dog chews shoes whose shoes does he choose??</p>
-              <div className='card-actions justify-end'>
-                <div className='badge badge-outline'>{post.displayName}</div>
-              </div>
-            </div>
-          </div>
-          <div className='divider'></div>
-        </div>
-      ))}
-    </div> */}
     </div>
   );
 }
+
+// {
+//   usersInfo.filter(
+//     (user) => post.displayName === user.displayName
+//   )[0].photoURL
+// }
