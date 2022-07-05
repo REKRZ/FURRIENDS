@@ -48,6 +48,7 @@ export default function Login() {
       setError('');
       setLoading(true);
       await signInWithGoogle();
+      navigate('/home');
     } catch {
       setError('Failed to sign in.');
     }
