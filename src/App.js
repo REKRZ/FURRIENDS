@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import ChatRoom from './components/navbar/chat/ChatRoom';
 import Profile from './components/profile/Profile';
 import SignUp from './components/authenticate/SignUp';
+import ProfileSetup from './components/authenticate/ProfileSetup.js';
 import Login from './components/authenticate/Login';
 import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
@@ -30,6 +31,7 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='/login' element={<Login />} />
             <Route path='/signup' element={<SignUp />} />
+            <Route path='/profilesetup' element={<ProfileSetup />} /> 
             <Route path='/profile' element={<Profile />} />
             <Route path='/map' element={<Maps />} />
             <Route path='/chatroom' element={<ChatRoom />} />

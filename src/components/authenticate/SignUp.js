@@ -23,8 +23,8 @@ export default function SignUp() {
       setError('');
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
-      // below line sends you to home page
-      navigate('/');
+      // line below sends user to profilesetup componenent to continue setup
+      navigate('/profilesetup');
     } catch {
       setError('Failed to create an account.');
     }
