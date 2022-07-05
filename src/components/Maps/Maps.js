@@ -56,13 +56,9 @@ const Maps = () => {
 
     const addMarker = () => {
       const element = document.createElement('div');
-      const pawIcon = document.createElement('div');
 
       element.className = 'marker';
       element.style.backgroundImage = `url("${userInfo.photoURL}")`;
-
-      pawIcon.className = 'marker';
-      pawIcon.style.backgroundImage = `url("https://cdn-icons-png.flaticon.com/512/12/12638.png")`;
 
       const marker = new tt.Marker({
         draggable: true,
@@ -71,13 +67,17 @@ const Maps = () => {
         .setLngLat([lng, lat])
         .addTo(map);
 
-      dogParks?.results?.map((park) =>
+      dogParks?.results?.forEach((park) => {
+        let pawIcon = document.createElement('div');
+        pawIcon.className = 'marker';
+        pawIcon.style.backgroundImage = `url("https://jazzfoundation.org/wp-content/uploads/2019/04/nyc-parks-logo.jpg")`;
+
         new tt.Marker({
           element: pawIcon,
         })
           .setLngLat([park.position.lon, park.position.lat])
-          .addTo(map)
-      );
+          .addTo(map);
+      });
 
       marker.on('dragend', () => {
         const lngLat = marker.getLngLat();
