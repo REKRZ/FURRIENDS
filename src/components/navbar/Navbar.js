@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
 
@@ -9,6 +9,7 @@ export const Navbar = () => {
   const { logout, currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('Guest');
   const [profilePic, setProfilePic] = useState('');
+  const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,6 +23,21 @@ export const Navbar = () => {
         });
       };
       getProfile();
+
+      const friendsRef = collection(db, 'profiles', userId, 'friends');
+      const qFriends = query(friendsRef);
+      // get list of friend IDs and set friends state
+      const getFriends = async () => {
+        const friendsListSnapshot = await getDocs(qFriends);
+        if (friendsListSnapshot) {
+          let list = [];
+          friendsListSnapshot.forEach((doc) => {
+            list.push({ ...doc.data(), id: doc.id });
+          });
+          setFriends(list);
+        }
+      };
+      getFriends();
     }
   }, [currentUser]);
 
@@ -34,8 +50,16 @@ export const Navbar = () => {
   return (
     <div className='navbar bg-base-300 '>
       <div className='flex-1 '>
-        <Link className='btn btn-ghost mr-10 normal-case text-xl' to='/home' href='#'>
-          <img src='/images/logo.svg' alt='logo' className='object-scale-down h-12' />
+        <Link
+          className='btn btn-ghost mr-10 normal-case text-xl'
+          to='/home'
+          href='#'
+        >
+          <img
+            src='/images/logo.svg'
+            alt='logo'
+            className='object-scale-down h-12'
+          />
         </Link>
         <div className='text-lg'>{`Welcome ${displayName}!`}</div>
       </div>
@@ -52,16 +76,17 @@ export const Navbar = () => {
               </svg> */}
             </Link>
             <ul className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-45 z-40'>
-              <li>
-                <Link to='/chatroom' href='#' className=''>
-                  Group Chat
-                </Link>
-              </li>
-              <li>
-                <Link to='/' href='#'>
-                  Future individual chat
-                </Link>
-              </li>
+              {friends.length ? (
+                friends.map((friend) => (
+                  <li key={friend.id}>
+                    <Link to='/chatroom' state={{ from: friend.id }}>
+                      {friend.friendDisplayName}
+                    </Link>
+                  </li>
+                ))
+              ) : (
+                <li>Find Friends!</li>
+              )}
             </ul>
           </li>
           <li>
@@ -72,14 +97,19 @@ export const Navbar = () => {
         </ul>
       </div>
       <div className='flex-none gap-2 mx-2'>
-        <div className='form-control'>{/* <input type='text' placeholder='Search' className='input input-bordered' /> */}</div>
+        <div className='form-control'>
+          {/* <input type='text' placeholder='Search' className='input input-bordered' /> */}
+        </div>
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
               <img src={profilePic} alt='Profile Picture' />
             </div>
           </label>
-          <ul tabIndex='0' className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'>
+          <ul
+            tabIndex='0'
+            className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'
+          >
             <li>
               <Link className='justify-between' to='/profile' href='#'>
                 Profile

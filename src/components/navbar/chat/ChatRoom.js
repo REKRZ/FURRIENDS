@@ -11,14 +11,20 @@ import {
 } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
+import { useLocation } from 'react-router-dom';
 import ChatMessage from './ChatMessage';
 
-export default function ChatRoom(props) {
+export default function ChatRoom() {
   const dummy = useRef();
   const { currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [formValue, setFormValue] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location);
+  }, []);
 
   const messagesRef = collection(db, 'profiles', currentUser.uid, 'messages');
   const q = query(messagesRef, orderBy('createdAt'), limit(25));
