@@ -1,6 +1,56 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import { db } from '../../../firebase';
+import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { useAuth } from '../../../contexts/AuthContext';
 
 export default function FollowFurriend() {
+  // current logged-in user's id
+  const { currentUser } = useAuth();
+  const { uid } = currentUser;
+  const [usersProfiles, setUsersProfiles] = useState([]);
+
+  // Logic to extract all friends (all users from profiles collection from firestore)
+  useEffect(() => {
+    let allUsersProfiles = [];
+
+    async function getAllUsers() {
+      const querySnapshot = await getDocs(collection(db, 'profiles'));
+      querySnapshot.forEach((userDoc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(userDoc.id, ' => ', userDoc.data());
+
+        // make userDoc + uid objects, and push to array... then setState
+        allUsersProfiles.push({ ...userDoc.data(), uid: userDoc.id });
+      });
+    }
+
+    getAllUsers();
+    setUsersProfiles(allUsersProfiles);
+    // eslint-disable-next-line
+  }, []);
+
+  // console.log('THIS IS usersProfiles STATE:', usersProfiles);
+
+  // Logic attached to Add button in modal furriends table to add a specific user
+  async function handleAddFurriend(userId) {
+    try {
+      const furriendToAddRef = doc(db, 'profiles', userId);
+      const furriendSnap = await getDoc(furriendToAddRef);
+
+      // console.log('@@@@', userId)
+      // console.log("Document data:", furriendSnap.data());
+      // console.log('@@@@*****', uid)
+
+      await setDoc(doc(db, 'profiles', uid, 'friends', userId), {
+        ...furriendSnap.data(), friendDisplayName: furriendSnap.data().displayName
+      });
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <>
       {/* <!-- The button to open modal --> */}
@@ -29,136 +79,106 @@ export default function FollowFurriend() {
 
           {/* THIS IS THE TABLE OF FURRIENDS VVV */}
           {/*  */}
-          <div class='overflow-x-auto w-full'>
-            <table class='table w-full'>
+          <div className='overflow-x-auto w-full'>
+            <table className='table w-full'>
               {/* <!-- head --> */}
               <thead>
                 <tr>
                   <th>
                     <label>
-                      <input type='checkbox' class='checkbox' />
+                      <input type='checkbox' className='checkbox' />
                     </label>
                   </th>
-                  <th>Name</th>
-                  <th>Job</th>
-                  <th>Favorite Color</th>
+                  <th>Display Name</th>
+                  <th>Pet Name + Breed</th>
+                  <th>About Me</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
-                {/* <!-- row 1 --> */}
-                <tr>
+                {/* LOGIC TO MAP OVER ALL USERS IN 'profiles' coll and make rows */}
+                {usersProfiles.length >= 1 ? (
+                  usersProfiles.map((profile) => (
+                    <tr key={profile.uid}>
+                      <th>
+                        <label>
+                          <input type='checkbox' className='checkbox' />
+                        </label>
+                      </th>
+                      <td>
+                        <div className='flex items-center space-x-3'>
+                          <div className='avatar'>
+                            <div className='mask mask-squircle w-12 h-12'>
+                              <img
+                                src={profile.photoURL}
+                                alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <div className='font-bold text-rose-100'>{profile.displayName}</div>
+                            <div className='text-sm opacity-50'>{profile.ownerName}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        {profile.petName}
+                        <br />
+                        <span className='badge badge-ghost badge-sm'>
+                          {profile.petBreed}
+                        </span>
+                      </td>
+                      <td>{profile.bio}</td>
+                      <th>
+                        <button className='btn btn-ghost' onClick={() => handleAddFurriend(profile.uid)}>
+                          Sniff their butt
+                        </button>
+                      </th>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
                   <th>
                     <label>
-                      <input type='checkbox' class='checkbox' />
+                      <input type='checkbox' className='checkbox' />
                     </label>
                   </th>
                   <td>
-                    <div class='flex items-center space-x-3'>
-                      <div class='avatar'>
-                        <div class='mask mask-squircle w-12 h-12'>
+                    <div className='flex items-center space-x-3'>
+                      <div className='avatar'>
+                        <div className='mask mask-squircle w-12 h-12'>
                           <img
-                            src='/tailwind-css-component-profile-2@56w.png'
-                            alt='Avatar Tailwind CSS Component'
+                            src='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                            alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
                           />
                         </div>
                       </div>
                       <div>
-                        <div class='font-bold'>Hart Hagerty</div>
-                        <div class='text-sm opacity-50'>United States</div>
+                        <div className='font-bold'>displayName</div>
+                        <div className='text-sm opacity-50'>ownerName</div>
                       </div>
                     </div>
                   </td>
                   <td>
-                    Zemlak, Daniel and Leannon
+                    petName
                     <br />
-                    <span class='badge badge-ghost badge-sm'>
-                      Desktop Support Technician
-                    </span>
+                    <span className='badge badge-ghost badge-sm'>petBreed</span>
                   </td>
-                  <td>Purple</td>
+                  <td>Bio</td>
                   <th>
-                    <button class='btn btn-ghost btn-xs'>details</button>
+                    <button className='btn btn-ghost'>Add</button>
                   </th>
                 </tr>
-                {/* <!-- row 2 --> */}
-                <tr>
-                  <th>
-                    <label>
-                      <input type='checkbox' class='checkbox' />
-                    </label>
-                  </th>
-                  <td>
-                    <div class='flex items-center space-x-3'>
-                      <div class='avatar'>
-                        <div class='mask mask-squircle w-12 h-12'>
-                          <img
-                            src='/tailwind-css-component-profile-3@56w.png'
-                            alt='Avatar Tailwind CSS Component'
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div class='font-bold'>Brice Swyre</div>
-                        <div class='text-sm opacity-50'>China</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    Carroll Group
-                    <br />
-                    <span class='badge badge-ghost badge-sm'>
-                      Tax Accountant
-                    </span>
-                  </td>
-                  <td>Red</td>
-                  <th>
-                    <button class='btn btn-ghost btn-xs'>details</button>
-                  </th>
-                </tr>
-                {/* <!-- row 3 --> */}
-                <tr>
-                  <th>
-                    <label>
-                      <input type='checkbox' class='checkbox' />
-                    </label>
-                  </th>
-                  <td>
-                    <div class='flex items-center space-x-3'>
-                      <div class='avatar'>
-                        <div class='mask mask-squircle w-12 h-12'>
-                          <img
-                            src='/tailwind-css-component-profile-4@56w.png'
-                            alt='Avatar Tailwind CSS Component'
-                          />
-                        </div>
-                      </div>
-                      <div>
-                        <div class='font-bold'>Marjy Ferencz</div>
-                        <div class='text-sm opacity-50'>Russia</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    Rowe-Schoen
-                    <br />
-                    <span class='badge badge-ghost badge-sm'>
-                      Office Assistant I
-                    </span>
-                  </td>
-                  <td>Crimson</td>
-                  <th>
-                    <button class='btn btn-ghost btn-xs'>details</button>
-                  </th>
-                </tr>
+                )}
+                {/* CLOSING */}
               </tbody>
               {/* <!-- foot --> */}
               <tfoot>
                 <tr>
                   <th></th>
-                  <th>Name</th>
-                  <th>Job</th>
-                  <th>Favorite Color</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                   <th></th>
                 </tr>
               </tfoot>
@@ -170,7 +190,7 @@ export default function FollowFurriend() {
 
           <div className='modal-action'>
             <label htmlFor='follow-furriend-modal' className='btn'>
-              Done
+              I'm done sniffing butts for today
             </label>
           </div>
         </div>
@@ -178,3 +198,4 @@ export default function FollowFurriend() {
     </>
   );
 }
+
