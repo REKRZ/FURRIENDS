@@ -79,7 +79,7 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
-  // ask Zach re: unsubscribing? 
+  // ask Zach re: unsubscribing?
 
   const value = {
     currentUser,
@@ -94,9 +94,5 @@ export function AuthProvider({ children }) {
   };
 
   // only want to render children if loading is set to false
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }
