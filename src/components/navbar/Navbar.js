@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { doc, getDoc, collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
+import FollowFurriend from './follow/FollowFurriend';
 
 export const Navbar = () => {
   const { logout, currentUser } = useAuth();
@@ -67,6 +68,9 @@ export const Navbar = () => {
         <ul className='menu menu-horizontal p-0 '>
           <li>
             <AddPost />
+          </li>
+          <li className='ml-2'>
+            <FollowFurriend />
           </li>
           <li tabIndex='0' className='mx-2'>
             <Link to='/home' href='#' className='btn btn-ghost'>
