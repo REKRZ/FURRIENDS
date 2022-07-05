@@ -44,8 +44,6 @@ export default function ProfileSetup() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    console.log('YOU GOT INTO THE HANDLE SUBMIT')
-
     try {
       const newUserDocRef = doc(db, 'profiles', uid);
       await updateDoc(newUserDocRef, {
