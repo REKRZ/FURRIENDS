@@ -10,6 +10,7 @@ import Profile from './components/profile/Profile';
 import SignUp from './components/authenticate/SignUp';
 import ProfileSetup from './components/authenticate/ProfileSetup.js';
 import Login from './components/authenticate/Login';
+import NotFound from './components/home/NotFound.js';
 import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
 import { Navbar } from './components/navbar/Navbar.js';
@@ -35,6 +36,7 @@ function App() {
             <Route path='/profile' element={<Profile />} />
             <Route path='/map' element={<Maps />} />
             <Route path='/chatroom' element={<ChatRoom />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Router>
       </AuthProvider>

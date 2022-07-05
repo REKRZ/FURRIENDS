@@ -6,8 +6,9 @@ import { useNavigate } from 'react-router-dom';
 export const LandingPage = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
+
   return (
-    <div className='hero min-h-screen'>
+    <div className='hero min-h-screen bg-[url(https://placeimg.com/1000/800/animals)]'>
       <div className='hero-overlay bg-opacity-60'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='max-w-md'>
