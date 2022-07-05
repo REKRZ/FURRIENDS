@@ -13,11 +13,13 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
 import ChatMessage from './ChatMessage';
+import { FaPaw } from 'react-icons/fa';
 
 export default function ChatRoom() {
   const dummy = useRef();
   const { currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('');
+  const [friendDisplayName, setFriendDisplayName] = useState('');
   const [profilePic, setProfilePic] = useState('');
   const [formValue, setFormValue] = useState('');
   const location = useLocation();
@@ -41,13 +43,22 @@ export default function ChatRoom() {
     if (currentUser) {
       const userId = currentUser.uid;
       const userRef = doc(db, 'profiles', userId);
-      const getInfo = async function () {
+      const getUserInfo = async function () {
         getDoc(userRef).then((doc) => {
           setDisplayName(doc.data().displayName);
           setProfilePic(doc.data().photoURL);
         });
       };
-      getInfo();
+      getUserInfo();
+
+      const friend = location.state.from;
+      const friendRef = doc(db, 'profiles', friend);
+      const getFriendInfo = async function () {
+        getDoc(friendRef).then((doc) => {
+          setFriendDisplayName(doc.data().displayName);
+        });
+      };
+      getFriendInfo();
     }
   }, [currentUser]);
 
@@ -79,11 +90,15 @@ export default function ChatRoom() {
   };
 
   return (
-    <div className='h-screen bg-gray-300'>
+    <div className='h-screen'>
       <div className='flex justify-center items-center h-screen'>
-        <div className='w-80 h-96 bg-white rounded shadow-2xl'>
+        <div className='w-80 h-96 bg-gray-100 rounded shadow-2xl'>
+          <nav className='w-full h-10 bg-gray-500 rounded-tr rounded-tl flex justify-center items-center'>
+            <span className='text-md font-medium text-white'>
+              {`Bark with ${friendDisplayName}!`}
+            </span>
+          </nav>
           <div className='overflow-auto px-1 py-1 h-full'>
-            {/* <img src="https://i.imgur.com/IAgGUYF.jpg" className="rounded-full shadow-xl" width="15" height="15" style="box-shadow: "> */}
             {messages &&
               messages
                 .filter((msg) => msg.friendID === location.state.from)
@@ -92,129 +107,25 @@ export default function ChatRoom() {
                 ))}
 
             <span ref={dummy}></span>
-
-            {/*
-            <div className='flex items-center pr-10'>
-              <span className='flex ml-1  h-auto bg-gray-900 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end'>
-                Hi Dr.Hendrikson, I haven't been feeling well for past few days.{' '}
-                <span className='text-gray-400 pl-1 text-xs'>01:25am</span>
-              </span>
-            </div>
-
-            <div className='flex justify-end pt-2 pl-10'>
-              <span className='bg-green-900 h-auto text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end flex justify-end '>
-                Lets jump on a video call.{' '}
-                <span className='text-gray-400 pl-1 text-xs'>02.30am</span>
-              </span>
-            </div>
-
-            <div className='flex items-center pr-10 mt-1'>
-              <span className='flex ml-1  h-auto bg-gray-900 text-gray-200 text-xs p-1 font-normal rounded-sm px-1 items-end'>
-                How often should i take the medicine?{' '}
-                <span className='text-gray-400 pl-1 text-xs'>01:25am</span>
-              </span>
-            </div>
-
-            <div className='flex justify-end pt-2 pl-10'>
-              <span className='bg-green-900 h-auto text-gray-200 text-xs font-normal p-1 rounded-sm px-1 items-end flex justify-end '>
-                Twice a day, at breakfast and before bed{' '}
-                <span className='text-gray-400 pl-1 text-xs'>02.30am</span>
-              </span>
-            </div>
-
-            <div className='flex items-center pr-10 pt-2'>
-              <span className='flex ml-1  h-auto bg-gray-900 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end'>
-                Thanks a lot doc
-                <span className='text-gray-400 pl-1 text-xs'>01:25am</span>
-              </span>
-            </div>
-
-            <div className='flex justify-end pt-2 pl-10'>
-              <span className='bg-green-900 h-auto text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end flex justify-end '>
-                Thats my duty, mention not{' '}
-                <span className='text-gray-400 pl-1 text-xs'>02.30am</span>
-              </span>
-            </div>
-
-            <div className='flex items-center pr-10 pt-2'>
-              <span className='flex ml-1  h-auto bg-gray-900 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end'>
-                sorry to bother again but can i ask you one more favour?
-                <span className='text-gray-400 pl-1 text-xs'>01:25am</span>
-              </span>
-            </div>
-
-            <div className='flex justify-end pt-2 pl-10'>
-              <span className='bg-green-900 h-auto text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end flex justify-end '>
-                yeah sure, go ahead?
-                <span className='text-gray-400 pl-1 text-xs'>02.30am</span>
-              </span>
-            </div>
-
-            <div className='flex items-center pr-10 pt-2'>
-              <span className='flex ml-1  h-auto bg-gray-900 text-gray-200 text-xs font-normal rounded-sm px-1 p-1 items-end'>
-                I really had a scary feeling about this, can please advice some
-                tricks to overcome my anxiety?
-                <span className='text-gray-400 pl-1 text-xs'>01:25am</span>
-              </span>
-            </div> */}
-
-            {/* <main className='flex-col'>
-          {messages &&
-            messages
-              .filter((msg) => msg.friendID === location.state.from)
-              .map((msg) => <ChatMessage key={msg.id} message={msg} />)}
-
-          <span ref={dummy}></span>
-        </main>
-        <div className='flex border-2'>
-          <input
-            className='input input-bordered w-full'
-            onChange={(e) => setFormValue(e.target.value)}
-            placeholder='say something nice'
-          />
-
-          <button
-            className='px-3'
-            type='submit'
-            // disabled={!formValue}
-            onClick={sendMessage}
-          >
-            🕊️
-          </button> */}
+          </div>
+          <div className='flex'>
+            <input
+              value={formValue}
+              className='input input-bordered w-full bg-slate-100'
+              onChange={(e) => setFormValue(e.target.value)}
+              placeholder='say something nice'
+            />
+            <button
+              className='px-3 btn btn-square btn-outline bg-slate-100'
+              type='submit'
+              disabled={!formValue}
+              onClick={sendMessage}
+            >
+              <FaPaw />
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
-// (
-//   <div className='bg-base-200 flex flex-col items-center'>
-//     <div className='w-1/3 border-2 h-full flex-col'>
-//       <main className='flex-col'>
-//         {messages &&
-//           messages
-//             .filter((msg) => msg.friendID === location.state.from)
-//             .map((msg) => <ChatMessage key={msg.id} message={msg} />)}
-
-//         <span ref={dummy}></span>
-//       </main>
-//       <div className='flex border-2'>
-//         <input
-//           className='input input-bordered w-full'
-//           onChange={(e) => setFormValue(e.target.value)}
-//           placeholder='say something nice'
-//         />
-
-//         <button
-//           className='px-3'
-//           type='submit'
-//           // disabled={!formValue}
-//           onClick={sendMessage}
-//         >
-//           🕊️
-//         </button>
-//       </div>
-//     </div>
-//   </div>
-// );
