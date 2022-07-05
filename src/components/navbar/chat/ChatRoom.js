@@ -1,18 +1,42 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { auth, db, timestamp } from '../../../firebase';
-import { collection, addDoc, query, orderBy, limit } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  limit,
+  doc,
+  getDoc,
+} from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { useAuth } from '../../../contexts/AuthContext';
 import ChatMessage from './ChatMessage';
 
-export default function ChatRoom() {
+export default function ChatRoom(props) {
   const dummy = useRef();
-  const { uid, photoURL } = auth.currentUser;
-  const messagesRef = collection(db, 'profiles', uid, 'messages');
-  const q = query(messagesRef, orderBy('createdAt'), limit(25));
+  const { currentUser } = useAuth();
+  const [displayName, setDisplayName] = useState('');
+  const [profilePic, setProfilePic] = useState('');
+  const [formValue, setFormValue] = useState('');
 
+  const messagesRef = collection(db, 'profiles', currentUser.uid, 'messages');
+  const q = query(messagesRef, orderBy('createdAt'), limit(25));
   const [messages] = useCollectionData(q, { idField: 'id' });
 
-  const [formValue, setFormValue] = useState('');
+  useEffect(() => {
+    if (currentUser) {
+      const userId = currentUser.uid;
+      const userRef = doc(db, 'profiles', userId);
+      const getInfo = async function () {
+        getDoc(userRef).then((doc) => {
+          setDisplayName(doc.data().displayName);
+          setProfilePic(doc.data().photoURL);
+        });
+      };
+      getInfo();
+    }
+  }, [currentUser]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -22,8 +46,10 @@ export default function ChatRoom() {
     await addDoc(messagesRef, {
       text: formValue,
       createdAt: timestamp,
-      uid,
-      photoURL,
+      uid: currentUser.uid,
+      photoURL: profilePic,
+      displayName: displayName,
+      // friendId,
     });
 
     setFormValue('');
