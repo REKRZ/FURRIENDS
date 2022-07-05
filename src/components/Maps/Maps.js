@@ -25,6 +25,7 @@ const Maps = () => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setLat(latitude);
       setLng(longitude);
+      setDoc(userInfoRef, { lat: latitude, lng: longitude }, { merge: true });
     });
 
     const getUserInfo = async () => {
@@ -69,6 +70,7 @@ const Maps = () => {
 
       dogParks?.results?.forEach((park) => {
         const popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([park.position.lon, park.position.lat]).setHTML(park.poi.name);
+
         let pawIcon = document.createElement('div');
         pawIcon.className = 'marker';
         pawIcon.style.backgroundImage = `url("https://jazzfoundation.org/wp-content/uploads/2019/04/nyc-parks-logo.jpg")`;
