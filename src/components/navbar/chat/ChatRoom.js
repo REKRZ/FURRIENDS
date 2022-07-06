@@ -60,7 +60,7 @@ export default function ChatRoom() {
       };
       getFriendInfo();
     }
-  }, [currentUser]);
+  }, [location.state.from]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
