@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useRef, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import SignOut from './SignOut';
@@ -75,7 +76,12 @@ export default function Login() {
       {error && (
         <div className='alert alert-warning shadow-lg max-w-fit'>
           <div>
-            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current flex-shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='stroke-current flex-shrink-0 h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+            >
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -88,30 +94,59 @@ export default function Login() {
         </div>
       )}
       {/* THIS IS THE FORM ELEMENT */}
-      <div className='form-control mt-5'>
-        <h1 className='flex justify-center text-xl mb-3'>
-          <strong>Login</strong>
-        </h1>
-        <label>Email</label>
-        <input type='email' placeholder='email...' id='email' name='email' ref={emailRef} className='mb-3' required></input>
-        <label>Password</label>
-        <input type='password' placeholder='password...' id='password' name='password' ref={passwordRef} className='mb-3' required></input>
+      <div className='hero min-h-screen bg-[url(https://placeimg.com/1000/800/animals)]'>
+        <div className='hero-overlay bg-opacity-60'></div>
+        <div className='hero-content text-center text-neutral-content'>
+          <div className='form-control mt-5'>
+            <h1 className='flex justify-center text-xl mb-3'>
+              <strong>Login</strong>
+            </h1>
+            <label>Email</label>
+            <input
+              type='email'
+              placeholder='email...'
+              id='email'
+              name='email'
+              ref={emailRef}
+              className='mb-3'
+              required
+            ></input>
+            <label>Password</label>
+            <input
+              type='password'
+              placeholder='password...'
+              id='password'
+              name='password'
+              ref={passwordRef}
+              className='mb-3'
+              required
+            ></input>
 
-        <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
-          Sign in
-        </button>
-        <button disabled={loading} className='btn mb-5 ' onClick={handleGoogleSignIn}>
-          Sign in with Google
-        </button>
-        <div className='flex justify-center text-sm'>
-          <div>Need an account?</div>
-          <div className='underline mx-2'>
-            <Link to='/signup'>Sign Up</Link>
-          </div>
-        </div>
-        {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
-        <div>
+            <button
+              disabled={loading}
+              className='btn mb-5'
+              onClick={handleSubmit}
+            >
+              Sign in
+            </button>
+            <button
+              disabled={loading}
+              className='btn mb-5 '
+              onClick={handleGoogleSignIn}
+            >
+              Sign in with Google
+            </button>
+            <div className='flex justify-center text-sm'>
+              <div>Need an account?</div>
+              <div className='underline mx-2'>
+                <Link to='/signup'>Sign Up</Link>
+              </div>
+            </div>
+            {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
+            {/* <div>
           <SignOut />
+        </div> */}
+          </div>
         </div>
       </div>
     </div>
