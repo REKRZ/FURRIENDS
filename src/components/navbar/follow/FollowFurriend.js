@@ -131,7 +131,7 @@ export default function FollowFurriend() {
                       <td>{profile.bio}</td>
                       <th>
                         <button className='btn btn-ghost' onClick={() => handleAddFurriend(profile.uid)}>
-                          Sniff their butt
+                          Follow
                         </button>
                       </th>
                     </tr>
@@ -190,7 +190,7 @@ export default function FollowFurriend() {
 
           <div className='modal-action'>
             <label htmlFor='follow-furriend-modal' className='btn'>
-              I'm done sniffing butts for today
+              Done
             </label>
           </div>
         </div>
