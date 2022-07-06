@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { collection, query, getDocs, getDoc, doc, orderBy } from 'firebase/firestore';
+import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [postsChange, setPostsChange] = useState(true);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -14,17 +15,22 @@ const Profile = () => {
   const userInfoRef = doc(db, 'profiles', uid);
   const qUserInfo = query(userInfoRef);
 
-  const getUserPosts = useCallback(async () => {
-    let posts = [];
-    const userPostsRef = collection(db, 'profiles', uid, 'posts');
-    const qUserPosts = query(userPostsRef, orderBy('createdAt', 'desc'));
-    const userPostsSnapshot = await getDocs(qUserPosts);
+  useEffect(() => {
+    const getUserPosts = async () => {
+      let posts = [];
+      const userPostsRef = collection(db, 'profiles', uid, 'posts');
+      const qUserPosts = query(userPostsRef, orderBy('createdAt', 'desc'));
+      const userPostsSnapshot = await getDocs(qUserPosts);
 
-    userPostsSnapshot.forEach((doc) => {
-      posts.push(doc.data());
-    });
-    setUserPosts(posts);
-  }, []);
+      userPostsSnapshot.forEach((doc) => {
+        posts.push({ ...doc.data(), id: doc.id });
+      });
+      setUserPosts(posts);
+    };
+    setPostsChange(true);
+    // console.log('rerendering');
+    getUserPosts();
+  }, [postsChange]);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -33,32 +39,44 @@ const Profile = () => {
     };
 
     getUserInfo();
-    getUserPosts();
+    // getUserPosts();
   }, []);
+
+  const handleDelete = async (id) => {
+    await deleteDoc(doc(db, 'profiles', uid, 'posts', id));
+    setPostsChange(false);
+  };
 
   return (
     <div className='flex w-full'>
       <ProfileCard userInfo={userInfo} uid={uid} />
       <div className='grid flex-grow card bg-base-300 rounded-box place-items-center'>
-        {userPosts?.map(({ uploadedPhoto, caption, displayName }, i) => (
-          <div key={i}>
-            <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
-              <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
-                <figure>
-                  <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
-                </figure>
-                <div className='card-body'>
-                  <h6 className='card-title'>{caption}</h6>
-                  <p>If a dog chews shoes whose shoes does he choose??</p>
-                  <div className='card-actions justify-end'>
-                    <div className='badge badge-outline'>{displayName}</div>
+        {userPosts.length ? (
+          userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
+            <div key={i}>
+              <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
+                <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
+                  <button onClick={() => handleDelete(id)} className='btn btn-sm btn-circle absolute right-2 top-2'>
+                    X
+                  </button>
+                  <figure>
+                    <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
+                  </figure>
+                  <div className='card-body'>
+                    <h6 className='card-title'>{caption}</h6>
+                    <p>If a dog chews shoes whose shoes does he choose??</p>
+                    <div className='card-actions justify-end'>
+                      <div className='badge badge-outline'>{displayName}</div>
+                    </div>
                   </div>
                 </div>
               </div>
+              <div className='divider'></div>
             </div>
-            <div className='divider'></div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <h1>No Posts at this time</h1>
+        )}
       </div>
     </div>
   );

@@ -25,18 +25,22 @@ function App() {
           <Navbar />
           <Routes>
             {user ? (
-              <Route path='/home' element={<Home />} />
+              <>
+                <Route path='/home' element={<Home />} />
+                <Route path='/profilesetup' element={<ProfileSetup />} />
+                <Route path='/profile' element={<Profile />} />
+                <Route path='/map' element={<Maps />} />
+                <Route path='/chatroom' element={<ChatRoom />} />
+              </>
             ) : (
-              <Route path='/' element={<LandingPage />} />
+              <>
+                <Route path='/home' element={<Login />} />
+                <Route path='/login' element={<Login />} />
+                <Route path='/signup' element={<SignUp />} />
+              </>
             )}
             <Route path='/' element={<LandingPage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<SignUp />} />
-            <Route path='/profilesetup' element={<ProfileSetup />} /> 
-            <Route path='/profile' element={<Profile />} />
-            <Route path='/map' element={<Maps />} />
-            <Route path='/chatroom' element={<ChatRoom />} />
-            <Route path="*" element={<NotFound />} />
+            <Route path='*' element={<NotFound />} />
           </Routes>
         </Router>
       </AuthProvider>
