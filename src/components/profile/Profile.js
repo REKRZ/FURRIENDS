@@ -3,6 +3,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
+import EditPost from './EditPost';
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -60,7 +61,6 @@ const Profile = () => {
                     <label tabIndex='0' className='btn m-1 btn-sm btn-circle pb-2'>
                       ...
                     </label>
-
                     <ul tabIndex='0' className='dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52'>
                       <li>
                         <label onClick={() => handleDelete(id)} className='text-red-500'>
@@ -68,7 +68,7 @@ const Profile = () => {
                         </label>
                       </li>
                       <li>
-                        <a>Edit Post</a>
+                        <EditPost caption={caption} id={id} />
                       </li>
                     </ul>
                   </div>
