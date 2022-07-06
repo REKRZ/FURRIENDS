@@ -36,12 +36,17 @@ export default function SignUp() {
   return (
     <div className='h-screen flex flex-col items-center justify-center'>
       {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
-      {JSON.stringify(currentUser)}
+      {/* {JSON.stringify(currentUser)} */}
       {/* THIS IS ERROR MESSAGE THAT WILL DISPLAY IF BAD LOGIN */}
       {error && (
         <div className='alert alert-warning shadow-lg max-w-fit'>
           <div>
-            <svg xmlns='http://www.w3.org/2000/svg' className='stroke-current flex-shrink-0 h-6 w-6' fill='none' viewBox='0 0 24 24'>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='stroke-current flex-shrink-0 h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+            >
               <path
                 strokeLinecap='round'
                 strokeLinejoin='round'
@@ -54,28 +59,61 @@ export default function SignUp() {
         </div>
       )}
       {/* THIS IS THE FORM ELEMENT */}
-      <div className='form-control mt-5'>
-        <h1 className='flex justify-center text-xl mb-3'>
-          <strong>Sign-up</strong>
-        </h1>
-        <label>Email</label>
-        <input type='email' placeholder='email...' id='email' name='email' ref={emailRef} className='mb-3' required></input>
-        <label>Password</label>
-        <input type='password' placeholder='password...' id='password' name='password' ref={passwordRef} className='mb-3' required></input>
-        <label>Password Confirmation</label>
-        <input type='password' placeholder='re-type password...' id='passwordConfirmation' name='passwordConfirmation' ref={passwordConfirmRef} className='mb-5' required></input>
-        <button disabled={loading} className='btn mb-5' onClick={handleSubmit}>
-          Sign Up
-        </button>
-        <div className='flex justify-center text-sm'>
-          <div>Already have an account?</div>
-          <div className='underline mx-2'>
-            <Link to='/login'>Log In</Link>
-          </div>
-        </div>
-        {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
-        <div>
+      <div className='hero min-h-screen bg-[url(https://placeimg.com/1000/800/animals)]'>
+        <div className='hero-overlay bg-opacity-60'></div>
+        <div className='hero-content text-center text-neutral-content'>
+          <div className='form-control mt-5'>
+            <h1 className='flex justify-center text-xl mb-3'>
+              <strong>Sign-up</strong>
+            </h1>
+            <label>Email</label>
+            <input
+              type='email'
+              placeholder='email...'
+              id='email'
+              name='email'
+              ref={emailRef}
+              className='mb-3'
+              required
+            ></input>
+            <label>Password</label>
+            <input
+              type='password'
+              placeholder='password...'
+              id='password'
+              name='password'
+              ref={passwordRef}
+              className='mb-3'
+              required
+            ></input>
+            <label>Password Confirmation</label>
+            <input
+              type='password'
+              placeholder='re-type password...'
+              id='passwordConfirmation'
+              name='passwordConfirmation'
+              ref={passwordConfirmRef}
+              className='mb-5'
+              required
+            ></input>
+            <button
+              disabled={loading}
+              className='btn mb-5'
+              onClick={handleSubmit}
+            >
+              Sign Up
+            </button>
+            <div className='flex justify-center text-sm'>
+              <div>Already have an account?</div>
+              <div className='underline mx-2'>
+                <Link to='/login'>Log In</Link>
+              </div>
+            </div>
+            {/* LEAVING THIS IN FOR NOW FOR DEVELOPMENT */}
+            {/* <div>
           <SignOut />
+        </div> */}
+          </div>
         </div>
       </div>
     </div>
