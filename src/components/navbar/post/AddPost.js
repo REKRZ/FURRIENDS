@@ -13,6 +13,7 @@ export default function AddPost() {
   const [profilePic, setProfilePic] = useState('');
   const [progress, setProgress] = useState(0);
   const [picURL, setPicURL] = useState('');
+  const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -61,6 +62,7 @@ export default function AddPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      setLoading(true);
       const postsRef = collection(db, 'profiles', currentUser.uid, 'posts');
       await addDoc(postsRef, {
         caption: captionRef.current.value,
@@ -71,6 +73,7 @@ export default function AddPost() {
         profilePic: profilePic,
         uploadedPhoto: picURL,
       });
+      setLoading(false);
       navigate('/home');
     } catch {
       console.log('Error!');
@@ -116,6 +119,7 @@ export default function AddPost() {
               ref={captionRef}
             />
             <button
+              disabled={loading}
               type='submit'
               className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'
             >
