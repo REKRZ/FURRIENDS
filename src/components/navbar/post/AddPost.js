@@ -68,7 +68,7 @@ export default function AddPost() {
         caption: captionRef.current.value,
         createdAt: timestamp,
         displayName: displayName,
-        likes: 0,
+        likes: [],
         uid: currentUser.uid,
         profilePic: profilePic,
         uploadedPhoto: picURL,

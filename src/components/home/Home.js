@@ -2,15 +2,26 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { collection, query, getDocs, getDoc, doc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
+import { FiHeart } from 'react-icons/fi';
+import { VscHeart } from 'react-icons/vsc';
+import { GiPawHeart } from 'react-icons/gi';
 
 export default function Home() {
   const [friends, setFriends] = useState([]); // friend list of ids
   const [userPosts, setUserPosts] = useState([]);
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
-  const [usersInfo, setUsersInfo] = useState([]);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -41,7 +52,7 @@ export default function Home() {
       if (friendsListSnapshot) {
         let list = [];
         friendsListSnapshot.forEach((doc) => {
-          list.push({ friendId: doc.id });
+          list.push({ id: doc.id });
         });
         setFriends(list);
       }
@@ -53,14 +64,16 @@ export default function Home() {
   useEffect(() => {
     // get list of friend posts (after getting friend IDs) and set friendsPosts state
     const getAllFriendsPosts = () => {
-      friends?.forEach(({ friendId }) => {
-        const friendsPostsRef = collection(db, 'profiles', friendId, 'posts');
+      friends?.forEach(({ id }) => {
+        const friendsPostsRef = collection(db, 'profiles', id, 'posts');
         const qFriendsPosts = query(friendsPostsRef);
         const getFriendsPosts = async () => {
           const friendsPostsSnapshot = await getDocs(qFriendsPosts);
           if (friendsPostsSnapshot) {
             friendsPostsSnapshot.forEach((doc) => {
-              setFriendsPosts((current) => [...current, doc.data()]);
+              let info = doc.data();
+              info.id = doc.id;
+              setFriendsPosts((current) => [...current, info]);
             });
           }
         };
@@ -78,13 +91,18 @@ export default function Home() {
         (a, b) => b.createdAt.seconds - a.createdAt.seconds
       );
       setAllPosts(timeOrderedCombined);
+      setAllPosts(combined);
     }
 
     // eslint-disable-next-line
   }, [friendsPosts]);
 
-  const updateLikes = (id) => {
-    console.log(id);
+  const updateLikes = async (postuid, postid) => {
+    // add current user id into "likes" array in database
+    const postRef = doc(db, 'profiles', postuid, 'posts', postid);
+    await updateDoc(postRef, {
+      likes: arrayUnion(uid),
+    });
   };
 
   return (
@@ -130,23 +148,15 @@ export default function Home() {
                   className='flex items-center no-underline text-grey-darker hover:text-red-dark'
                   href='#'
                 >
-                  <p className='pr-2'>{post.likes}</p>
+                  <p className='pr-2'>{post.likes.length}</p>
                   <span className='hidden'>Like</span>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    className='h-6 w-6'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    stroke='currentColor'
-                    strokeWidth={2}
-                    onClick={() => updateLikes(post.uid)}
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z'
-                    />
-                  </svg>
+                  {post.likes && post.likes.includes(uid) ? (
+                    <GiPawHeart />
+                  ) : (
+                    <button onClick={() => updateLikes(post.uid, post.id)}>
+                      <VscHeart />
+                    </button>
+                  )}
                 </a>
               </footer>
             </article>
@@ -157,9 +167,3 @@ export default function Home() {
     </div>
   );
 }
-
-// {
-//   usersInfo.filter(
-//     (user) => post.displayName === user.displayName
-//   )[0].photoURL
-// }
