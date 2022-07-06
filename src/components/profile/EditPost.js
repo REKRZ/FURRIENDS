@@ -3,15 +3,16 @@ import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { BsFillPencilFill } from 'react-icons/bs';
 
 const EditPost = ({ caption, id }) => {
   const { currentUser } = useAuth();
   const { uid } = currentUser;
   // const navigate = useNavigate();
-  const captionRef = useRef(caption);
+  const captionRef = useRef('');
 
   const handleSubmit = async (e) => {
-    console.log('HANDLE SUBMIT REACHED');
+    console.log(captionRef.current.value);
     e.preventDefault();
     try {
       const postRef = doc(db, 'profiles', uid, 'posts', id);
@@ -23,36 +24,37 @@ const EditPost = ({ caption, id }) => {
     }
   };
 
+  console.log(captionRef.current.value);
   return (
-    <div>
-      {/* BUTTON TO OPEN MODAL*/}
-      <label htmlFor='my-modal-2' className='btn btn-primary modal-button btn-md rounded'>
-        Edit Profile
+    <>
+      <label htmlFor='edit-post-modal' className='btn m-1 btn-sm btn-circle modal-button'>
+        <BsFillPencilFill />
       </label>
-      {/* BELOW IS THE MODAL CODE */}
-      <input type='checkbox' id='my-modal-2' className='modal-toggle' />
+      <input type='checkbox' id='edit-post-modal' className='modal-toggle' />
       <div className='modal modal-bottom sm:modal-middle'>
         <div className='modal-box'>
-          <label htmlFor='my-modal-2' className='btn btn-sm btn-circle absolute right-2 top-2'>
+          <label htmlFor='edit-post-modal' className='btn btn-sm btn-circle absolute right-2 top-2'>
             ✕
           </label>
-          <h3 className='font-bold text-lg pb-4'>Edit Profile</h3>
-          <div className='form-control'>
-            <label className='input-group flex flex-col items-center space-y-4'>
-              <div className='flex flex-row'>
-                <span>Caption</span>
-                <input ref={captionRef} type='text' placeholder={caption} className='input input-bordered' />
-              </div>
-            </label>
-          </div>
-          <div className='modal-action'>
-            <label onSubmit={handleSubmit} htmlFor='my-modal-2' className='btn'>
-              Submit
-            </label>
-          </div>
+          <h3 className='font-bold text-lg pb-4 text-center'>Edit Caption</h3>
+          <form onSubmit={handleSubmit}>
+            <div className='form-control'>
+              <label className='input-group flex flex-col items-center space-y-4'>
+                <div className='flex flex-row'>
+                  <span>Caption</span>
+                  <input ref={captionRef} type='text' placeholder={caption} className='input input-bordered' />
+                </div>
+              </label>
+            </div>
+            <div className='modal-action'>
+              <button type='submit' htmlFor='edit-post-modal' className='btn btn-m1'>
+                <label htmlFor='edit-post-modal'>Submit</label>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
