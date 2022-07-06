@@ -42,12 +42,26 @@ export default function Login() {
   //   [loading]
   // );
 
+  // async function handleGoogleSignIn(e) {
+  //   e.preventDefault();
+  //   try {
+  //     setError('');
+  //     setLoading(true);
+  //     await signInWithGoogle();
+  //     navigate('/home');
+  //   } catch {
+  //     setError('Failed to sign in.');
+  //   }
+  //   setLoading(false);
+  // }
+
   async function handleGoogleSignIn(e) {
     e.preventDefault();
     try {
       setError('');
       setLoading(true);
       await signInWithGoogle();
+      // below line sends you to home page
       navigate('/home');
     } catch {
       setError('Failed to sign in.');
