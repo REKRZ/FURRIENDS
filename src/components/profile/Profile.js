@@ -56,9 +56,22 @@ const Profile = () => {
             <div key={i}>
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
-                  <button onClick={() => handleDelete(id)} className='btn btn-sm btn-circle absolute right-2 top-2'>
-                    X
-                  </button>
+                  <div className='dropdown dropdown-left absolute top-0 right-0'>
+                    <label tabIndex='0' className='btn m-1 btn-sm btn-circle pb-2'>
+                      ...
+                    </label>
+
+                    <ul tabIndex='0' className='dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52'>
+                      <li>
+                        <label onClick={() => handleDelete(id)} className='text-red-500'>
+                          Delete Post
+                        </label>
+                      </li>
+                      <li>
+                        <a>Edit Post</a>
+                      </li>
+                    </ul>
+                  </div>
                   <figure>
                     <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
                   </figure>
