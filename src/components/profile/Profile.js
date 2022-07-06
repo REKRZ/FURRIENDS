@@ -7,26 +7,13 @@ import ProfileCard from './ProfileCard';
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
+  const [postsChange, setPostsChange] = useState(true);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
 
   const userInfoRef = doc(db, 'profiles', uid);
   const qUserInfo = query(userInfoRef);
-
-  // const getUserPosts = useCallback(async () => {
-  //   let posts = [];
-  //   const userPostsRef = collection(db, 'profiles', uid, 'posts');
-  //   const qUserPosts = query(userPostsRef, orderBy('createdAt', 'desc'));
-  //   const userPostsSnapshot = await getDocs(qUserPosts);
-
-  //   userPostsSnapshot.forEach((doc) => {
-  //     // console.log(doc.id);
-  //     posts.push({ ...doc.data(), id: doc.id });
-  //     console.log('Posts', posts);
-  //   });
-  //   setUserPosts(posts);
-  // }, [userPosts]);
 
   useEffect(() => {
     const getUserPosts = async () => {
@@ -36,14 +23,14 @@ const Profile = () => {
       const userPostsSnapshot = await getDocs(qUserPosts);
 
       userPostsSnapshot.forEach((doc) => {
-        // console.log(doc.id);
         posts.push({ ...doc.data(), id: doc.id });
-        console.log('Posts', posts);
       });
       setUserPosts(posts);
     };
+    setPostsChange(true);
+    // console.log('rerendering');
     getUserPosts();
-  }, []);
+  }, [postsChange]);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -52,10 +39,12 @@ const Profile = () => {
     };
 
     getUserInfo();
+    // getUserPosts();
   }, []);
 
   const handleDelete = async (id) => {
     await deleteDoc(doc(db, 'profiles', uid, 'posts', id));
+    setPostsChange(false);
   };
 
   return (
@@ -65,11 +54,10 @@ const Profile = () => {
         {userPosts.length ? (
           userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
             <div key={i}>
-              <p>{id}</p>
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
                   <button onClick={() => handleDelete(id)} className='btn btn-sm btn-circle absolute right-2 top-2'>
-                    ...
+                    X
                   </button>
                   <figure>
                     <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
