@@ -16,12 +16,14 @@ export default function FollowFurriend() {
 
     async function getAllUsers() {
       const querySnapshot = await getDocs(collection(db, 'profiles'));
+      // querySnapshot.filter((userDoc) => (userDoc.id !== uid))
       querySnapshot.forEach((userDoc) => {
         // doc.data() is never undefined for query doc snapshots
         // console.log(userDoc.id, ' => ', userDoc.data());
 
         // make userDoc + uid objects, and push to array... then setState
         allUsersProfiles.push({ ...userDoc.data(), uid: userDoc.id });
+        // console.log('@!@@@@@', allUsersProfiles)
       });
     }
 
@@ -43,9 +45,9 @@ export default function FollowFurriend() {
       // console.log('@@@@*****', uid)
 
       await setDoc(doc(db, 'profiles', uid, 'friends', userId), {
-        ...furriendSnap.data(), friendDisplayName: furriendSnap.data().displayName
+        ...furriendSnap.data(),
+        friendDisplayName: furriendSnap.data().displayName,
       });
-
     } catch (error) {
       console.log(error);
     }
@@ -116,8 +118,12 @@ export default function FollowFurriend() {
                             </div>
                           </div>
                           <div>
-                            <div className='font-bold text-rose-100'>{profile.displayName}</div>
-                            <div className='text-sm opacity-50'>{profile.ownerName}</div>
+                            <div className='font-bold'>
+                              {profile.displayName}
+                            </div>
+                            <div className='text-sm opacity-50'>
+                              {profile.ownerName}
+                            </div>
                           </div>
                         </div>
                       </td>
@@ -128,9 +134,14 @@ export default function FollowFurriend() {
                           {profile.petBreed}
                         </span>
                       </td>
-                      <td>{profile.bio}</td>
+                      <td className='max-w-3xl'>
+                        <div className='max-w-3xl'>{profile.bio}</div>
+                      </td>
                       <th>
-                        <button className='btn btn-ghost' onClick={() => handleAddFurriend(profile.uid)}>
+                        <button
+                          className='btn btn-ghost btn-outline'
+                          onClick={() => handleAddFurriend(profile.uid)}
+                        >
                           Follow
                         </button>
                       </th>
@@ -138,37 +149,39 @@ export default function FollowFurriend() {
                   ))
                 ) : (
                   <tr>
-                  <th>
-                    <label>
-                      <input type='checkbox' className='checkbox' />
-                    </label>
-                  </th>
-                  <td>
-                    <div className='flex items-center space-x-3'>
-                      <div className='avatar'>
-                        <div className='mask mask-squircle w-12 h-12'>
-                          <img
-                            src='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
-                            alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
-                          />
+                    <th>
+                      <label>
+                        <input type='checkbox' className='checkbox' />
+                      </label>
+                    </th>
+                    <td>
+                      <div className='flex items-center space-x-3'>
+                        <div className='avatar'>
+                          <div className='mask mask-squircle w-12 h-12'>
+                            <img
+                              src='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                              alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                            />
+                          </div>
+                        </div>
+                        <div>
+                          <div className='font-bold'>displayName</div>
+                          <div className='text-sm opacity-50'>ownerName</div>
                         </div>
                       </div>
-                      <div>
-                        <div className='font-bold'>displayName</div>
-                        <div className='text-sm opacity-50'>ownerName</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    petName
-                    <br />
-                    <span className='badge badge-ghost badge-sm'>petBreed</span>
-                  </td>
-                  <td>Bio</td>
-                  <th>
-                    <button className='btn btn-ghost'>Add</button>
-                  </th>
-                </tr>
+                    </td>
+                    <td>
+                      petName
+                      <br />
+                      <span className='badge badge-ghost badge-sm'>
+                        petBreed
+                      </span>
+                    </td>
+                    <td>Bio</td>
+                    <th>
+                      <button className='btn btn-ghost'>Add</button>
+                    </th>
+                  </tr>
                 )}
                 {/* CLOSING */}
               </tbody>
@@ -198,4 +211,3 @@ export default function FollowFurriend() {
     </>
   );
 }
-
