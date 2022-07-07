@@ -4,16 +4,14 @@ import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
 
 export default function FollowFurriend() {
   // current logged-in user's id
   const { currentUser } = useAuth();
   const { uid } = currentUser;
   const [usersProfiles, setUsersProfiles] = useState([]);
-  // const [followState, setFollowState] = useState('Follow');
-  // const navigate = useNavigate();
   const [friendsList, setFriendsList] = useState([]);
+  const [friendsIDsList, setFriendsIDsList] = useState([]);
 
   useEffect(() => {
     // Logic to extract all friends (all users from profiles collection from firestore)
@@ -23,7 +21,6 @@ export default function FollowFurriend() {
       const querySnapshot = await getDocs(collection(db, 'profiles'));
       // querySnapshot.filter((userDoc) => (userDoc.id !== uid))
       querySnapshot.forEach((userDoc) => {
-
         // make userDoc + uid objects, and push to array... then setState
         allUsersProfiles.push({ ...userDoc.data(), uid: userDoc.id });
       });
@@ -34,6 +31,7 @@ export default function FollowFurriend() {
 
     // Logic to extract list of all friends of curr logged in user
     let allFriendsProfiles = [];
+    let allFriendsIDsProfiles = [];
 
     async function getAllFriends(){
       const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
@@ -41,16 +39,21 @@ export default function FollowFurriend() {
         // doc.data() is never undefined for query doc snapshots
         // console.log(friendDoc.id, ' => ', friendDoc.data());
         allFriendsProfiles.push({ ...friendDoc.data(), friendUid: friendDoc.id });
+        // console.log('33333', typeof friendDoc.id)
+        // let friendID = friendDoc.id
+        allFriendsIDsProfiles.push(friendDoc.id);
+        // console.log('44444', allFriendsIDsProfiles)
       });
     }
 
     getAllFriends();
     setFriendsList(allFriendsProfiles);
-    
+    setFriendsIDsList(allFriendsIDsProfiles);
     // eslint-disable-next-line
   }, []);
   
-  console.log('@@@ => ', friendsList);
+  // console.log('@@@ => ', friendsList);
+  // console.log('222222 => ', friendsIDsList);
   
   // logic to remove logged in user's profile from displaying in follow furriend table... this variable will be mapped over
   let filtUsersProfiles = usersProfiles.filter((profile) => profile.uid !== uid);
@@ -71,12 +74,15 @@ export default function FollowFurriend() {
         friendDisplayName: furriendSnap.data().displayName,
       });
 
-      // e.currentTarget.disabled = true;
-      // setFollowState('Furriend Added');
-      // window.location.reload(false);
+      e.target.disabled = true;
+
     } catch (error) {
       console.log(error);
     }
+  }
+
+  function refreshHomeOnExit(){
+    window.location.reload(false);
   }
 
   return (
@@ -99,6 +105,7 @@ export default function FollowFurriend() {
           <label
             htmlFor='follow-furriend-modal'
             className='btn btn-sm btn-circle absolute right-2 top-2'
+            onClick={() => refreshHomeOnExit()}
           >
             ✕
           </label>
@@ -165,11 +172,11 @@ export default function FollowFurriend() {
                       </td>
                       <th>
                         <button
-                          disabled={false}
+                          disabled={friendsIDsList.includes(profile.uid) ? true : false}
                           className='btn btn-ghost btn-outline'
                           onClick={(e) => handleAddFurriend(profile.uid, e)}
                         >
-                          Follow
+                          {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'}
                         </button>
                       </th>
                     </tr>
@@ -229,7 +236,7 @@ export default function FollowFurriend() {
           {/* THIS IS THE TABLE OF FURRIENDS ^^^ */}
 
           <div className='modal-action'>
-            <label htmlFor='follow-furriend-modal' className='btn'>
+            <label htmlFor='follow-furriend-modal' className='btn' onClick={() => refreshHomeOnExit()}>
               Done
             </label>
           </div>
