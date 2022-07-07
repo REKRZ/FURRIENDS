@@ -213,7 +213,7 @@ export default function ProfileSetup() {
             </div>
 
             {/* TEST */}
-            {/* <div className='flex flex-wrap -mx-3 mb-6'>
+            <div className='flex flex-wrap -mx-3 mb-6'>
               <div className='w-full px-3'>
                 <label
                   className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
@@ -230,7 +230,7 @@ export default function ProfileSetup() {
                 />
                 <p className='text-gray-400 text-xs italic'>.jpg or .png</p>
               </div>
-            </div> */}
+            </div>
             {/* TEST */}
 
             <div className='flex items-center justify-center mb-6'>
