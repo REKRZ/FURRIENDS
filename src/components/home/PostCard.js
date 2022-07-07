@@ -1,4 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable*/
+
 import React, { useState, useEffect } from 'react';
 import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -12,7 +14,6 @@ export default function PostCard(props) {
 
   useEffect(() => {
     setNumberOfLikes(post.likes.length + 1);
-    console.log(numberOfLikes);
   }, [liked]);
 
   const updateLikes = async (postuid, postid) => {
