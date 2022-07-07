@@ -13,7 +13,6 @@ import {
   arrayRemove,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { FiHeart } from 'react-icons/fi';
 import { VscHeart } from 'react-icons/vsc';
 import { GiPawHeart } from 'react-icons/gi';
 
@@ -115,20 +114,48 @@ export default function Home() {
           >
             <article className='overflow-hidden rounded-lg shadow-lg'>
               <a className='w-full h-full' href='#'>
-                <img
-                  className='block object-scale-down h-80 w-full'
-                  src={post.uploadedPhoto}
-                  alt='pic'
-                />
+                <label htmlFor={`post-modal-${i}`} className='modal-button'>
+                  <img
+                    className='block object-scale-down h-80 w-full'
+                    src={post.uploadedPhoto}
+                    alt='pic'
+                  />
+                </label>
               </a>
-
+              {/* start of modal here */}
+              <input
+                type='checkbox'
+                id={`post-modal-${i}`}
+                className='modal-toggle'
+              />
+              <label
+                htmlFor={`post-modal-${i}`}
+                className='modal cursor-pointer'
+              >
+                <label className='modal-box relative' htmlFor=''>
+                  <div
+                    key={i}
+                    className='flex place-content-center my-1 px-1 w-full'
+                  >
+                    <article className='overflow-hidden rounded-lg shadow-lg'>
+                      <a className='w-full h-full' href='#'>
+                        <img
+                          className='block object-scale-down h-200 w-full'
+                          src={post.uploadedPhoto}
+                          alt='pic'
+                        />
+                      </a>
+                      <header className='flex justify-center leading-tight p-2 md:p-4'>
+                        <h1 className='text-lg'>{post.caption}</h1>
+                      </header>
+                    </article>
+                  </div>
+                </label>
+              </label>
+              {/* end of modal here */}
               <header className='flex items-center justify-between leading-tight p-2 md:p-4'>
-                <h1 className='text-lg'>
-                  <a className='no-underline hover:underline' href='#'>
-                    {post.caption}
-                  </a>
-                </h1>
-                <p className='text-grey-darker text-sm'>
+                <h1 className='text-lg'>{post.caption}</h1>
+                <p className='text-grey-darker text-sm pl-2'>
                   {post.createdAt.toDate().toDateString()}
                 </p>
               </header>
@@ -145,16 +172,26 @@ export default function Home() {
                   <p className='ml-2 text-sm'>{post.displayName}</p>
                 </a>
                 <a
-                  className='flex items-center no-underline text-grey-darker hover:text-red-dark'
+                  className='flex place-items-center no-underline text-grey-darker hover:text-red-dark'
                   href='#'
                 >
-                  <p className='pr-2'>{post.likes.length}</p>
+                  {/* <p className='pr-2'>
+                    {!post.likes.length ? '' : post.likes.length}
+                  </p> */}
                   <span className='hidden'>Like</span>
                   {post.likes && post.likes.includes(uid) ? (
-                    <GiPawHeart />
+                    <GiPawHeart className='text-rose-500 text-2xl' />
                   ) : (
                     <button onClick={() => updateLikes(post.uid, post.id)}>
-                      <VscHeart />
+                      <label className='swap swap-flip'>
+                        <input type='checkbox' />
+                        <div className='swap-on'>
+                          <GiPawHeart className='text-rose-500 text-2xl' />
+                        </div>
+                        <div className='swap-off'>
+                          <VscHeart className='text-rose-500 text-2xl' />
+                        </div>
+                      </label>
                     </button>
                   )}
                 </a>

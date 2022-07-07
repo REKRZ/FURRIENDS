@@ -5,6 +5,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
 import { timestamp, db, storage } from '../../../firebase';
 import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
+import { TbArrowBigRightLines } from 'react-icons/tb';
 
 export default function AddPost() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ export default function AddPost() {
   const [progress, setProgress] = useState(0);
   const [picURL, setPicURL] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -58,6 +61,30 @@ export default function AddPost() {
     );
   };
 
+  // preview handler
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
+
   // creates post using uploaded photo
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,7 +101,8 @@ export default function AddPost() {
         uploadedPhoto: picURL,
       });
       setLoading(false);
-      navigate('/home');
+      // navigate('/home');
+      window.location.reload(false);
     } catch {
       console.log('Error!');
     }
@@ -90,41 +118,75 @@ export default function AddPost() {
 <!-- Put this part before </body> tag --> */}
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
       <div className='modal'>
-        <div className='modal-box relative'>
+        <div className='modal-box relative grid grid-rows-1 place-items-center'>
           <label
             htmlFor='my-modal-3'
             className='btn btn-sm btn-circle absolute right-2 top-2'
           >
             ✕
           </label>
-          <h3 className='text-lg font-bold'>Create a post!</h3>
-          <div>
+          <h3 className='text-3xl font-bold mb-10'>CREATE A POST</h3>
+          <div className=''>
             <form onSubmit={formHandler}>
-              <input type='file' className='input' />
-              <button type='submit'>Upload</button>
+              {selectedFile && (
+                <img
+                  className='block object-scale-down h-60 w-full my-4'
+                  src={preview}
+                  alt=''
+                />
+              )}
+              <div className='flex justify-center'>
+                <div className='place-self-center'>
+                  <label
+                    htmlFor='file'
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                  >
+                    choose a photo
+                  </label>
+                  <input
+                    type='file'
+                    name='file'
+                    id='file'
+                    className='input opacity-0 w-1 h-1'
+                    onChange={onSelectFile}
+                  />
+                </div>
+                <div className='place-self-center pr-7'>
+                  <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
+                </div>
+                <div className='place-self-center'>
+                  <button
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    type='submit'
+                  >
+                    Pupload
+                  </button>
+                </div>
+              </div>
             </form>
-            <hr />
+            <div className='divider'></div>
             {progress < 100 ? (
-              <h3>Uploaded {progress}%</h3>
+              <h3 className='flex justify-center my-3'>{progress}%</h3>
             ) : (
-              <h3>Upload Complete!</h3>
+              <h3 className='flex justify-center my-3'>Pupload Complete!</h3>
             )}
           </div>
-          <form onSubmit={handleSubmit}>
-            <p className='py-4'>insert caption here</p>
-            <input
-              type='text'
-              placeholder='pupdate your friends!'
-              className='input input-bordered input-info w-full max-w-xs'
-              ref={captionRef}
-            />
-            <button
-              disabled={loading}
-              type='submit'
-              className='btn btn-xs sm:btn-sm md:btn-md lg:btn-lg'
-            >
-              <label htmlFor='my-modal-3'>Share</label>
-            </button>
+          <form className='' onSubmit={handleSubmit}>
+            <div className='flex place-items-center'>
+              <textarea
+                type='text'
+                placeholder='add a caption'
+                className='textarea textarea-bordered w-full max-w-xs'
+                ref={captionRef}
+              />
+              <button
+                disabled={loading}
+                type='submit'
+                className='ml-4 btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+              >
+                <label htmlFor='my-modal-3'>Share</label>
+              </button>
+            </div>
           </form>
         </div>
       </div>
