@@ -48,23 +48,3 @@ export default function ChatMessage(props) {
     </div>
   );
 }
-
-// (
-//   // <div className={`message ${messageClass}`} key={id}>
-//   <div
-//     className={`${
-//       isMessageFromUser() ? 'place-self-end' : 'place-self-start'
-//     } space-y-2`}
-//     key={id}
-//   >
-//     <img
-//       className='block rounded-full h-7 w-7 mr-1'
-//       src={
-//         photoURL ||
-//         'https://www.kindpng.com/picc/m/24-248253_user-profile-default-image-png-clipart-png-download.png'
-//       }
-//       alt=''
-//     />
-//     <p>{text}</p>
-//   </div>
-// );
