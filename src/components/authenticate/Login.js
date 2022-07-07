@@ -98,27 +98,27 @@ export default function Login() {
         <div className='hero-overlay bg-opacity-60'></div>
         <div className='hero-content text-center text-neutral-content'>
           <div className='form-control mt-5'>
-            <h1 className='flex justify-center text-xl mb-3'>
+            <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
               <strong>Login</strong>
             </h1>
-            <label>Email</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Email</label>
             <input
               type='email'
               placeholder='email...'
               id='email'
               name='email'
               ref={emailRef}
-              className='mb-3'
+              className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:outline-none focus:bg-white'
               required
             ></input>
-            <label>Password</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Password</label>
             <input
               type='password'
               placeholder='password...'
               id='password'
               name='password'
               ref={passwordRef}
-              className='mb-3'
+              className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:outline-none focus:bg-white'
               required
             ></input>
 
@@ -137,8 +137,8 @@ export default function Login() {
               Sign in with Google
             </button>
             <div className='flex justify-center text-sm'>
-              <div>Need an account?</div>
-              <div className='underline mx-2'>
+              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>Need an account?</div>
+              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2 underline mx-2'>
                 <Link to='/signup'>Sign Up</Link>
               </div>
             </div>
