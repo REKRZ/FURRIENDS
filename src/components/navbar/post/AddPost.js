@@ -177,6 +177,7 @@ export default function AddPost() {
                 type='text'
                 placeholder='add a caption'
                 className='textarea textarea-bordered w-full max-w-xs'
+                maxLength={100}
                 ref={captionRef}
               />
               <button

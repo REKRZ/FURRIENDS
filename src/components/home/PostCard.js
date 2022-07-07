@@ -1,6 +1,12 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useEffect } from 'react';
-import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import {
+  getDoc,
+  doc,
+  updateDoc,
+  arrayUnion,
+  arrayRemove,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import { VscHeart } from 'react-icons/vsc';
 import { GiPawHeart } from 'react-icons/gi';
@@ -8,11 +14,23 @@ import { GiPawHeart } from 'react-icons/gi';
 export default function PostCard(props) {
   const { post, i, uid } = props;
   const [liked, setLiked] = useState(false);
-  const [numberOfLikes, setNumberOfLikes] = useState(post.likes.length);
+  const [numberOfLikes, setNumberOfLikes] = useState(0);
 
   useEffect(() => {
-    setNumberOfLikes(post.likes.length + 1);
-    console.log(numberOfLikes);
+    // get list of likes and set numberOfLikes state
+    const postRef = doc(db, 'profiles', post.uid, 'posts', post.id);
+    const getLikes = async () => {
+      const likesSnapshot = await getDoc(postRef);
+      if (likesSnapshot.exists()) {
+        getDoc(postRef).then((doc) => {
+          const num = doc.data().likes.length;
+          setNumberOfLikes(num);
+        });
+      } else {
+        setNumberOfLikes(0);
+      }
+    };
+    getLikes();
   }, [liked]);
 
   const updateLikes = async (postuid, postid) => {
@@ -26,7 +44,7 @@ export default function PostCard(props) {
 
   return (
     <div key={i} className='my-1 px-1 w-full md:w-1/2 lg:my-4 lg:px-4 lg:w-1/3'>
-      <article className='overflow-hidden rounded-lg shadow-lg'>
+      <article className='overflow-hidden rounded-lg shadow-xl'>
         <a className='w-full h-full' href='#'>
           <label htmlFor={`post-modal-${i}`} className='modal-button'>
             <img
@@ -54,17 +72,24 @@ export default function PostCard(props) {
                   />
                 </a>
                 <header className='flex justify-center leading-tight p-2 md:p-4'>
-                  <h1 className='text-lg'>{post.caption}</h1>
+                  <h1 className='text-xl'>{post.caption}</h1>
                 </header>
               </article>
             </div>
           </label>
         </label>
         {/* end of modal here */}
-        <header className='flex items-center justify-between leading-tight p-2 md:p-4'>
-          <h1 className='text-lg'>{post.caption}</h1>
-          <p className='text-grey-darker text-sm pl-2'>
-            {post.createdAt.toDate().toDateString()}
+        <header className='flex items-center leading-none p-2 md:p-4'>
+          <h1 className='w-3/4 text-lg justify-self-start ml-2'>
+            {post.caption}
+          </h1>
+          <p className='w-1/4 text-grey-darker text-xs place-self-end pl-2'>
+            {post.createdAt
+              .toDate()
+              .toDateString()
+              .split(' ')
+              .slice(1)
+              .join(' ')}
           </p>
         </header>
         <footer className='flex items-center justify-between leading-none p-2 md:p-4'>
@@ -83,9 +108,9 @@ export default function PostCard(props) {
             className='flex place-items-center no-underline text-grey-darker hover:text-red-dark'
             href='#'
           >
-            <p className='pr-2'>{!post.likes.length ? '' : numberOfLikes}</p>
+            <p className='pr-2'>{numberOfLikes === 0 ? '' : numberOfLikes}</p>
             <span className='hidden'>Like</span>
-            {post.likes && post.likes.includes(uid) ? (
+            {post.likes.includes(uid) ? (
               <GiPawHeart className='text-rose-500 text-2xl' />
             ) : (
               <button onClick={() => updateLikes(post.uid, post.id)}>
