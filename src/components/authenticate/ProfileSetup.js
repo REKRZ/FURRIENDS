@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
-import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { doc, setDoc, updateDoc } from 'firebase/firestore';
 import { db, storage } from '../../firebase';
 import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
 import { TbArrowBigRightLines } from 'react-icons/tb';
@@ -19,9 +19,13 @@ export default function ProfileSetup() {
   const petBreedRef = useRef();
   const bioRef = useRef();
   const petSizeRef = useRef();
-  const photoURLRef = useRef();
 
   const navigate = useNavigate();
+
+  const [progress, setProgress] = useState(0);
+  const [picURL, setPicURL] = useState('');
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
 
   // logic to create user profile (document) in profile collection
   useEffect(() => {
@@ -42,11 +46,58 @@ export default function ProfileSetup() {
     // eslint-disable-next-line
   }, []);
 
-  // TEST UPLOAD PHOTO VVV
+  // LOGIC UPLOAD PHOTO VVV
+  // handles photo upload form
+  const formHandler = (e) => {
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    uploadFiles(file);
+  };
 
-  
+  // uploads photo into storage
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
 
-  // ^^ TEST UPLOAD PHOTO
+    uploadTask.on(
+      'stage_changed',
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
+        setProgress(prog);
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => setPicURL(url));
+      }
+    );
+  };
+
+  // preview handler
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
+  };
+  // ^^ LOGIC UPLOAD PHOTO
 
   // logic to update user profile (document) in profile collection with user submitted form data
   async function handleSubmit(e) {
@@ -61,7 +112,7 @@ export default function ProfileSetup() {
         petBreed: petBreedRef.current.value,
         petName: petNameRef.current.value,
         petSize: petSizeRef.current.value,
-        photoURL: photoURLRef.current.value,
+        photoURL: picURL,
       });
 
       navigate('/home');
@@ -193,46 +244,51 @@ export default function ProfileSetup() {
                 </p>
               </div>
             </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-photo-url'
-                >
-                  Photo URL
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-photo-url'
-                  type='text'
-                  placeholder='Provide a link to a photo of your pet here!'
-                  ref={photoURLRef}
+            {/* Form for pic upload */}
+            <form onSubmit={formHandler}>
+              {selectedFile && (
+                <img
+                  className='block object-scale-down h-60 w-full my-4 border-4'
+                  src={preview}
+                  alt=''
                 />
-                <p className='text-gray-400 text-xs italic'>.jpg or .png</p>
+              )}
+              <div className='flex justify-center'>
+                <div className='place-self-center'>
+                  <label
+                    htmlFor='file-upload-profile-setup'
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                  >
+                    choose a photo
+                  </label>
+                  <input
+                    type='file'
+                    name='file-upload-profile-setup'
+                    id='file-upload-profile-setup'
+                    className='input opacity-0 w-1 h-1'
+                    onChange={onSelectFile}
+                  />
+                </div>
+                <div className='place-self-center pr-7'>
+                  <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
+                </div>
+                <div className='place-self-center'>
+                  <button
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    type='submit'
+                  >
+                    Pupload
+                  </button>
+                </div>
               </div>
-            </div>
-
-            {/* TEST */}
-            {/* <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-photo-upload'
-                >
-                  Upload Photo
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-photo-upload'
-                  type='file'
-                  // onChange={onSelectFile}
-                  // ref={}
-                />
-                <p className='text-gray-400 text-xs italic'>.jpg or .png</p>
-              </div>
-            </div> */}
-            {/* TEST */}
-
+            </form>
+            <div className='divider'></div>
+            {progress < 100 ? (
+              <h3 className='flex justify-center my-3'>{progress}%</h3>
+            ) : (
+              <h3 className='flex justify-center my-3'>Pupload Complete!</h3>
+            )}
+            {/* Form for pic upload */}
             <div className='flex items-center justify-center mb-6'>
               <button className='btn' onClick={handleSubmit}>
                 Create Profile
