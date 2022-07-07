@@ -146,8 +146,18 @@ export default function AddPost() {
           </div>
           <form className='' onSubmit={handleSubmit}>
             <div className='flex place-items-center'>
-              <textarea type='text' placeholder='add a caption' className='textarea textarea-bordered w-full max-w-xs' ref={captionRef} />
-              <button disabled={loading} type='submit' className='ml-4 btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
+              <textarea
+                type='text'
+                placeholder='add a caption'
+                className='textarea textarea-bordered w-full max-w-xs'
+                maxLength={100}
+                ref={captionRef}
+              />
+              <button
+                disabled={loading}
+                type='submit'
+                className='ml-4 btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+              >
                 <label htmlFor='my-modal-3'>Share</label>
               </button>
             </div>
