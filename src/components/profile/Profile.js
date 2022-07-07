@@ -19,10 +19,6 @@ const Profile = () => {
   const userInfoRef = doc(db, 'profiles', uid);
   const qUserInfo = query(userInfoRef);
 
-  const onSelectFile = (e) => {
-    console.log('ON SELECT FILE REACHED');
-  };
-
   useEffect(() => {
     const getUserPosts = async () => {
       let posts = [];
@@ -36,7 +32,6 @@ const Profile = () => {
       setUserPosts(posts);
     };
     setPostsChange(true);
-    console.log('rerendering');
     getUserPosts();
   }, [postsChange]);
 
