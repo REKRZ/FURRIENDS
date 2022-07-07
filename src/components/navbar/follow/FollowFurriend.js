@@ -37,12 +37,8 @@ export default function FollowFurriend() {
       const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
       querySnapshot.forEach((friendDoc) => {
         // doc.data() is never undefined for query doc snapshots
-        // console.log(friendDoc.id, ' => ', friendDoc.data());
         allFriendsProfiles.push({ ...friendDoc.data(), friendUid: friendDoc.id });
-        // console.log('33333', typeof friendDoc.id)
-        // let friendID = friendDoc.id
         allFriendsIDsProfiles.push(friendDoc.id);
-        // console.log('44444', allFriendsIDsProfiles)
       });
     }
 
@@ -51,9 +47,6 @@ export default function FollowFurriend() {
     setFriendsIDsList(allFriendsIDsProfiles);
     // eslint-disable-next-line
   }, []);
-  
-  // console.log('@@@ => ', friendsList);
-  // console.log('222222 => ', friendsIDsList);
   
   // logic to remove logged in user's profile from displaying in follow furriend table... this variable will be mapped over
   let filtUsersProfiles = usersProfiles.filter((profile) => profile.uid !== uid);
@@ -64,10 +57,6 @@ export default function FollowFurriend() {
     try {
       const furriendToAddRef = doc(db, 'profiles', userId);
       const furriendSnap = await getDoc(furriendToAddRef);
-
-      // console.log('@@@@', userId)
-      // console.log("Document data:", furriendSnap.data());
-      // console.log('@@@@*****', uid)
 
       await setDoc(doc(db, 'profiles', uid, 'friends', userId), {
         ...furriendSnap.data(),
@@ -113,7 +102,6 @@ export default function FollowFurriend() {
           <p className='py-4'>Meet new Furriends and set up a playdate!</p>
 
           {/* THIS IS THE TABLE OF FURRIENDS VVV */}
-          {/*  */}
           <div className='overflow-x-auto w-full'>
             <table className='table w-full'>
               {/* <!-- head --> */}
@@ -231,8 +219,6 @@ export default function FollowFurriend() {
               </tfoot>
             </table>
           </div>
-
-          {/*  */}
           {/* THIS IS THE TABLE OF FURRIENDS ^^^ */}
 
           <div className='modal-action'>
