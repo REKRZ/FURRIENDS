@@ -1,41 +1,63 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable*/
+
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function FollowFurriend() {
   // current logged-in user's id
   const { currentUser } = useAuth();
   const { uid } = currentUser;
   const [usersProfiles, setUsersProfiles] = useState([]);
+  // const [followState, setFollowState] = useState('Follow');
+  // const navigate = useNavigate();
+  const [friendsList, setFriendsList] = useState([]);
 
-  // Logic to extract all friends (all users from profiles collection from firestore)
   useEffect(() => {
+    // Logic to extract all friends (all users from profiles collection from firestore)
     let allUsersProfiles = [];
 
     async function getAllUsers() {
       const querySnapshot = await getDocs(collection(db, 'profiles'));
       // querySnapshot.filter((userDoc) => (userDoc.id !== uid))
       querySnapshot.forEach((userDoc) => {
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(userDoc.id, ' => ', userDoc.data());
 
         // make userDoc + uid objects, and push to array... then setState
         allUsersProfiles.push({ ...userDoc.data(), uid: userDoc.id });
-        // console.log('@!@@@@@', allUsersProfiles)
       });
     }
 
     getAllUsers();
     setUsersProfiles(allUsersProfiles);
+
+    // Logic to extract list of all friends of curr logged in user
+    let allFriendsProfiles = [];
+
+    async function getAllFriends(){
+      const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
+      querySnapshot.forEach((friendDoc) => {
+        // doc.data() is never undefined for query doc snapshots
+        // console.log(friendDoc.id, ' => ', friendDoc.data());
+        allFriendsProfiles.push({ ...friendDoc.data(), friendUid: friendDoc.id });
+      });
+    }
+
+    getAllFriends();
+    setFriendsList(allFriendsProfiles);
+    
     // eslint-disable-next-line
   }, []);
-
-  // console.log('THIS IS usersProfiles STATE:', usersProfiles);
+  
+  console.log('@@@ => ', friendsList);
+  
+  // logic to remove logged in user's profile from displaying in follow furriend table... this variable will be mapped over
+  let filtUsersProfiles = usersProfiles.filter((profile) => profile.uid !== uid);
 
   // Logic attached to Add button in modal furriends table to add a specific user
-  async function handleAddFurriend(userId) {
+  async function handleAddFurriend(userId, e) {
+    e.preventDefault();
     try {
       const furriendToAddRef = doc(db, 'profiles', userId);
       const furriendSnap = await getDoc(furriendToAddRef);
@@ -48,6 +70,10 @@ export default function FollowFurriend() {
         ...furriendSnap.data(),
         friendDisplayName: furriendSnap.data().displayName,
       });
+
+      // e.currentTarget.disabled = true;
+      // setFollowState('Furriend Added');
+      // window.location.reload(false);
     } catch (error) {
       console.log(error);
     }
@@ -99,8 +125,8 @@ export default function FollowFurriend() {
               </thead>
               <tbody>
                 {/* LOGIC TO MAP OVER ALL USERS IN 'profiles' coll and make rows */}
-                {usersProfiles.length >= 1 ? (
-                  usersProfiles.map((profile) => (
+                {filtUsersProfiles.length >= 1 ? (
+                  filtUsersProfiles.map((profile) => (
                     <tr key={profile.uid}>
                       <th>
                         <label>
@@ -139,8 +165,9 @@ export default function FollowFurriend() {
                       </td>
                       <th>
                         <button
+                          disabled={false}
                           className='btn btn-ghost btn-outline'
-                          onClick={() => handleAddFurriend(profile.uid)}
+                          onClick={(e) => handleAddFurriend(profile.uid, e)}
                         >
                           Follow
                         </button>
