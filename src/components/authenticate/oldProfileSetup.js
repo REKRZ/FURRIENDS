@@ -9,7 +9,7 @@ import { TbArrowBigRightLines } from 'react-icons/tb';
 
 export default function ProfileSetup() {
   // get newly created user's id
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuth(); 
   const { uid } = currentUser;
 
   // refs for form data submission into db
