@@ -1,10 +1,12 @@
 /* eslint-disable */
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
+import EditPost from './EditPost';
+import { BsTrash } from 'react-icons/bs';
 
 const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
@@ -58,16 +60,22 @@ const Profile = () => {
             <div key={i}>
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
-                  <button onClick={() => handleDelete(id)} className='btn btn-sm btn-circle absolute right-2 top-2'>
-                    X
-                  </button>
+                  <div className='dropdown dropdown-left absolute top-1 right-1'>
+                    {/* <ul tabIndex='0' className='dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52'>
+                      <li> */}
+                    <label onClick={() => handleDelete(id)} className='btn m-1 btn-sm btn-circle mr-2 text-red-500'>
+                      <BsTrash />
+                    </label>
+                    {/* <label className='btn m-1 btn-sm btn-circle'> */}
+                    <EditPost caption={caption} id={id} />
+                    {/* </label> */}
+                  </div>
                   <figure>
                     <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
                   </figure>
-                  <div className='card-body'>
+                  <div className='card-body flex justify-center'>
                     <h6 className='card-title'>{caption}</h6>
-                    <p>If a dog chews shoes whose shoes does he choose??</p>
-                    <div className='card-actions justify-end'>
+                    <div className='card-actions justify-end absolute bottom-2 right-2'>
                       <div className='badge badge-outline'>{displayName}</div>
                     </div>
                   </div>
