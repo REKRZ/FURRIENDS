@@ -30,7 +30,7 @@ const Profile = () => {
       setUserPosts(posts);
     };
     setPostsChange(true);
-    // console.log('rerendering');
+    console.log('rerendering');
     getUserPosts();
   }, [postsChange]);
 
@@ -39,9 +39,7 @@ const Profile = () => {
       const userInfoSnapshot = await getDoc(qUserInfo);
       userInfoSnapshot.exists() ? setUserInfo(userInfoSnapshot.data()) : console.log('no such document!');
     };
-
     getUserInfo();
-    // getUserPosts();
   }, []);
 
   const handleDelete = async (id) => {
@@ -58,15 +56,11 @@ const Profile = () => {
             <div key={i}>
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
-                  <div className='dropdown dropdown-left absolute top-1 right-1'>
-                    {/* <ul tabIndex='0' className='dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52'>
-                      <li> */}
+                  <div className='absolute top-1 right-1'>
                     <label onClick={() => handleDelete(id)} className='btn m-1 btn-sm btn-circle mr-2 text-red-500'>
                       <BsTrash />
                     </label>
-                    {/* <label className='btn m-1 btn-sm btn-circle'> */}
                     <EditPost caption={caption} id={id} />
-                    {/* </label> */}
                   </div>
                   <figure>
                     <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />

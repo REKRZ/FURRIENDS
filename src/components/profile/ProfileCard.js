@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import EditProfile from './EditProfile';
 
 const ProfileCard = ({ userInfo, uid }) => {
   const { photoURL, displayName, bio } = userInfo;
+
   return (
     <div className='card w-60 h-96 bg-base-100 shadow-xl'>
       <figure className='px-10 pt-10'>
