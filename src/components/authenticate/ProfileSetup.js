@@ -3,7 +3,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db, storage } from '../../firebase';
+import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
+import { TbArrowBigRightLines } from 'react-icons/tb';
 
 export default function ProfileSetup() {
   // get newly created user's id
@@ -39,6 +41,12 @@ export default function ProfileSetup() {
     createUserProf();
     // eslint-disable-next-line
   }, []);
+
+  // TEST UPLOAD PHOTO VVV
+
+  
+
+  // ^^ TEST UPLOAD PHOTO
 
   // logic to update user profile (document) in profile collection with user submitted form data
   async function handleSubmit(e) {
@@ -203,6 +211,28 @@ export default function ProfileSetup() {
                 <p className='text-gray-400 text-xs italic'>.jpg or .png</p>
               </div>
             </div>
+
+            {/* TEST */}
+            {/* <div className='flex flex-wrap -mx-3 mb-6'>
+              <div className='w-full px-3'>
+                <label
+                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                  htmlFor='grid-photo-upload'
+                >
+                  Upload Photo
+                </label>
+                <input
+                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                  id='grid-photo-upload'
+                  type='file'
+                  // onChange={onSelectFile}
+                  // ref={}
+                />
+                <p className='text-gray-400 text-xs italic'>.jpg or .png</p>
+              </div>
+            </div> */}
+            {/* TEST */}
+
             <div className='flex items-center justify-center mb-6'>
               <button className='btn' onClick={handleSubmit}>
                 Create Profile
