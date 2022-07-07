@@ -1,6 +1,5 @@
 import { useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { BsFillPencilFill } from 'react-icons/bs';
@@ -8,11 +7,9 @@ import { BsFillPencilFill } from 'react-icons/bs';
 const EditPost = ({ caption, id }) => {
   const { currentUser } = useAuth();
   const { uid } = currentUser;
-  // const navigate = useNavigate();
   const captionRef = useRef('');
 
   const handleSubmit = async (e) => {
-    console.log(captionRef.current.value);
     e.preventDefault();
     try {
       const postRef = doc(db, 'profiles', uid, 'posts', id);
@@ -24,7 +21,6 @@ const EditPost = ({ caption, id }) => {
     }
   };
 
-  console.log(captionRef.current.value);
   return (
     <>
       <label htmlFor='edit-post-modal' className='btn m-1 btn-sm btn-circle modal-button'>
