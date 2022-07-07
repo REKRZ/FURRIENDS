@@ -125,12 +125,12 @@ export default function AddPost() {
           >
             ✕
           </label>
-          <h3 className='text-3xl font-bold mb-10'>CREATE A POST</h3>
+          <h3 className='text-3xl font-bold mb-7'>CREATE A POST</h3>
           <div className=''>
             <form onSubmit={formHandler}>
               {selectedFile && (
                 <img
-                  className='block object-scale-down h-60 w-full my-4'
+                  className='block object-scale-down h-60 w-full my-4 border-4'
                   src={preview}
                   alt=''
                 />
