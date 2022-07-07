@@ -50,13 +50,15 @@ const Profile = () => {
   return (
     <div className='flex w-full'>
       <ProfileCard userInfo={userInfo} uid={uid} />
-      <div className='grid flex-grow card bg-base-300 rounded-box place-items-center'>
+      <div className='grid flex-grow bg-base-300 place-items-center rounded-bl-lg'>
         {userPosts.length ? (
           userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
-            <div key={i}>
-              <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
-                <div key={i} className='card lg:card-side bg-base-100 shadow-xl'>
-                  <div className='absolute top-1 right-1'>
+            <>
+              <div key={i} className='grid h-300 card bg-base-300 rounded-box place-items-center'>
+                <div className='card lg:card-side bg-base-100 shadow-xl w-[800px]'>
+                  <div className='dropdown dropdown-left absolute top-1 right-1'>
+                    {/* <ul tabIndex='0' className='dropdown-content menu p-2 shadow bg-base-200 rounded-box w-52'>
+                      <li> */}
                     <label onClick={() => handleDelete(id)} className='btn m-1 btn-sm btn-circle mr-2 text-red-500'>
                       <BsTrash />
                     </label>
@@ -74,7 +76,7 @@ const Profile = () => {
                 </div>
               </div>
               <div className='divider'></div>
-            </div>
+            </>
           ))
         ) : (
           <h1>No Posts at this time</h1>
