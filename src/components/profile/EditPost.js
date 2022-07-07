@@ -1,3 +1,5 @@
+/* eslint-disable*/
+
 import { useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { doc, updateDoc } from 'firebase/firestore';

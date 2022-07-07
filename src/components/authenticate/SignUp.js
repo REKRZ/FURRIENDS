@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import SignOut from './SignOut';
