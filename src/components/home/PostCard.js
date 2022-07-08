@@ -120,7 +120,7 @@ export default function PostCard(props) {
           >
             <p className='pr-2'>{numberOfLikes === 0 ? '' : numberOfLikes}</p>
             <span className='hidden'>Like</span>
-            {post.likes.includes(uid) ? (
+            {post.likes !== 0 && post.likes.includes(uid) ? (
               <GiPawHeart className='text-rose-500 text-2xl' />
             ) : (
               <button onClick={() => updateLikes(post.uid, post.id)}>
