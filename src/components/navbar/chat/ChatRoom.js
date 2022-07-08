@@ -104,29 +104,13 @@ export default function ChatRoom() {
             {messages &&
               messages
                 .filter((msg) => msg.friendID === location.state.from)
-                .map((msg) => (
-                  <ChatMessage key={msg.id} message={msg} name={displayName} />
+                .map((msg, i) => (
+                  <ChatMessage key={i} message={msg} name={displayName} />
                 ))}
 
             <span ref={dummy}></span>
           </div>
-          <div className='flex'>
-            <input
-              value={formValue}
-              className='input input-bordered w-full bg-slate-100'
-              onChange={(e) => setFormValue(e.target.value)}
-              placeholder='say something nice'
-            />
-            <button
-              className='px-3 btn btn-square btn-outline bg-slate-100'
-              type='submit'
-              disabled={!formValue}
-              onClick={sendMessage}
-            >
-              <FaPaw />
-            </button>
-          </div>
-          {/* <form onSubmit={sendMessage} className='flex'>
+          <form onSubmit={sendMessage} className='flex'>
             <input
               value={formValue}
               className='input input-bordered bg-slate-100 w-full'
@@ -140,7 +124,7 @@ export default function ChatRoom() {
             >
               <FaPaw />
             </button>
-          </form> */}
+          </form>
         </div>
       </div>
     </div>

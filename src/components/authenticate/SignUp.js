@@ -9,7 +9,7 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, currentUser } = useAuth();
+  const { signup, currentUser, signInWithGoogle } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -33,6 +33,20 @@ export default function SignUp() {
     setLoading(false);
     // emailRef.current.value = "";
     // passwordRef.current.value = "";
+  }
+
+  async function handleGoogleSignUp(e) {
+    e.preventDefault();
+    try {
+      setError('');
+      setLoading(true);
+      await signInWithGoogle();
+      // below line sends you to home page
+      navigate('/profilesetup');
+    } catch {
+      setError('Failed to create an account.');
+    }
+    setLoading(false);
   }
 
   return (
@@ -68,8 +82,10 @@ export default function SignUp() {
             <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
               <strong>Sign-up</strong>
             </h1>
-            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-owner-name'>
+            <label
+              className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+              htmlFor='grid-owner-name'
+            >
               Email
             </label>
             <input
@@ -81,7 +97,9 @@ export default function SignUp() {
               className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:outline-none focus:bg-white'
               required
             ></input>
-            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Password</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>
+              Password
+            </label>
             <input
               type='password'
               placeholder='password...'
@@ -91,7 +109,9 @@ export default function SignUp() {
               className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:outline-none focus:bg-white'
               required
             ></input>
-            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Password Confirmation</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>
+              Password Confirmation
+            </label>
             <input
               type='password'
               placeholder='re-type password...'
@@ -108,8 +128,17 @@ export default function SignUp() {
             >
               Sign Up
             </button>
+            <button
+              disabled={loading}
+              className='btn mb-5 '
+              onClick={handleGoogleSignUp}
+            >
+              Sign Up with Google
+            </button>
             <div className='flex justify-center text-sm'>
-              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>Already have an account?</div>
+              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>
+                Already have an account?
+              </div>
               <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2 underline mx-2'>
                 <Link to='/login'>Log In</Link>
               </div>
