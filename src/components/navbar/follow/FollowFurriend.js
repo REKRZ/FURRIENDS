@@ -81,7 +81,7 @@ export default function FollowFurriend() {
         htmlFor='follow-furriend-modal'
         className='btn btn-ghost normal modal-button'
       >
-        Follow a furriend
+        Follow a Furriend
       </label>
       {/* <!-- The modal --> */}
       <input

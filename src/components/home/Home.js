@@ -85,14 +85,41 @@ export default function Home() {
 
     // eslint-disable-next-line
   }, [friendsPosts]);
-
+  
   return (
-    <div className='container my-12 mx-auto px-4 md:px-12'>
-      <div className='flex flex-wrap -mx-1 lg:-mx-4'>
-        {allPosts.map((post, i) => (
-          <PostCard key={i} post={post} i={i} uid={uid} />
-        ))}
-      </div>
-    </div>
+    <>
+      {friends.length !== 0 || userPosts.length !== 0 ? (
+        <div className='container my-12 mx-auto px-4 md:px-12'>
+          <div className='flex flex-wrap -mx-1 lg:-mx-4'>
+            {allPosts.map((post, i) => (
+              <PostCard key={i} post={post} i={i} uid={uid} />
+            ))}
+          </div>
+        </div>
+      ) : (
+        <div className='hero min-h-screen bg-[url(https://placeimg.com/1000/800/animals)]'>
+          <div className='hero-overlay bg-opacity-60'></div>
+          <div className='hero-content text-center text-neutral-content'>
+            <div className='max-w-md'>
+              <h1 className='mb-5 text-4xl text-gray-300 font-bold'>
+                Follow some Furriends to see posts! 🐾
+              </h1>
+              <p className='flex flex-col items-center justify-center mb-6'>
+                <img
+                  src='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png'
+                  alt='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png'
+                />
+              </p>
+              <label
+                htmlFor='follow-furriend-modal'
+                className='btn btn-primary normal modal-button'
+              >
+                Follow a Furriend
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

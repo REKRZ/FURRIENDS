@@ -240,53 +240,62 @@ export default function ProfileSetup() {
                   ref={bioRef}
                 />
                 <p className='text-gray-400 text-xs italic'>
-                  Make it as long and as crazy as you'd like
+                  Make it as long and as crazy as you'd like!
                 </p>
               </div>
             </div>
             {/* Form for pic upload */}
-            <form onSubmit={formHandler}>
-              {selectedFile && (
-                <img
-                  className='block object-scale-down h-60 w-full my-4 border-4'
-                  src={preview}
-                  alt=''
-                />
-              )}
-              <div className='flex justify-center'>
-                <div className='place-self-center'>
-                  <label
-                    htmlFor='file-upload-profile-setup'
-                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
-                  >
-                    choose a photo
-                  </label>
-                  <input
-                    type='file'
-                    name='file-upload-profile-setup'
-                    id='file-upload-profile-setup'
-                    className='input opacity-0 w-1 h-1'
-                    onChange={onSelectFile}
+            <>
+              <label
+                className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-6'
+                htmlFor='grid-bio'
+              >
+                Upload A Profile Picture
+              </label>
+
+              <form onSubmit={formHandler} className='mb-6'>
+                {selectedFile && (
+                  <img
+                    className='block object-scale-down h-60 w-full my-4'
+                    src={preview}
+                    alt=''
                   />
+                )}
+                <div className='flex justify-center'>
+                  <div className='place-self-center'>
+                    <label
+                      htmlFor='file-upload-profile-setup'
+                      className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    >
+                      choose a photo
+                    </label>
+                    <input
+                      type='file'
+                      name='file-upload-profile-setup'
+                      id='file-upload-profile-setup'
+                      className='input opacity-0 w-1 h-1'
+                      onChange={onSelectFile}
+                    />
+                  </div>
+                  <div className='place-self-center pr-7'>
+                    <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
+                  </div>
+                  <div className='place-self-center'>
+                    <button
+                      className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                      type='submit'
+                    >
+                      Pupload
+                    </button>
+                  </div>
                 </div>
-                <div className='place-self-center pr-7'>
-                  <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
-                </div>
-                <div className='place-self-center'>
-                  <button
-                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
-                    type='submit'
-                  >
-                    Pupload
-                  </button>
-                </div>
-              </div>
-            </form>
+              </form>
+            </>
             <div className='divider'></div>
             {progress < 100 ? (
-              <h3 className='flex justify-center my-3'>{progress}%</h3>
+              <h3 className='flex justify-center my-6'>{progress}%</h3>
             ) : (
-              <h3 className='flex justify-center my-3'>Pupload Complete!</h3>
+              <h3 className='flex justify-center my-6'>Pupload Complete!</h3>
             )}
             {/* Form for pic upload */}
             <div className='flex items-center justify-center mb-6'>
