@@ -93,13 +93,13 @@ export default function ChatRoom() {
 
   return (
     <div className='h-screen'>
-      <div className='flex justify-center items-center h-screen'>
-        <div className='w-80 h-96 bg-gray-100 rounded shadow-2xl'>
-          <nav className='w-full h-10 bg-gray-500 rounded-tr rounded-tl flex justify-center items-center'>
-            <span className='text-md font-medium text-white'>
-              {`Bark with ${friendDisplayName}!`}
-            </span>
-          </nav>
+      <nav className='w-full h-10 bg-gray-500 rounded-tr rounded-tl flex justify-center items-center'>
+        <span className='text-md font-medium text-white'>
+          {`Bark with ${friendDisplayName}!`}
+        </span>
+      </nav>
+      <div className='flex justify-center mt-16 h-screen'>
+        <div className='w-80 h-1/2 bg-gray-100 rounded shadow-2xl'>
           <div className='overflow-auto px-1 py-1 h-full'>
             {messages &&
               messages
@@ -126,6 +126,21 @@ export default function ChatRoom() {
               <FaPaw />
             </button>
           </div>
+          {/* <form onSubmit={sendMessage} className='flex'>
+            <input
+              value={formValue}
+              className='input input-bordered bg-slate-100 w-full'
+              onChange={(e) => setFormValue(e.target.value)}
+              placeholder='say something nice'
+            />
+            <button
+              className='px-3 btn btn-square btn-outline bg-slate-100'
+              type='submit'
+              disabled={!formValue}
+            >
+              <FaPaw />
+            </button>
+          </form> */}
         </div>
       </div>
     </div>

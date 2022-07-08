@@ -2,6 +2,7 @@
 /* eslint-disable*/
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getDoc,
   doc,
@@ -95,17 +96,24 @@ export default function PostCard(props) {
           </p>
         </header>
         <footer className='flex items-center justify-between leading-none p-2 md:p-4'>
-          <a
-            className='flex items-center no-underline hover:underline '
-            href='#'
-          >
+          <div className='flex items-center no-underline hover:underline'>
             <img
               alt=''
               className='block rounded-full h-7 w-7 mr-1'
               src={post.profilePic}
             />
-            <p className='ml-2 text-sm'>{post.displayName}</p>
-          </a>
+            {post.uid !== uid ? (
+              <Link
+                to='/friendprofile'
+                className='ml-2 text-sm'
+                state={{ from: post.uid }}
+              >
+                {post.displayName}
+              </Link>
+            ) : (
+              <p className='ml-2 text-sm'>{post.displayName}</p>
+            )}
+          </div>
           <a
             className='flex place-items-center no-underline text-grey-darker hover:text-red-dark'
             href='#'

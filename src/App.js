@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ChatRoom from './components/navbar/chat/ChatRoom';
 import Profile from './components/profile/Profile';
+import FriendProfile from './components/profile/FriendProfile';
 import SignUp from './components/authenticate/SignUp';
 import ProfileSetup from './components/authenticate/ProfileSetup.js';
 import Login from './components/authenticate/Login';
@@ -29,6 +30,7 @@ function App() {
                 <Route path='/home' element={<Home />} />
                 <Route path='/profilesetup' element={<ProfileSetup />} />
                 <Route path='/profile' element={<Profile />} />
+                <Route path='/friendprofile' element={<FriendProfile />} />
                 <Route path='/map' element={<Maps />} />
                 <Route path='/chatroom' element={<ChatRoom />} />
               </>
