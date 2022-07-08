@@ -136,11 +136,11 @@ export const Navbar = () => {
                 </li>
               </div>
             ) : (
-              <div className='grid justify-items-center'>
+              <li>
                 <Link className='' to='/login'>
                   Login
                 </Link>
-              </div>
+              </li>
             )}
           </ul>
         </div>
