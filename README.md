@@ -17,8 +17,8 @@ Below is a non-exhaustive list of technologies used throughout the project.
 
 Front End | Back End | APIs    | Libraries/Frameworks
 :-------: | :------: | :-----: | :------------------: 
-React     | Firebase | TomTom  | Tailwind
-HTML      |          |         | Daisy UI
+React     | Firebase | TomTom  | TailwindCSS
+HTML      | Node.js  |         | Daisy UI
 CSS       |          |         | PWA
 
 ## Setup
