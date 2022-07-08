@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
+import FriendsList from './FriendsList';
 import EditPost from './EditPost';
 import { BsTrash } from 'react-icons/bs';
 
@@ -48,9 +49,10 @@ const Profile = () => {
   };
 
   return (
-    <div className='flex w-full'>
+    <div className='flex w-screen'>
       <div className=''>
         <ProfileCard userInfo={userInfo} uid={uid} />
+        <FriendsList uid={uid} />
       </div>
       <div className='grid flex-grow bg-base-300 place-items-center rounded-bl-lg'>
         {userPosts.length ? (
