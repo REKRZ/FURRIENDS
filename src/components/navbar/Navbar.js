@@ -15,6 +15,8 @@ export const Navbar = () => {
   const [profilePic, setProfilePic] = useState('');
   const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
+  
+  themeChange(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -54,9 +56,11 @@ export const Navbar = () => {
     'Cyberpunk',
     'Valentine',
   ];
-  useEffect(() => {
-    themeChange(false);
-  }, []);
+
+  // RYAN'S NOTE: PUT THE THEMECHANGE FUNC OUTSIDE OF USEEFFECT - IF IN USEEFFECT THEME CHANGE WILL NOT WORK ON FIRST RENDER.
+  // useEffect(() => {
+  //   themeChange(false);
+  // }, []);
 
   const handleLogout = useCallback(() => {
     logout();

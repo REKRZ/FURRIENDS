@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -11,6 +11,8 @@ export default function Home() {
   const [userPosts, setUserPosts] = useState([]);
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
+
+  const [loaded, setLoaded] = useState(false);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -72,8 +74,21 @@ export default function Home() {
     getAllFriendsPosts();
   }, [friends]);
 
-  useEffect(() => {
-    // combine all posts
+  // useEffect(() => {
+  //   // combine all posts
+  //   if (friendsPosts.length) {
+  //     const combined = [...userPosts, ...friendsPosts];
+  //     const timeOrderedCombined = combined.sort(
+  //       (a, b) => b.createdAt.seconds - a.createdAt.seconds
+  //     );
+  //     setAllPosts(timeOrderedCombined);
+  //     setAllPosts(combined);
+  //   }
+
+  //   // eslint-disable-next-line
+  // }, [friendsPosts]);
+  
+  const MemoAllPosts = useMemo(() => {
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
       const timeOrderedCombined = combined.sort(
@@ -82,13 +97,19 @@ export default function Home() {
       setAllPosts(timeOrderedCombined);
       setAllPosts(combined);
     }
-
-    // eslint-disable-next-line
   }, [friendsPosts]);
-  
+
+  // useEffect(() => {
+  //   if (friends.length !== 0 || userPosts.length !== 0) {
+  //     setLoaded(true);
+  //   } else {
+  //     setLoaded(false);
+  //   }
+  // }, [allPosts]);
+
   return (
     <>
-      {friends.length !== 0 || userPosts.length !== 0 ? (
+      {allPosts.length ? (
         <div className='container my-12 mx-auto px-4 md:px-12'>
           <div className='flex flex-wrap -mx-1 lg:-mx-4'>
             {allPosts.map((post, i) => (
