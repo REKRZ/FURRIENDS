@@ -2,7 +2,7 @@
 import { auth } from '../../../firebase';
 
 export default function ChatMessage(props) {
-  const { id, text, uid, photoURL, displayName } = props.message;
+  const { i, text, uid, photoURL, displayName } = props.message;
   const { name } = props;
 
   const isMessageFromUser = () => {
@@ -11,7 +11,7 @@ export default function ChatMessage(props) {
 
   return (
     <div
-      key={id}
+      key={i}
       className={
         isMessageFromUser()
           ? 'flex justify-end pr-2 mb-1 bg-blue-400 border-2 border-white rounded-lg'
