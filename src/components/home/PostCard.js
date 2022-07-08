@@ -26,8 +26,8 @@ export default function PostCard(props) {
       const likesSnapshot = await getDoc(postRef);
       if (likesSnapshot.exists()) {
         getDoc(postRef).then((doc) => {
-          const num = doc.data().likes.length;
-          setNumberOfLikes(num);
+          const num = doc.data().likes;
+          setNumberOfLikes(num.length);
         });
       } else {
         setNumberOfLikes(0);

@@ -6,9 +6,9 @@ import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
 import { TbArrowBigRightLines } from 'react-icons/tb';
 
 const EditProfile = ({ userInfo, uid }) => {
-  const { displayName, bio } = userInfo;
-  const bioRef = useRef();
-  const displayNameRef = useRef();
+  const { displayName, bio, photoURL } = userInfo;
+  const bioRef = useRef(bio);
+  const displayNameRef = useRef(displayName);
   const [progress, setProgress] = useState(0);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
@@ -70,7 +70,7 @@ const EditProfile = ({ userInfo, uid }) => {
       await updateDoc(profileRef, {
         bio: bioRef.current.value,
         displayName: displayNameRef.current.value,
-        photoURL: newPhotoURL,
+        photoURL: newPhotoURL ? newPhotoURL : photoURL,
       });
       setLoading(false);
       window.location.reload(false);
@@ -95,7 +95,11 @@ const EditProfile = ({ userInfo, uid }) => {
           <h3 className='font-bold text-3xl pt-7 mb-5'>EDIT PROFILE</h3>
           <div className=''>
             <form onSubmit={formHandler}>
-              {selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />}
+              {!preview ? (
+                <img className='block object-scale-down h-60 w-full my-4 border-4' src={photoURL} alt='' />
+              ) : (
+                selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />
+              )}
               <div className='flex justify-center'>
                 <div className='place-self-center'>
                   <label htmlFor='edit-profile-file' className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
@@ -115,19 +119,29 @@ const EditProfile = ({ userInfo, uid }) => {
             </form>
           </div>
           <div className='divider'>{progress < 100 ? <h3 className='flex justify-center my-3'>{progress}%</h3> : <h3 className='flex justify-center my-3'>Pupload Complete!</h3>}</div>
-          <form onSubmit={handleSubmit}>
-            <div className='form-control'>
-              <label className='input-group flex flex-col items-left space-y-4 '>
-                <div className='flex flex-row '>
-                  <span>Display Name</span>
-                  <input ref={displayNameRef} type='text' placeholder={displayName} className='input input-bordered mr-2' />
-                </div>
-                <div className='flex flex-row'>
-                  <span>Bio</span>
-                  <textarea ref={bioRef} type='text' placeholder={bio} className='textarea textarea-bordered w-4/5' />
-                </div>
+          <form onSubmit={handleSubmit} className='flex w-full justify-center'>
+            <div className='form-control w-3/5'>
+              <label className='input-group input-group-vertical pb-4'>
+                <span>Display Name</span>
+                <input ref={displayNameRef} defaultValue={displayName} type='text' className='input input-bordered' />
+              </label>
+              <label className='input-group input-group-vertical w-full grow'>
+                <span>Bio</span>
+                <input ref={bioRef} defaultValue={bio} type='text' className='input input-bordered' />
               </label>
             </div>
+            {/* <label className='input-group input-group-vertical '>
+                <div>
+                  <span>Display Name</span>
+                  <input ref={displayNameRef} defaultValue={displayName} type='text' className='input input-bordered mr-2' />
+                </div>
+              </label>
+              <label className='input-group input-group-vertical'>
+                <div>
+                  <input ref={bioRef} defaultValue={bio} type='text' maxlength={100} className='input input-bordered mr-2' />
+                </div>
+              </label> */}
+
             <div className='modal-action'>
               <button disabled={loading} type='submit' htmlFor='test-modal' className='btn absolute bottom-3 right-3'>
                 <label htmlFor='test-modal'>Submit</label>
