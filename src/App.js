@@ -16,7 +16,7 @@ import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
 import { Navbar } from './components/navbar/Navbar.js';
 import { LandingPage } from './components/home/LandingPage.js';
-import Footer from './components/Footer/Footer.js';
+import FooterAlt from './components/Footer/FooterAlt.js';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -45,7 +45,7 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
-          <Footer />
+          <FooterAlt />
         </Router>
       </AuthProvider>
     </>
