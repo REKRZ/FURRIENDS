@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { doc, getDoc, collection, query, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, query, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
 import FollowFurriend from './follow/FollowFurriend';
@@ -12,31 +12,42 @@ import { themeChange } from 'theme-change';
 export const Navbar = () => {
   const { logout, currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('Guest');
-  const [profilePic, setProfilePic] = useState('');
+  const [userInfo, setUserInfo] = useState({});
+  // const [profilePic, setProfilePic] = useState('');
   const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
-  
+
   themeChange(false);
+
+  useEffect(() => {
+    if (currentUser) {
+      navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+        setDoc(doc(db, 'profiles', currentUser.uid), { lat: latitude, lng: longitude }, { merge: true });
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (currentUser) {
       const userId = currentUser.uid;
       const userRef = doc(db, 'profiles', userId);
+
       const getProfile = async function () {
         getDoc(userRef).then((doc) => {
           setDisplayName(doc.data().displayName);
-          setProfilePic(doc.data().photoURL);
+          // setProfilePic(doc.data().photoURL);
+          setUserInfo({ ...doc.data(), id: userId });
         });
       };
       getProfile();
 
+      const list = [];
       const friendsRef = collection(db, 'profiles', userId, 'friends');
       const qFriends = query(friendsRef);
       // get list of friend IDs and set friends state
       const getFriends = async () => {
         const friendsListSnapshot = await getDocs(qFriends);
         if (friendsListSnapshot) {
-          let list = [];
           friendsListSnapshot.forEach((doc) => {
             list.push({ ...doc.data(), id: doc.id });
           });
@@ -48,14 +59,7 @@ export const Navbar = () => {
   }, [currentUser]);
 
   // switch themes
-  const themeValues = [
-    'Default',
-    'Cupcake',
-    'Retro',
-    'Aqua',
-    'Cyberpunk',
-    'Valentine',
-  ];
+  const themeValues = ['Default', 'Cupcake', 'Retro', 'Aqua', 'Cyberpunk', 'Valentine'];
 
   // RYAN'S NOTE: PUT THE THEMECHANGE FUNC OUTSIDE OF USEEFFECT - IF IN USEEFFECT THEME CHANGE WILL NOT WORK ON FIRST RENDER.
   // useEffect(() => {
@@ -107,7 +111,15 @@ export const Navbar = () => {
               </ul>
             </li>
             <li>
-              <Link to='/map' href='#' className='btn btn-ghost'>
+              <Link
+                to='/map'
+                state={{
+                  user: userInfo,
+                  friends: friends,
+                }}
+                href='#'
+                className='btn btn-ghost'
+              >
                 Map
               </Link>
             </li>
@@ -119,7 +131,7 @@ export const Navbar = () => {
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
-              <img src={currentUser ? profilePic : '/images/dogLogo.svg'} alt='Profile-Pic' />
+              <img src={currentUser ? userInfo.photoURL : '/images/dogLogo.svg'} alt='Profile-Pic' />
             </div>
           </label>
           <ul tabIndex='0' className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'>

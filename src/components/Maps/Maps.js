@@ -2,33 +2,25 @@ import React, { useEffect, useState, useRef } from 'react';
 import '../../App.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import * as tt from '@tomtom-international/web-sdk-maps';
+import { useLocation } from 'react-router-dom';
 import { getDogParks } from '../../api/getDogParks';
 import PlacesCard from './PlacesCard';
-import { useAuth } from '../../contexts/AuthContext';
-import { query, getDoc, getDocs, doc, setDoc, collection } from 'firebase/firestore';
+// import { useAuth } from '../../contexts/AuthContext';
+import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-// import { getFriendsId } from '../../api/getFriendsData';
 
 const Maps = () => {
   const [map, setMap] = useState({});
-  const [lat, setLat] = useState(0);
-  const [lng, setLng] = useState(0);
-  const [userInfo, setUserInfo] = useState({});
   const [dogParks, setDogParks] = useState([]);
-  const [friendsId, setFriendsId] = useState([]);
-  const [friendsLoc, setFriendsLoc] = useState();
   const mapElement = useRef();
-  const { currentUser } = useAuth();
-  const { uid } = currentUser;
 
-  const userInfoRef = doc(db, 'profiles', uid);
-  const qUserInfo = query(userInfoRef);
+  const userInfo = useLocation();
+  const [lat, setLat] = useState(userInfo.state.user.lat);
+  const [lng, setLng] = useState(userInfo.state.user.lng);
+  const { id, photoURL } = userInfo.state.user;
+  const friends = userInfo.state.friends;
 
-  const idCol = collection(db, 'profiles', uid, 'friends');
-  const qIdCol = query(idCol);
-
-  let allFriendsData = [];
-  // const fLatlng = doc(db, 'profiles', uid, )
+  const userInfoRef = doc(db, 'profiles', id);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
@@ -36,64 +28,12 @@ const Maps = () => {
       setLng(longitude);
       setDoc(userInfoRef, { lat: latitude, lng: longitude }, { merge: true });
     });
-
-    const getUserInfo = async () => {
-      const userInfoSnapshot = await getDoc(qUserInfo);
-      userInfoSnapshot ? setUserInfo(userInfoSnapshot.data()) : console.log('no such document!');
-    };
-
-    const getFriendsData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
-      querySnapshot.forEach((friendDoc) => {
-        // console.log(friendDoc.id, '=>', friendDoc.data());
-        allFriendsData.push({ ...friendDoc.data(), id: friendDoc.id });
-      });
-    };
-    // const getFriendsId = async () => {
-    //   const ids = [];
-    //   const friendSnapshot = await getDocs(qIdCol);
-    //   friendSnapshot.forEach((friend) => ids.push(friend.id));
-    //   setFriendsId(ids);
-    // };
-
-    // const getFriendsLocations = () => {
-    //   const locations = [];
-    //   friendsId?.forEach(async (id) => {
-    //     const friendsLoc = doc(db, 'profiles', id);
-    //     const qFriendsLoc = query(friendsLoc);
-    //     const loc = await getDoc(qFriendsLoc);
-    //     locations.push(loc.data());
-    //   });
-    //   setFriendsLoc(locations);
-    // };
-
-    getUserInfo();
-    getFriendsData();
-    setFriendsLoc(allFriendsData);
-    console.log('All friend data: ', allFriendsData);
-    // getFriendsId();
-    // getFriendsLocations();
   }, []);
 
   useEffect(() => {
     getDogParks(lat, lng).then((parks) => {
       setDogParks(parks);
     });
-
-    // const getFriendsLocations = () => {
-    //   const locations = [];
-    //   if (friendsId.length) {
-    //     friendsId.forEach(async (id) => {
-    //       const friendsLoc = doc(db, 'profiles', id);
-    //       const qFriendsLoc = query(friendsLoc);
-    //       const loc = await getDoc(qFriendsLoc);
-    //       locations.push(loc.data());
-    //     });
-    //     setFriendsLoc(locations);
-    //   }
-    //   console.log(friendsLoc);
-    // };
-    // getFriendsLocations();
   }, [lat, lng]);
 
   useEffect(() => {
@@ -109,31 +49,18 @@ const Maps = () => {
 
     const addMarker = () => {
       const element = document.createElement('div');
-
       element.className = 'marker';
-      element.style.backgroundImage = `url("${userInfo.photoURL}")`;
+      element.style.backgroundImage = `url("${photoURL}")`;
+
+      let popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([lng, lat]).setHTML('<h2>You are here</h2>');
 
       const marker = new tt.Marker({
         draggable: true,
         element: element,
       })
         .setLngLat([lng, lat])
-        .addTo(map);
-
-      dogParks?.results?.forEach((park) => {
-        const popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([park.position.lon, park.position.lat]).setHTML(park.poi.name);
-
-        let pawIcon = document.createElement('div');
-        pawIcon.className = 'marker';
-        pawIcon.style.backgroundImage = `url("https://jazzfoundation.org/wp-content/uploads/2019/04/nyc-parks-logo.jpg")`;
-
-        new tt.Marker({
-          element: pawIcon,
-        })
-          .setLngLat([park.position.lon, park.position.lat])
-          .addTo(map)
-          .setPopup(popup);
-      });
+        .addTo(map)
+        .setPopup(popup);
 
       marker.on('dragend', () => {
         const lngLat = marker.getLngLat();
@@ -141,13 +68,46 @@ const Maps = () => {
         setLat(lngLat.lat);
       });
     };
+    friends?.forEach((friend) => {
+      let friendLng = Number(friend.lng);
+      let friendLat = Number(friend.lat);
+      // console.log(friend);
+      let popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([friendLng, friendLat]).setHTML(friend.displayName);
+
+      let friendIcon = document.createElement('div');
+      friendIcon.className = 'marker';
+      friendIcon.style.backgroundImage = `url("${friend.photoURL}")`;
+
+      new tt.Marker({
+        element: friendIcon,
+      })
+        .setLngLat([friendLng, friendLat])
+        .addTo(map)
+        .setPopup(popup);
+    });
+
+    dogParks?.results?.forEach((park) => {
+      let popup = new tt.Popup({ offset: [0, -40], className: 'places-popup' }).setLngLat([park.position.lon, park.position.lat]).setHTML(park.poi.name);
+
+      let parkIcon = document.createElement('div');
+      parkIcon.className = 'park-marker';
+      parkIcon.style.backgroundImage = `url("https://866187.smushcdn.com/1921598/wp-content/uploads/2019/11/dealer_install_locator.png?lossy=0&strip=1&webp=1")`;
+
+      new tt.Marker({
+        element: parkIcon,
+      })
+        .setLngLat([park.position.lon, park.position.lat])
+        .addTo(map)
+        .setPopup(popup);
+    });
+
     setMap(map);
     addMarker();
     return () => map.remove();
-  }, [lat, lng, dogParks, userInfo]);
+  }, [lat, lng, dogParks]);
 
   const { results } = dogParks;
-  // console.dir(friendsId);
+  // console.dir(userInfo);
   return (
     <div className='flex flex-row'>
       {map && (
