@@ -22,42 +22,25 @@ const FriendsList = ({ uid }) => {
   console.log(friends);
   return (
     <div className='w-auto'>
-      <table className='table w-full'>
-        {/* <!-- head --> */}
-        <thead>
-          <tr>
-            <th className='text-center'>Friends List</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* <!-- row 1 --> */}
-          {friends.map((friend, i) => {
-            return (
-              <Link key={i} to='/friendprofile' className='ml-2 text-sm' state={{ from: friend.id }}>
-                <tr key={i}>
-                  <td>
-                    <div className='flex items-center space-x-3'>
-                      <div className='avatar'>
-                        <div className='mask mask-squircle w-12 h-12'>
-                          <img src={friend.photoURL} alt='Avatar Tailwind CSS Component' />
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <th>{friend.displayName}</th>
-                </tr>
-                {/* <div className='divider'></div> */}
-              </Link>
-            );
-          })}
-        </tbody>
-        {/* <!-- foot --> */}
-        <tfoot>
-          <tr>
-            <th></th>
-          </tr>
-        </tfoot>
-      </table>
+      <div className='text-center content-center'>Friends List</div>
+      <div className='bg-base-400 shadow-xl ml-2'>
+        {friends.map((friend, i) => {
+          return (
+            <Link key={i} to='/friendprofile' className='ml-2 text-sm' state={{ from: friend.id }}>
+              <div className='flex items-center space-x-3 border-2'>
+                <div className='avatar'>
+                  <div className='mask mask-squircle w-12 h-12'>
+                    <img src={friend.photoURL} alt='Avatar Tailwind CSS Component' />
+                  </div>
+                </div>
+                <div>{friend.displayName}</div>
+              </div>
+
+              {/* <div className='divider'></div> */}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 };

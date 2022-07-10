@@ -50,9 +50,11 @@ const Profile = () => {
 
   return (
     <div className='flex w-screen'>
-      <div className=''>
-        <ProfileCard userInfo={userInfo} uid={uid} />
-        <FriendsList uid={uid} />
+      <div>
+        <div className='h-screen'>
+          <ProfileCard userInfo={userInfo} uid={uid} />
+          <FriendsList uid={uid} />
+        </div>
       </div>
       <div className='grid flex-grow bg-base-300 place-items-center rounded-bl-lg'>
         {userPosts.length ? (
