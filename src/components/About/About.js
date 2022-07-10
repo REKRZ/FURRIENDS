@@ -1,25 +1,14 @@
 import React from 'react';
 import { BsLinkedin, BsGithub, BsEnvelopeFill } from 'react-icons/bs';
 
-const FooterAlt = () => {
+const About = () => {
   return (
-    <div className='max-w-screen-xl px-4 mx-auto md:px-8 pb-4'>
-      <div className='mb-10 md:mb-8 flex justify-center'>
-        <h2
-          className='
-        mb-4
-        text-2xl
-        font-bold
-        text-center
-        lg:text-3xl
-        md:mb-6
-      '
-        >
-          The Team at
-        </h2>
+    <div className='max-w-screen-xl px-4 mx-auto md:px-8 pb-4 pt-8'>
+      <div className='mb-10 md:mb-8 flex justify-center items-center'>
+        <h2 className='mb-2 text-2xl font-bold text-center lg:text-3xl'>The Team at</h2>
         <img src='/images/logo.svg' alt='logo' className='object-scale-down h-16' />
       </div>
-      <p className='max-w-screen-md mx-auto text-center  md:text-lg'>Furriends was created in 15 days by our amazing team of developers </p>
+      <p className='max-w-screen-md mx-auto text-center  md:text-lg pb-5'>Furriends was created in 15 days by our amazing team of developers </p>
 
       <div className='grid gap-4 md:grid-cols-4'>
         <div className='p-4 shadow'>
@@ -120,4 +109,4 @@ const FooterAlt = () => {
   );
 };
 
-export default FooterAlt;
+export default About;
