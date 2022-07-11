@@ -97,7 +97,9 @@ const Maps = () => {
       let placesScroll = document.getElementById(i);
       parkIcon.addEventListener('click', () => {
         // placesRef?.current?.scrollIntoView({ behavior: 'auto' });
-        placesScroll.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          placesScroll.scrollIntoView({ behavior: 'smooth' });
+        });
         console.log(i);
       });
 
