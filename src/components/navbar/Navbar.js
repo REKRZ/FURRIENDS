@@ -3,14 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import {
-  doc,
-  getDoc,
-  collection,
-  query,
-  getDocs,
-  setDoc,
-} from 'firebase/firestore';
+import { doc, getDoc, collection, query, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
 import FollowFurriend from './follow/FollowFurriend';
@@ -28,26 +21,12 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (currentUser) {
-      navigator.geolocation.getCurrentPosition(
-        ({ coords: { latitude, longitude } }) => {
-          setDoc(
-            doc(db, 'profiles', currentUser.uid),
-            { lat: latitude, lng: longitude },
-            { merge: true }
-          );
-        }
-      );
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
       const userId = currentUser.uid;
       const userRef = doc(db, 'profiles', userId);
       if (userRef) {
         const getProfile = async function () {
           getDoc(userRef).then((doc) => {
-            setDisplayName(doc.data().displayName);
+            // setDisplayName(doc.data().displayName);
             // setProfilePic(doc.data().photoURL);
             setUserInfo({ ...doc.data(), id: userId });
           });
@@ -70,17 +49,10 @@ export const Navbar = () => {
         getFriends();
       }
     }
-  }, [currentUser]);
+  }, []);
 
   // switch themes
-  const themeValues = [
-    'Default',
-    'Cupcake',
-    'Retro',
-    'Aqua',
-    'Cyberpunk',
-    'Valentine',
-  ];
+  const themeValues = ['Default', 'Cupcake', 'Retro', 'Aqua', 'Cyberpunk', 'Valentine'];
 
   // RYAN'S NOTE: PUT THE THEMECHANGE FUNC OUTSIDE OF USEEFFECT - IF IN USEEFFECT THEME CHANGE WILL NOT WORK ON FIRST RENDER.
   // useEffect(() => {
@@ -96,18 +68,10 @@ export const Navbar = () => {
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1 '>
-        <Link
-          className='btn btn-ghost mr-10 normal-case text-xl'
-          to={currentUser ? '/home' : '/'}
-          href='#'
-        >
-          <img
-            src='/images/logo.svg'
-            alt='logo'
-            className='object-scale-down h-12'
-          />
+        <Link className='btn btn-ghost mr-10 normal-case text-xl' to={currentUser ? '/home' : '/'} href='#'>
+          <img src='/images/logo.svg' alt='logo' className='object-scale-down h-12' />
         </Link>
-        <div className='text-lg'>{`Welcome ${displayName}!`}</div>
+        <div className='text-lg'>{`Welcome ${currentUser ? (userInfo.displayName ? userInfo.displayName : displayName) : displayName}!`}</div>
       </div>
       <div className='flex-none '>
         {currentUser ? (
@@ -121,13 +85,7 @@ export const Navbar = () => {
             <li tabIndex='0' className='mx-2'>
               <label className='btn btn-ghost'>
                 Chat
-                <svg
-                  className='fill-current'
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                >
+                <svg className='fill-current' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24'>
                   <path d='M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z' />
                 </svg>
               </label>
@@ -162,22 +120,14 @@ export const Navbar = () => {
         ) : null}
       </div>
       <div className='flex-none gap-2 mx-2'>
-        <div className='form-control'>
-          {/* <input type='text' placeholder='Search' className='input input-bordered' /> */}
-        </div>
+        <div className='form-control'>{/* <input type='text' placeholder='Search' className='input input-bordered' /> */}</div>
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
-              <img
-                src={currentUser ? userInfo.photoURL : '/images/dogLogo.svg'}
-                alt='Profile-Pic'
-              />
+              <img src={currentUser ? userInfo.photoURL : '/images/dogLogo.svg'} alt='Profile-Pic' />
             </div>
           </label>
-          <ul
-            tabIndex='0'
-            className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'
-          >
+          <ul tabIndex='0' className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'>
             {currentUser ? (
               <div>
                 <li className='pl-1'>
@@ -194,11 +144,7 @@ export const Navbar = () => {
                       Theme
                     </option>
                     {themeValues.map((value) => (
-                      <option
-                        className='text-secondary'
-                        key={value.toLowerCase()}
-                        value={value.toLowerCase()}
-                      >
+                      <option className='text-secondary' key={value.toLowerCase()} value={value.toLowerCase()}>
                         {value}
                       </option>
                     ))}

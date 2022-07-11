@@ -78,7 +78,7 @@ export default function FollowFurriend() {
         friendDisplayName: furriendSnap.data().displayName,
       });
 
-      e.target.disabled = true;
+      // e.target.disabled = true;
       // setAddOrDelete(false);
     } catch (error) {
       console.log(error);
@@ -92,7 +92,7 @@ export default function FollowFurriend() {
         doc(db, 'profiles', uid, 'friends', userId)
       );
 
-      setAddOrDelete(true);
+      // setAddOrDelete(true);
     } catch (error) {
       console.log(error);
     }
@@ -188,15 +188,23 @@ export default function FollowFurriend() {
                       </td>
                       <th>
                         <button
-                          disabled={
-                            friendsIDsList.includes(profile.uid) ? true : false
+                          // disabled={
+                          //   friendsIDsList.includes(profile.uid) ? true : false
+                          // }
+                          className={
+                            friendsIDsList.includes(profile.uid)
+                              ? 'btn btn-warning btn-outline'
+                              : 'btn btn-success btn-outline'
                           }
-                          className='btn btn-ghost btn-outline'
-                          onClick={(e) => handleAddFurriend(profile.uid, e)}
+                          onClick={
+                            friendsIDsList.includes(profile.uid)
+                              ? (e) => handleDeleteFurriend(profile.uid, e)
+                              : (e) => handleAddFurriend(profile.uid, e)
+                          }
                         >
                           {friendsIDsList.includes(profile.uid)
-                            ? 'Already Furriends'
-                            : 'Follow'}
+                            ? 'Unfollow 💩💩💩'
+                            : 'Follow '}
                         </button>
                       </th>
                     </tr>

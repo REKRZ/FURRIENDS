@@ -25,8 +25,17 @@ export default function ProfileSetup() {
 
   const [progress, setProgress] = useState(0);
   const [picURL, setPicURL] = useState('');
+  const [latLng, setLatLng] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setLatLng({ lat: latitude, lng: longitude });
+      }
+    );
+  }, []);
 
   // logic to create user profile (document) in profile collection
   useEffect(() => {
@@ -34,6 +43,8 @@ export default function ProfileSetup() {
       await setDoc(doc(db, 'profiles', uid), {
         bio: '',
         displayName: '',
+        lat: latLng.lat || 40.7050758,
+        lng: latLng.lng || -74.0113544,
         ownerName: '',
         petBreed: '',
         petName: '',
@@ -109,6 +120,8 @@ export default function ProfileSetup() {
       await updateDoc(newUserDocRef, {
         bio: bioRef.current.value,
         displayName: displayNameRef.current.value,
+        lat: latLng.lat || 40.7050758,
+        lng: latLng.lng || -74.0113544,
         ownerName: ownerNameRef.current.value,
         petBreed: petBreedRef.current.value,
         petName: petNameRef.current.value,
