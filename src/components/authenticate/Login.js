@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useCallback, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import SignOut from './SignOut';
 import { Link, useNavigate } from 'react-router-dom';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -12,10 +11,8 @@ export default function Login() {
   const { login, currentUser, signInWithGoogle } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  // const [users, setUsers] = useState(false);
   const navigate = useNavigate();
 
-  // useEffect(() => {
   const users = [];
   const getUsers = async () => {
     const usersRef = collection(db, 'profiles');
@@ -26,7 +23,6 @@ export default function Login() {
     });
   };
   getUsers();
-  // }, [])
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -40,51 +36,14 @@ export default function Login() {
       setError('Failed to sign in.');
     }
     setLoading(false);
-    // emailRef.current.value = "";
-    // passwordRef.current.value = "";
   }
-
-  // const handleGoogleSignIn = useCallback(
-  //   async (e) => {
-  //     e.preventDefault();
-  //     setError('');
-  //     setLoading(true);
-  //     if (loading) {
-  //       await signInWithGoogle()
-  //         .then(() => setLoading(false))
-  //         .catch(() => setError('Failed to sign in'));
-  //     } else navigate('/home');
-  //     setLoading(false);
-  //   },
-  //   [loading]
-  // );
-
-  // async function handleGoogleSignIn(e) {
-  //   e.preventDefault();
-  //   try {
-  //     setError('');
-  //     setLoading(true);
-  //     await signInWithGoogle();
-  //     navigate('/home');
-  //   } catch {
-  //     setError('Failed to sign in.');
-  //   }
-  //   setLoading(false);
-  // }
 
   async function handleGoogleSignIn(e) {
     e.preventDefault();
     try {
       setError('');
       setLoading(true);
-      const test = await signInWithGoogle(users);
-      // below line sends you to home page
-      // navigate('/home');
-      if (test) {
-        navigate('/home');
-      } else {
-        navigate('/profilesetup');
-      }
+      await signInWithGoogle(users);
     } catch {
       setError('Failed to sign in.');
     }
