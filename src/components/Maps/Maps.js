@@ -5,7 +5,6 @@ import * as tt from '@tomtom-international/web-sdk-maps';
 import { useLocation } from 'react-router-dom';
 import { getDogParks } from '../../api/getDogParks';
 import PlacesCard from './PlacesCard';
-// import { useAuth } from '../../contexts/AuthContext';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
@@ -96,7 +95,6 @@ const Maps = () => {
 
       let placesScroll = document.getElementById(i);
       parkIcon.addEventListener('click', () => {
-        // placesRef?.current?.scrollIntoView({ behavior: 'auto' });
         setTimeout(() => {
           placesScroll.scrollIntoView({ behavior: 'smooth' });
         });
@@ -109,10 +107,6 @@ const Maps = () => {
         .setLngLat([park.position.lon, park.position.lat])
         .addTo(map)
         .setPopup(popup);
-
-      // parkMarker.on('click', () => {
-      //   placesRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
-      // });
     });
 
     setMap(map);
@@ -121,7 +115,6 @@ const Maps = () => {
   }, [lat, lng, dogParks]);
 
   const { results } = dogParks;
-  // console.dir(userInfo);
   return (
     <div className='flex sm:flex-col lg:flex-row'>
       {map && (
