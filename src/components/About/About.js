@@ -13,7 +13,7 @@ const About = () => {
       <div className='grid gap-4 md:grid-cols-4'>
         <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-32 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
-            <img src='/images/khenji-zhang.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
+            <img src='/images/khenji-zhang.jpeg' alt='Image' className='object-contain object-center w-full h-full' />
           </div>
 
           <div className='flex flex-col items-center justify-center'>
@@ -37,7 +37,7 @@ const About = () => {
 
         <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
-            <img src='/images/edward-geng.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
+            <img src='/images/edward-geng.jpeg' alt='Image' className='object-contain object-center w-full h-full' />
           </div>
 
           <div className='flex flex-col items-center justify-center'>
@@ -60,7 +60,7 @@ const About = () => {
         </div>
         <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
-            <img src='/images/ryan-tang.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
+            <img src='/images/ryan-tang.jpeg' alt='Image' className='object-contain object-center w-full h-full' />
           </div>
 
           <div className='flex flex-col items-center justify-center'>
@@ -83,7 +83,7 @@ const About = () => {
         </div>
         <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
-            <img src='/images/roy-neville.jpg' alt='Image' className='object-cover object-center w-full h-full' />
+            <img src='/images/roy-neville.jpg' alt='Image' className='object-contain object-center w-full h-full' />
           </div>
 
           <div className='flex flex-col items-center justify-center'>
