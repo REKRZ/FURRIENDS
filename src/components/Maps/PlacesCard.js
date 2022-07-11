@@ -1,7 +1,7 @@
 import React from 'react';
 
 const PlacesCard = ({ dogParks, num }) => {
-  const { poi, address } = dogParks;
+  const { poi, address, id } = dogParks;
   return (
     <div className='card card-compact w-auto bg-base-100 shadow-xl bg-white'>
       <figure>

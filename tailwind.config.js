@@ -2,6 +2,12 @@
 module.exports = {
   content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
+    screens: {
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
     extend: {
       backgroundImage: {
         hero: "url('https://storage.googleapis.com/petbacker/images/blog/2018/super-dog.jpg')",

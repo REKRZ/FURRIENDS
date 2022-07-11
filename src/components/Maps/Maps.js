@@ -46,7 +46,8 @@ const Maps = () => {
       center: [lng, lat],
       zoom: 14,
     });
-
+    map.addControl(new tt.FullscreenControl(), 'top-left');
+    map.addControl(new tt.NavigationControl(), 'top-left');
     const addMarker = () => {
       const element = document.createElement('div');
       element.className = 'marker';
@@ -86,12 +87,19 @@ const Maps = () => {
         .setPopup(popup);
     });
 
-    dogParks?.results?.forEach((park) => {
+    dogParks?.results?.forEach((park, i) => {
       let popup = new tt.Popup({ offset: [0, -40], className: 'places-popup' }).setLngLat([park.position.lon, park.position.lat]).setHTML(park.poi.name);
 
       let parkIcon = document.createElement('div');
       parkIcon.className = 'park-marker';
       parkIcon.style.backgroundImage = `url("https://866187.smushcdn.com/1921598/wp-content/uploads/2019/11/dealer_install_locator.png?lossy=0&strip=1&webp=1")`;
+
+      let placesScroll = document.getElementById(i);
+      parkIcon.addEventListener('click', () => {
+        // placesRef?.current?.scrollIntoView({ behavior: 'auto' });
+        placesScroll.scrollIntoView({ behavior: 'smooth' });
+        console.log(i);
+      });
 
       new tt.Marker({
         element: parkIcon,
@@ -99,6 +107,10 @@ const Maps = () => {
         .setLngLat([park.position.lon, park.position.lat])
         .addTo(map)
         .setPopup(popup);
+
+      // parkMarker.on('click', () => {
+      //   placesRef.current.scrollIntoView({ behavior: 'auto', block: 'start' });
+      // });
     });
 
     setMap(map);
@@ -109,13 +121,13 @@ const Maps = () => {
   const { results } = dogParks;
   // console.dir(userInfo);
   return (
-    <div className='flex flex-row'>
+    <div className='flex sm:flex-col lg:flex-row'>
       {map && (
-        <div className='flex flex-row h-screen w-full lg:flex-row'>
-          <div className='flex flex-col flex-grow overflow-y-auto w-1/3 border border-purple-300'>
+        <div className='flex flex-col h-screen w-full lg:flex-row'>
+          <div className='flex flex-row lg:flex-col lg:w-1/3 overflow-y-auto sm:w-full border border-purple-300'>
             <div className='text-2xl border-4 border-purple-300 text-center content-center'>Parks near you</div>
             {results?.map((park, i) => (
-              <div key={i} className='w-full p-5'>
+              <div key={i} className='w-full p-5' id={i}>
                 <PlacesCard dogParks={park} num={i} />
               </div>
             ))}

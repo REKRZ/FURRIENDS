@@ -73,7 +73,7 @@ export const Navbar = () => {
   }, []);
 
   return (
-    <div className='navbar bg-base-300 '>
+    <div className='navbar bg-base-300'>
       <div className='flex-1 '>
         <Link className='btn btn-ghost mr-10 normal-case text-xl' to={currentUser ? '/home' : '/'} href='#'>
           <img src='/images/logo.svg' alt='logo' className='object-scale-down h-12' />
