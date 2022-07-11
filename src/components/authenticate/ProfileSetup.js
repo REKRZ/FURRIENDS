@@ -146,6 +146,7 @@ export default function ProfileSetup() {
                   type='text'
                   placeholder='Bruce'
                   ref={ownerNameRef}
+                  required
                 />
               </div>
               <div className='w-full md:w-1/2 px-3'>
@@ -161,6 +162,7 @@ export default function ProfileSetup() {
                   type='text'
                   placeholder='DarkKnight1'
                   ref={displayNameRef}
+                  required
                 />
               </div>
             </div>
@@ -178,6 +180,7 @@ export default function ProfileSetup() {
                   type='text'
                   placeholder='Ace'
                   ref={petNameRef}
+                  required
                 />
               </div>
               <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -193,6 +196,7 @@ export default function ProfileSetup() {
                   type='text'
                   placeholder='Doberman'
                   ref={petBreedRef}
+                  required
                 />
               </div>
               <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
@@ -240,6 +244,7 @@ export default function ProfileSetup() {
                   type='text'
                   placeholder='Write a short biography for your pet!'
                   ref={bioRef}
+                  required
                 />
                 <p className='text-gray-400 text-xs italic'>
                   Make it as long and as crazy as you'd like!

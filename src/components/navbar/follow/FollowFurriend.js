@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
 
 export default function FollowFurriend() {
@@ -12,6 +19,7 @@ export default function FollowFurriend() {
   const [usersProfiles, setUsersProfiles] = useState([]);
   const [friendsList, setFriendsList] = useState([]);
   const [friendsIDsList, setFriendsIDsList] = useState([]);
+  const [addOrDelete, setAddOrDelete] = useState(true);
 
   useEffect(() => {
     // Logic to extract all friends (all users from profiles collection from firestore)
@@ -33,11 +41,16 @@ export default function FollowFurriend() {
     let allFriendsProfiles = [];
     let allFriendsIDsProfiles = [];
 
-    async function getAllFriends(){
-      const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
+    async function getAllFriends() {
+      const querySnapshot = await getDocs(
+        collection(db, 'profiles', uid, 'friends')
+      );
       querySnapshot.forEach((friendDoc) => {
         // doc.data() is never undefined for query doc snapshots
-        allFriendsProfiles.push({ ...friendDoc.data(), friendUid: friendDoc.id });
+        allFriendsProfiles.push({
+          ...friendDoc.data(),
+          friendUid: friendDoc.id,
+        });
         allFriendsIDsProfiles.push(friendDoc.id);
       });
     }
@@ -47,9 +60,11 @@ export default function FollowFurriend() {
     setFriendsIDsList(allFriendsIDsProfiles);
     // eslint-disable-next-line
   }, []);
-  
+
   // logic to remove logged in user's profile from displaying in follow furriend table... this variable will be mapped over
-  let filtUsersProfiles = usersProfiles.filter((profile) => profile.uid !== uid);
+  let filtUsersProfiles = usersProfiles.filter(
+    (profile) => profile.uid !== uid
+  );
 
   // Logic attached to Add button in modal furriends table to add a specific user
   async function handleAddFurriend(userId, e) {
@@ -64,13 +79,26 @@ export default function FollowFurriend() {
       });
 
       e.target.disabled = true;
-
+      // setAddOrDelete(false);
     } catch (error) {
       console.log(error);
     }
   }
 
-  function refreshHomeOnExit(){
+  // Logic attached to Add button in modal furriends table to add a specific user
+  async function handleDeleteFurriend(userId, e) {
+    try {
+      const furriendToDeleteRef = await deleteDoc(
+        doc(db, 'profiles', uid, 'friends', userId)
+      );
+
+      setAddOrDelete(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function refreshHomeOnExit() {
     window.location.reload(false);
   }
 
@@ -160,11 +188,15 @@ export default function FollowFurriend() {
                       </td>
                       <th>
                         <button
-                          disabled={friendsIDsList.includes(profile.uid) ? true : false}
+                          disabled={
+                            friendsIDsList.includes(profile.uid) ? true : false
+                          }
                           className='btn btn-ghost btn-outline'
                           onClick={(e) => handleAddFurriend(profile.uid, e)}
                         >
-                          {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'}
+                          {friendsIDsList.includes(profile.uid)
+                            ? 'Already Furriends'
+                            : 'Follow'}
                         </button>
                       </th>
                     </tr>
@@ -222,7 +254,11 @@ export default function FollowFurriend() {
           {/* THIS IS THE TABLE OF FURRIENDS ^^^ */}
 
           <div className='modal-action'>
-            <label htmlFor='follow-furriend-modal' className='btn' onClick={() => refreshHomeOnExit()}>
+            <label
+              htmlFor='follow-furriend-modal'
+              className='btn'
+              onClick={() => refreshHomeOnExit()}
+            >
               Done
             </label>
           </div>
@@ -231,3 +267,35 @@ export default function FollowFurriend() {
     </>
   );
 }
+
+// OLD BUTTON LOGIC BELOW...
+
+{
+  /* <button
+  disabled={friendsIDsList.includes(profile.uid) ? true : false}
+  className='btn btn-ghost btn-outline'
+  onClick={(e) => handleAddFurriend(profile.uid, e)}
+>
+  {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'}
+</button>; */
+}
+
+// {addOrDelete ? (
+//   <button
+//     // disabled={friendsIDsList.includes(profile.uid) ? true : false}
+//     className='btn btn-success btn-outline'
+//     onClick={(e) => handleAddFurriend(profile.uid, e)}
+//   >
+//     {/* {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'} */}
+//     {addOrDelete ? 'Follow' : 'Unfollow Furriend :('}
+//   </button>
+// ) : (
+//   <button
+//     // disabled={friendsIDsList.includes(profile.uid) ? true : false}
+//     className='btn btn-warning btn-outline'
+//     onClick={(e) => handleDeleteFurriend(profile.uid, e)}
+//   >
+//     {/* {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'} */}
+//     {addOrDelete ? 'Follow' : 'Unfollow Furriend :('}
+//   </button>
+// )}
