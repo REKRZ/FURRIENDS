@@ -10,6 +10,7 @@ short description of project here with screenshots
 ## Video Walkthrough
 insert video here
 
+![Screen Shot 2022-07-11 at 5 33 07 PM](https://user-images.githubusercontent.com/99780324/178362573-722fd6ec-d99f-4105-b4af-5867ad11d985.png)
 
 
 ## Tech Stack
