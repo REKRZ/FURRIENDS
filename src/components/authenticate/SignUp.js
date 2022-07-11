@@ -9,7 +9,7 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, currentUser, signInWithGoogle } = useAuth();
+  const { signup, currentUser, signUpWithGoogle } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ export default function SignUp() {
     try {
       setError('');
       setLoading(true);
-      await signInWithGoogle();
+      await signUpWithGoogle();
       // below line sends you to home page
       navigate('/profilesetup');
     } catch {

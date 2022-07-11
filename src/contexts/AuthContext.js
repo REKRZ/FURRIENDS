@@ -2,7 +2,7 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 // import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { auth, storage } from '../firebase';
+import { auth, storage, db } from '../firebase';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
@@ -17,7 +17,6 @@ import {
 } from 'firebase/auth';
 
 const AuthContext = React.createContext();
-
 // custom hook
 export function useAuth() {
   return useContext(AuthContext);
@@ -31,7 +30,28 @@ export function AuthProvider({ children }) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = (props) => {
+    let userId;
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider).then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      userId = result.user.uid;
+      console.log('users array ', props);
+      console.log('userId ', userId);
+      if (props.includes({ id: userId })) {
+        console.log('is included');
+        return true;
+      } else {
+        console.log('is not included');
+        return false;
+      }
+    });
+  };
+
+  const signUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider);
   };
@@ -91,8 +111,13 @@ export function AuthProvider({ children }) {
     updatePasswordFn,
     // upload,
     signInWithGoogle,
+    signUpWithGoogle,
   };
 
   // only want to render children if loading is set to false
-  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
 }
