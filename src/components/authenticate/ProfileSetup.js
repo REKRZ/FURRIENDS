@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { doc, setDoc, updateDoc } from 'firebase/firestore';
-import { db, storage } from '../../firebase';
+import { db, storage, auth } from '../../firebase';
 import { uploadBytesResumable, getDownloadURL, ref } from 'firebase/storage';
 import { TbArrowBigRightLines } from 'react-icons/tb';
 
 export default function ProfileSetup() {
   // get newly created user's id
-  const { currentUser } = useAuth();
-  const { uid } = currentUser;
+  const [user] = useAuthState(auth);
+  const { uid } = user;
 
   // refs for form data submission into db
   const ownerNameRef = useRef();
@@ -116,6 +117,7 @@ export default function ProfileSetup() {
       });
 
       navigate('/home');
+      window.location.reload(false);
     } catch (error) {
       console.log(error);
     }

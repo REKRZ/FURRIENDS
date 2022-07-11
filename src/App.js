@@ -3,6 +3,7 @@
 
 import { auth } from './firebase.js';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ChatRoom from './components/navbar/chat/ChatRoom';
@@ -21,8 +22,8 @@ function App() {
   const [user] = useAuthState(auth);
   return (
     <>
-      <AuthProvider>
-        <Router>
+      <Router>
+        <AuthProvider>
           <Navbar />
           <Routes>
             {user ? (
@@ -44,8 +45,8 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
-        </Router>
-      </AuthProvider>
+        </AuthProvider>
+      </Router>
     </>
   );
 }
