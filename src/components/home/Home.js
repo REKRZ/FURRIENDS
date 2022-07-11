@@ -25,10 +25,10 @@ export default function Home() {
 
   useEffect(() => {
     // get list of user posts and set userPosts state
+    let allUserPosts = [];
     const getUserPosts = async () => {
       const userPostsSnapshot = await getDocs(qUserPosts);
       if (userPostsSnapshot) {
-        let allUserPosts = [];
         userPostsSnapshot.forEach((doc) => {
           allUserPosts.push({ ...doc.data(), id: doc.id });
         });
@@ -38,10 +38,10 @@ export default function Home() {
     getUserPosts();
 
     // get list of friend IDs and set friends state
+    let list = [];
     const getFriends = async () => {
       const friendsListSnapshot = await getDocs(qFriends);
       if (friendsListSnapshot) {
-        let list = [];
         friendsListSnapshot.forEach((doc) => {
           list.push({ id: doc.id });
         });
@@ -74,21 +74,8 @@ export default function Home() {
     getAllFriendsPosts();
   }, [friends]);
 
-  // useEffect(() => {
-  //   // combine all posts
-  //   if (friendsPosts.length) {
-  //     const combined = [...userPosts, ...friendsPosts];
-  //     const timeOrderedCombined = combined.sort(
-  //       (a, b) => b.createdAt.seconds - a.createdAt.seconds
-  //     );
-  //     setAllPosts(timeOrderedCombined);
-  //     setAllPosts(combined);
-  //   }
-
-  //   // eslint-disable-next-line
-  // }, [friendsPosts]);
-  
-  const MemoAllPosts = useMemo(() => {
+  useEffect(() => {
+    // combine all posts
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
       const timeOrderedCombined = combined.sort(
@@ -96,16 +83,12 @@ export default function Home() {
       );
       setAllPosts(timeOrderedCombined);
       setAllPosts(combined);
+    } else {
+      setAllPosts(userPosts);
     }
-  }, [friendsPosts]);
 
-  // useEffect(() => {
-  //   if (friends.length !== 0 || userPosts.length !== 0) {
-  //     setLoaded(true);
-  //   } else {
-  //     setLoaded(false);
-  //   }
-  // }, [allPosts]);
+    // eslint-disable-next-line
+  }, [friendsPosts]);
 
   return (
     <>

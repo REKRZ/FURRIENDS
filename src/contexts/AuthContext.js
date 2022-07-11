@@ -43,6 +43,7 @@ export function AuthProvider({ children }) {
       if (arrOfIds.includes(userId)) {
         // navigate here
         navigate('/home');
+        window.location.reload(false);
       } else {
         navigate('/profilesetup');
         // mavigate here
