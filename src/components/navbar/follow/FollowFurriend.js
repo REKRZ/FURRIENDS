@@ -79,6 +79,7 @@ export default function FollowFurriend() {
       });
 
       // e.target.disabled = true;
+      e.target.className = 'btn btn-success'
       // setAddOrDelete(false);
     } catch (error) {
       console.log(error);
@@ -92,6 +93,7 @@ export default function FollowFurriend() {
         doc(db, 'profiles', uid, 'friends', userId)
       );
 
+      e.target.className = 'btn btn-warning'
       // setAddOrDelete(true);
     } catch (error) {
       console.log(error);
@@ -135,11 +137,11 @@ export default function FollowFurriend() {
               {/* <!-- head --> */}
               <thead>
                 <tr>
-                  <th>
+                  {/* <th>
                     <label>
                       <input type='checkbox' className='checkbox' />
                     </label>
-                  </th>
+                  </th> */}
                   <th>Display Name</th>
                   <th>Pet Name + Breed</th>
                   <th>About Me</th>
@@ -151,11 +153,11 @@ export default function FollowFurriend() {
                 {filtUsersProfiles.length >= 1 ? (
                   filtUsersProfiles.map((profile) => (
                     <tr key={profile.uid}>
-                      <th>
+                      {/* <th>
                         <label>
                           <input type='checkbox' className='checkbox' />
                         </label>
-                      </th>
+                      </th> */}
                       <td>
                         <div className='flex items-center space-x-3'>
                           <div className='avatar'>
@@ -250,7 +252,7 @@ export default function FollowFurriend() {
               {/* <!-- foot --> */}
               <tfoot>
                 <tr>
-                  <th></th>
+                  {/* <th></th> */}
                   <th></th>
                   <th></th>
                   <th></th>
