@@ -17,6 +17,7 @@ import Home from './components/home/Home';
 import { Navbar } from './components/navbar/Navbar.js';
 import { LandingPage } from './components/home/LandingPage.js';
 import About from './components/About/About.js';
+import Footer from './components/Footer/Footer.js';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -46,6 +47,7 @@ function App() {
             <Route path='/' element={<LandingPage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
+          <Footer />
         </Router>
       </AuthProvider>
     </>

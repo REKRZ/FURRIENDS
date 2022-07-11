@@ -3,7 +3,7 @@ import { BsLinkedin, BsGithub, BsEnvelopeFill } from 'react-icons/bs';
 
 const About = () => {
   return (
-    <div className='max-w-screen-xl px-4 mx-auto md:px-8 pb-4 pt-8'>
+    <div className='max-w-screen-xl px-4 mx-auto md:px-8 pb-4 pt-8 flex-grow h-screen'>
       <div className='mb-10 md:mb-8 flex justify-center items-center'>
         <h2 className='mb-2 text-2xl font-bold text-center lg:text-3xl'>The Team at</h2>
         <img src='/images/logo.svg' alt='logo' className='object-scale-down h-16' />
@@ -11,7 +11,7 @@ const About = () => {
       <p className='max-w-screen-md mx-auto text-center  md:text-lg pb-5'>Furriends was created in 15 days by our amazing team of developers </p>
 
       <div className='grid gap-4 md:grid-cols-4'>
-        <div className='p-4 shadow'>
+        <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-32 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
             <img src='/images/khenji-zhang.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
           </div>
@@ -35,7 +35,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className='p-4 shadow'>
+        <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
             <img src='/images/edward-geng.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
           </div>
@@ -58,7 +58,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className='p-4 shadow'>
+        <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
             <img src='/images/ryan-tang.jpeg' alt='Image' className='object-cover object-center w-full h-full' />
           </div>
@@ -81,7 +81,7 @@ const About = () => {
             </div>
           </div>
         </div>
-        <div className='p-4 shadow'>
+        <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden rounded-lg shadow-lg md:h-60'>
             <img src='/images/roy-neville.jpg' alt='Image' className='object-cover object-center w-full h-full' />
           </div>
