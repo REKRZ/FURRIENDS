@@ -27,9 +27,7 @@ export default function FollowFurriend() {
 
     async function getAllUsers() {
       const querySnapshot = await getDocs(collection(db, 'profiles'));
-      // querySnapshot.filter((userDoc) => (userDoc.id !== uid))
       querySnapshot.forEach((userDoc) => {
-        // make userDoc + uid objects, and push to array... then setState
         allUsersProfiles.push({ ...userDoc.data(), uid: userDoc.id });
       });
     }
@@ -46,7 +44,6 @@ export default function FollowFurriend() {
         collection(db, 'profiles', uid, 'friends')
       );
       querySnapshot.forEach((friendDoc) => {
-        // doc.data() is never undefined for query doc snapshots
         allFriendsProfiles.push({
           ...friendDoc.data(),
           friendUid: friendDoc.id,
@@ -78,9 +75,7 @@ export default function FollowFurriend() {
         friendDisplayName: furriendSnap.data().displayName,
       });
 
-      // e.target.disabled = true;
-      e.target.className = 'btn btn-success'
-      // setAddOrDelete(false);
+      e.target.className = 'btn btn-success';
     } catch (error) {
       console.log(error);
     }
@@ -93,8 +88,7 @@ export default function FollowFurriend() {
         doc(db, 'profiles', uid, 'friends', userId)
       );
 
-      e.target.className = 'btn btn-warning'
-      // setAddOrDelete(true);
+      e.target.className = 'btn btn-warning';
     } catch (error) {
       console.log(error);
     }
@@ -132,16 +126,11 @@ export default function FollowFurriend() {
           <p className='py-4'>Meet new Furriends and set up a playdate!</p>
 
           {/* THIS IS THE TABLE OF FURRIENDS VVV */}
-          <div className='overflow-x-auto w-full'>
+          <div className='w-full'>
             <table className='table w-full'>
               {/* <!-- head --> */}
               <thead>
                 <tr>
-                  {/* <th>
-                    <label>
-                      <input type='checkbox' className='checkbox' />
-                    </label>
-                  </th> */}
                   <th>Display Name</th>
                   <th>Pet Name + Breed</th>
                   <th>About Me</th>
@@ -153,11 +142,6 @@ export default function FollowFurriend() {
                 {filtUsersProfiles.length >= 1 ? (
                   filtUsersProfiles.map((profile) => (
                     <tr key={profile.uid}>
-                      {/* <th>
-                        <label>
-                          <input type='checkbox' className='checkbox' />
-                        </label>
-                      </th> */}
                       <td>
                         <div className='flex items-center space-x-3'>
                           <div className='avatar'>
@@ -185,14 +169,11 @@ export default function FollowFurriend() {
                           {profile.petBreed}
                         </span>
                       </td>
-                      <td className='max-w-3xl'>
-                        <div className='max-w-3xl'>{profile.bio}</div>
+                      <td className='max-w-sm'>
+                        <div className='max-w-sm truncate'>{profile.bio}</div>
                       </td>
                       <th>
                         <button
-                          // disabled={
-                          //   friendsIDsList.includes(profile.uid) ? true : false
-                          // }
                           className={
                             friendsIDsList.includes(profile.uid)
                               ? 'btn btn-warning btn-outline'
@@ -252,7 +233,6 @@ export default function FollowFurriend() {
               {/* <!-- foot --> */}
               <tfoot>
                 <tr>
-                  {/* <th></th> */}
                   <th></th>
                   <th></th>
                   <th></th>
@@ -277,35 +257,3 @@ export default function FollowFurriend() {
     </>
   );
 }
-
-// OLD BUTTON LOGIC BELOW...
-
-{
-  /* <button
-  disabled={friendsIDsList.includes(profile.uid) ? true : false}
-  className='btn btn-ghost btn-outline'
-  onClick={(e) => handleAddFurriend(profile.uid, e)}
->
-  {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'}
-</button>; */
-}
-
-// {addOrDelete ? (
-//   <button
-//     // disabled={friendsIDsList.includes(profile.uid) ? true : false}
-//     className='btn btn-success btn-outline'
-//     onClick={(e) => handleAddFurriend(profile.uid, e)}
-//   >
-//     {/* {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'} */}
-//     {addOrDelete ? 'Follow' : 'Unfollow Furriend :('}
-//   </button>
-// ) : (
-//   <button
-//     // disabled={friendsIDsList.includes(profile.uid) ? true : false}
-//     className='btn btn-warning btn-outline'
-//     onClick={(e) => handleDeleteFurriend(profile.uid, e)}
-//   >
-//     {/* {friendsIDsList.includes(profile.uid) ? 'Already Furriends' : 'Follow'} */}
-//     {addOrDelete ? 'Follow' : 'Unfollow Furriend :('}
-//   </button>
-// )}

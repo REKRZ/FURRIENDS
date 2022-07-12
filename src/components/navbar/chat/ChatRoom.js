@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { useState, useRef, useEffect } from 'react';
-import { auth, db, timestamp } from '../../../firebase';
+import { db, timestamp } from '../../../firebase';
 import { collection, addDoc, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
@@ -70,7 +70,7 @@ export default function ChatRoom() {
     });
 
     setFormValue('');
-    dummy.current.scrollIntoView({ behavior: 'auto' });
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -78,7 +78,7 @@ export default function ChatRoom() {
       <nav className='w-full h-10 bg-gray-500 rounded-tr rounded-tl flex justify-center items-center'>
         <span className='text-md font-medium text-white'>{`Bark with ${friendDisplayName}!`}</span>
       </nav>
-      <div className='flex justify-center mt-16 h-screen'>
+      <div className='flex justify-center mt-16 h-[80vh]'>
         <div className='w-80 h-1/2 bg-gray-100 rounded shadow-2xl'>
           <div className='overflow-auto px-1 py-1 h-full'>
             {messages && messages.filter((msg) => msg.friendID === location.state.from).map((msg, i) => <ChatMessage key={i} message={msg} name={displayName} />)}

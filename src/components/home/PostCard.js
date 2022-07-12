@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDoc, doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { getDoc, doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { VscHeart } from 'react-icons/vsc';
 import { GiPawHeart } from 'react-icons/gi';

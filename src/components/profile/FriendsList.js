@@ -9,36 +9,44 @@ const FriendsList = ({ uid }) => {
   useEffect(() => {
     let friendsList = [];
     const getFriendsData = async () => {
-      const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
+      const querySnapshot = await getDocs(
+        collection(db, 'profiles', uid, 'friends')
+      );
       querySnapshot.forEach((friendDoc) => {
-        // console.log(friendDoc.id, '=>', friendDoc.data());
         friendsList.push({ ...friendDoc.data(), id: friendDoc.id });
       });
     };
     getFriendsData();
     setFriends(friendsList);
-    console.log('@@@@@@');
   }, []);
 
   return (
     <div className='w-auto'>
-      <div className='card w-60 h-96 bg-base-600 shadow-xl items-center'>
-        <div className='text-center content-center font-semibold'>Friends List</div>
+      <div className='card w-60 h-auto bg-base-600 shadow-xl items-center pb-10'>
+        <div className='text-center content-center font-semibold'>
+          Friends List
+        </div>
         <div className='divider'></div>
         <div className='bg-base-400 ml-2'>
           {friends.map((friend, i) => {
             return (
-              <Link key={i} to='/friendprofile' className='ml-2 text-sm' state={{ from: friend.id }}>
+              <Link
+                key={i}
+                to='/friendprofile'
+                className='ml-2 text-sm'
+                state={{ from: friend.id }}
+              >
                 <div className='flex items-center space-x-3'>
                   <div className='avatar'>
                     <div className='mask mask-squircle w-12 h-12'>
-                      <img src={friend.photoURL} alt='Avatar Tailwind CSS Component' />
+                      <img
+                        src={friend.photoURL}
+                        alt='Avatar Tailwind CSS Component'
+                      />
                     </div>
                   </div>
                   <div>{friend.displayName}</div>
                 </div>
-
-                {/* <div className='divider'></div> */}
               </Link>
             );
           })}

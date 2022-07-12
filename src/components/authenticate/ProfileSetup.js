@@ -29,6 +29,8 @@ export default function ProfileSetup() {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   const [error, setError] = useState('');
+  const [uploadMsg, setUploadMsg] = useState('');
+  const [bigFile, setBigFile] = useState(false);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -64,7 +66,13 @@ export default function ProfileSetup() {
   const formHandler = (e) => {
     e.preventDefault();
     const file = e.target[0].files[0];
-    uploadFiles(file);
+    if (file.size > 5000000) {
+      setBigFile(true);
+      setUploadMsg('File is too large! 5MB maximum, paw-lease!');
+    } else {
+      setUploadMsg('Pupload Complete!');
+      uploadFiles(file);
+    }
   };
 
   // uploads photo into storage
@@ -107,7 +115,7 @@ export default function ProfileSetup() {
       setSelectedFile(undefined);
       return;
     }
-    // I've kept this example simple by using the first image instead of multiple
+    console.log(e.target.files[0].size);
     setSelectedFile(e.target.files[0]);
   };
   // ^^ LOGIC UPLOAD PHOTO
@@ -117,10 +125,6 @@ export default function ProfileSetup() {
     e.preventDefault();
 
     try {
-      // console.log('@@@@', bioRef.current.value);
-      // console.log('!!!!', ownerNameRef.current.value);
-      // console.log('name', petNameRef.current.value);
-
       if (
         ownerNameRef.current.value === '' ||
         bioRef.current.value === '' ||
@@ -356,10 +360,13 @@ export default function ProfileSetup() {
               </form>
             </>
             <div className='divider'></div>
+            {bigFile && (
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
+            )}
             {progress < 100 ? (
-              <h3 className='flex justify-center my-6'>{progress}%</h3>
+              <h3 className='flex justify-center my-3'>{progress}%</h3>
             ) : (
-              <h3 className='flex justify-center my-6'>Pupload Complete!</h3>
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
             )}
             {/* Form for pic upload */}
             <div className='flex items-center justify-center mb-6'>
