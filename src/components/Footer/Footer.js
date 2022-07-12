@@ -4,7 +4,7 @@ import { BsYoutube, BsGithub, BsEnvelopeFill } from 'react-icons/bs';
 
 const Footer = () => {
   return (
-    <footer className='footer items-center p-2 bg-neutral text-neutral-content absolute mt-12'>
+    <footer className='footer items-center p-2 bg-neutral text-neutral-content'>
       <div className='items-center grid-flow-col'>
         <img src='/images/logo.svg' alt='logo' className='object-scale-down h-10' />
       </div>

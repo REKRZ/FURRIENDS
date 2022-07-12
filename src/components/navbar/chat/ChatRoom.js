@@ -2,15 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { auth, db, timestamp } from '../../../firebase';
-import {
-  collection,
-  addDoc,
-  query,
-  orderBy,
-  limit,
-  doc,
-  getDoc,
-} from 'firebase/firestore';
+import { collection, addDoc, query, orderBy, limit, doc, getDoc } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
@@ -26,18 +18,8 @@ export default function ChatRoom() {
   const [formValue, setFormValue] = useState('');
   const location = useLocation();
 
-  const userMessagesRef = collection(
-    db,
-    'profiles',
-    currentUser.uid,
-    'messages'
-  );
-  const friendMessagesRef = collection(
-    db,
-    'profiles',
-    location.state.from,
-    'messages'
-  );
+  const userMessagesRef = collection(db, 'profiles', currentUser.uid, 'messages');
+  const friendMessagesRef = collection(db, 'profiles', location.state.from, 'messages');
   const q = query(userMessagesRef, orderBy('createdAt'), limit(25));
   const [messages] = useCollectionData(q, { idField: 'id' });
 
@@ -92,36 +74,20 @@ export default function ChatRoom() {
   };
 
   return (
-    <div className='h-screen'>
+    <div className=''>
       <nav className='w-full h-10 bg-gray-500 rounded-tr rounded-tl flex justify-center items-center'>
-        <span className='text-md font-medium text-white'>
-          {`Bark with ${friendDisplayName}!`}
-        </span>
+        <span className='text-md font-medium text-white'>{`Bark with ${friendDisplayName}!`}</span>
       </nav>
       <div className='flex justify-center mt-16 h-screen'>
         <div className='w-80 h-1/2 bg-gray-100 rounded shadow-2xl'>
           <div className='overflow-auto px-1 py-1 h-full'>
-            {messages &&
-              messages
-                .filter((msg) => msg.friendID === location.state.from)
-                .map((msg, i) => (
-                  <ChatMessage key={i} message={msg} name={displayName} />
-                ))}
+            {messages && messages.filter((msg) => msg.friendID === location.state.from).map((msg, i) => <ChatMessage key={i} message={msg} name={displayName} />)}
 
             <span ref={dummy}></span>
           </div>
           <form onSubmit={sendMessage} className='flex'>
-            <input
-              value={formValue}
-              className='input input-bordered bg-slate-100 w-full'
-              onChange={(e) => setFormValue(e.target.value)}
-              placeholder='say something nice'
-            />
-            <button
-              className='px-3 btn btn-square btn-outline bg-slate-100'
-              type='submit'
-              disabled={!formValue}
-            >
+            <input value={formValue} className='input input-bordered bg-slate-100 w-full' onChange={(e) => setFormValue(e.target.value)} placeholder='say something nice' />
+            <button className='px-3 btn btn-square btn-outline bg-slate-100' type='submit' disabled={!formValue}>
               <FaPaw />
             </button>
           </form>
