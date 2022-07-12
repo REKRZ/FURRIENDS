@@ -11,18 +11,16 @@ const FriendsList = ({ uid }) => {
     const getFriendsData = async () => {
       const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
       querySnapshot.forEach((friendDoc) => {
-        // console.log(friendDoc.id, '=>', friendDoc.data());
         friendsList.push({ ...friendDoc.data(), id: friendDoc.id });
       });
     };
     getFriendsData();
     setFriends(friendsList);
-    console.log('@@@@@@');
   }, []);
 
   return (
     <div className='w-auto'>
-      <div className='card w-60 h-96 bg-base-600 shadow-xl items-center'>
+      <div className='card w-60 h-full bg-base-600 shadow-xl items-center pb-10'>
         <div className='text-center content-center font-semibold'>Friends List</div>
         <div className='divider'></div>
         <div className='bg-base-400 ml-2'>
@@ -37,8 +35,6 @@ const FriendsList = ({ uid }) => {
                   </div>
                   <div>{friend.displayName}</div>
                 </div>
-
-                {/* <div className='divider'></div> */}
               </Link>
             );
           })}

@@ -71,7 +71,6 @@ const Maps = () => {
     friends?.forEach((friend) => {
       let friendLng = Number(friend.lng);
       let friendLat = Number(friend.lat);
-      // console.log(friend);
       let popup = new tt.Popup({ offset: [0, -25], className: 'places-popup' }).setLngLat([friendLng, friendLat]).setHTML(friend.displayName);
 
       let friendIcon = document.createElement('div');
@@ -120,14 +119,13 @@ const Maps = () => {
       {map && (
         <div className='flex flex-col h-screen w-full lg:flex-row'>
           <div className='flex flex-row lg:flex-col lg:w-1/4 overflow-y-auto sm:w-full border border-purple-300'>
-            <div className='text-2xl border-4 border-purple-300 text-center content-center'>Parks near you</div>
+            <div className='text-2xl border-4 border-purple-300 text-center content-center'>Parks Near You</div>
             {results?.map((park, i) => (
               <div key={i} className='w-full p-5' id={i}>
                 <PlacesCard dogParks={park} num={i} />
               </div>
             ))}
           </div>
-          {/* <div style={{ height: '100%', width: '100%', alignItems: 'center' }}> */}
           <div className='h-full w-full relative'>
             <div ref={mapElement} style={{ height: '80%', width: '80%' }} className='mt-20 ml-32' />
           </div>

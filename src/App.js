@@ -1,9 +1,6 @@
 /* eslint-disable no-unused-vars */
-// import './App.css';
-
 import { auth } from './firebase.js';
 import { AuthProvider } from './contexts/AuthContext';
-import { useAuth } from './contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ChatRoom from './components/navbar/chat/ChatRoom';
@@ -49,8 +46,8 @@ function App() {
             <Route path='*' element={<NotFound />} />
           </Routes>
           <Footer />
-      </AuthProvider>
-       </Router>
+        </AuthProvider>
+      </Router>
     </>
   );
 }

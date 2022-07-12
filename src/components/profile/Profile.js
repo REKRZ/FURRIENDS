@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
-import { useLocation } from 'react-router-dom';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
 import FriendsList from './FriendsList';
@@ -13,8 +12,6 @@ const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [postsChange, setPostsChange] = useState(true);
-
-  // const user = useLocation();
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -60,7 +57,7 @@ const Profile = () => {
           <FriendsList uid={uid} />
         </div>
       </div>
-      <div className='grid w-full h-full bg-base-300 place-items-center rounded-bl-lg'>
+      <div className='grid w-full h-full bg-base-300 place-items-center rounded-bl-lg pt-8'>
         {userPosts.length ? (
           userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
             <div key={i}>
@@ -87,7 +84,9 @@ const Profile = () => {
             </div>
           ))
         ) : (
-          <h1>No Posts at this time</h1>
+          <div className='py-5'>
+            <h1 className='text-3xl'>Create a post in the navigation bar!</h1>
+          </div>
         )}
       </div>
     </div>

@@ -58,7 +58,6 @@ const EditProfile = ({ userInfo, uid }) => {
       setSelectedFile(undefined);
       return;
     }
-    // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0]);
   };
 
@@ -95,11 +94,7 @@ const EditProfile = ({ userInfo, uid }) => {
           <h3 className='font-bold text-3xl pt-7 mb-5'>EDIT PROFILE</h3>
           <div className=''>
             <form onSubmit={formHandler}>
-              {!preview ? (
-                <img className='block object-scale-down h-60 w-full my-4 border-4' src={photoURL} alt='' />
-              ) : (
-                selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />
-              )}
+              {!preview ? <img className='block object-scale-down h-60 w-full my-4 border-4' src={photoURL} alt='' /> : selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />}
               <div className='flex justify-center'>
                 <div className='place-self-center'>
                   <label htmlFor='edit-profile-file' className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
@@ -130,18 +125,6 @@ const EditProfile = ({ userInfo, uid }) => {
                 <input ref={bioRef} defaultValue={bio} type='text' className='input input-bordered' />
               </label>
             </div>
-            {/* <label className='input-group input-group-vertical '>
-                <div>
-                  <span>Display Name</span>
-                  <input ref={displayNameRef} defaultValue={displayName} type='text' className='input input-bordered mr-2' />
-                </div>
-              </label>
-              <label className='input-group input-group-vertical'>
-                <div>
-                  <input ref={bioRef} defaultValue={bio} type='text' maxlength={100} className='input input-bordered mr-2' />
-                </div>
-              </label> */}
-
             <div className='modal-action'>
               <button disabled={loading} type='submit' htmlFor='test-modal' className='btn absolute bottom-3 right-3'>
                 <label htmlFor='test-modal'>Submit</label>
