@@ -56,10 +56,11 @@ const Profile = () => {
       <div>
         <div className='h-screen'>
           <ProfileCard userInfo={userInfo} uid={uid} />
+          <div className='divider'></div>
           <FriendsList uid={uid} />
         </div>
       </div>
-      <div className='grid flex-grow bg-base-300 place-items-center rounded-bl-lg'>
+      <div className='grid w-full h-full bg-base-300 place-items-center rounded-bl-lg'>
         {userPosts.length ? (
           userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
             <div key={i}>
