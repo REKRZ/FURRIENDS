@@ -3,6 +3,7 @@
 
 import { auth } from './firebase.js';
 import { AuthProvider } from './contexts/AuthContext';
+import { useAuth } from './contexts/AuthContext';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import ChatRoom from './components/navbar/chat/ChatRoom';
@@ -16,13 +17,15 @@ import Maps from './components/Maps/Maps';
 import Home from './components/home/Home';
 import { Navbar } from './components/navbar/Navbar.js';
 import { LandingPage } from './components/home/LandingPage.js';
+import About from './components/About/About.js';
+import Footer from './components/Footer/Footer.js';
 
 function App() {
   const [user] = useAuthState(auth);
   return (
     <>
-      <AuthProvider>
-        <Router>
+      <Router>
+        <AuthProvider>
           <Navbar />
           <Routes>
             {user ? (
@@ -41,11 +44,13 @@ function App() {
                 <Route path='/signup' element={<SignUp />} />
               </>
             )}
+            <Route path='/about' element={<About />} />
             <Route path='/' element={<LandingPage />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
-        </Router>
+          <Footer />
       </AuthProvider>
+       </Router>
     </>
   );
 }

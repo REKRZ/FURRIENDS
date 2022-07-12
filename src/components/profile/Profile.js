@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
+import { useLocation } from 'react-router-dom';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
 import FriendsList from './FriendsList';
@@ -12,6 +13,8 @@ const Profile = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [postsChange, setPostsChange] = useState(true);
+
+  // const user = useLocation();
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;

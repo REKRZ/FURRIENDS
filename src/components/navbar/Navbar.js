@@ -21,42 +21,35 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (currentUser) {
-      navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-        setDoc(doc(db, 'profiles', currentUser.uid), { lat: latitude, lng: longitude }, { merge: true });
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (currentUser) {
       const userId = currentUser.uid;
       const userRef = doc(db, 'profiles', userId);
-
-      const getProfile = async function () {
-        getDoc(userRef).then((doc) => {
-          setDisplayName(doc.data().displayName);
-          // setProfilePic(doc.data().photoURL);
-          setUserInfo({ ...doc.data(), id: userId });
-        });
-      };
-      getProfile();
-
-      const list = [];
-      const friendsRef = collection(db, 'profiles', userId, 'friends');
-      const qFriends = query(friendsRef);
-      // get list of friend IDs and set friends state
-      const getFriends = async () => {
-        const friendsListSnapshot = await getDocs(qFriends);
-        if (friendsListSnapshot) {
-          friendsListSnapshot.forEach((doc) => {
-            list.push({ ...doc.data(), id: doc.id });
+      if (userRef) {
+        const getProfile = async function () {
+          getDoc(userRef).then((doc) => {
+            // setDisplayName(doc.data().displayName);
+            // setProfilePic(doc.data().photoURL);
+            setUserInfo({ ...doc.data(), id: userId });
           });
-          setFriends(list);
-        }
-      };
-      getFriends();
+        };
+        getProfile();
+
+        const list = [];
+        const friendsRef = collection(db, 'profiles', userId, 'friends');
+        const qFriends = query(friendsRef);
+        // get list of friend IDs and set friends state
+        const getFriends = async () => {
+          const friendsListSnapshot = await getDocs(qFriends);
+          if (friendsListSnapshot) {
+            friendsListSnapshot.forEach((doc) => {
+              list.push({ ...doc.data(), id: doc.id });
+            });
+            setFriends(list);
+          }
+        };
+        getFriends();
+      }
     }
-  }, [currentUser]);
+  }, []);
 
   // switch themes
   const themeValues = ['Default', 'Cupcake', 'Retro', 'Aqua', 'Cyberpunk', 'Valentine'];
@@ -78,7 +71,7 @@ export const Navbar = () => {
         <Link className='btn btn-ghost mr-10 normal-case text-xl' to={currentUser ? '/home' : '/'} href='#'>
           <img src='/images/logo.svg' alt='logo' className='object-scale-down h-12' />
         </Link>
-        <div className='text-lg'>{`Welcome ${displayName}!`}</div>
+        <div className='text-lg'>{`Welcome ${currentUser ? (userInfo.displayName ? userInfo.displayName : displayName) : displayName}!`}</div>
       </div>
       <div className='flex-none '>
         {currentUser ? (

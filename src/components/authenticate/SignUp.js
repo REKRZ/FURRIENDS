@@ -9,7 +9,7 @@ export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup, currentUser, signInWithGoogle } = useAuth();
+  const { signup, currentUser, signUpWithGoogle } = useAuth();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -35,19 +35,19 @@ export default function SignUp() {
     // passwordRef.current.value = "";
   }
 
-  async function handleGoogleSignUp(e) {
-    e.preventDefault();
-    try {
-      setError('');
-      setLoading(true);
-      await signInWithGoogle();
-      // below line sends you to home page
-      navigate('/profilesetup');
-    } catch {
-      setError('Failed to create an account.');
-    }
-    setLoading(false);
-  }
+  // async function handleGoogleSignUp(e) {
+  //   e.preventDefault();
+  //   try {
+  //     setError('');
+  //     setLoading(true);
+  //     await signUpWithGoogle();
+  //     // below line sends you to home page
+  //     navigate('/profilesetup');
+  //   } catch {
+  //     setError('Failed to create an account.');
+  //   }
+  //   setLoading(false);
+  // }
 
   return (
     <div className='h-screen flex flex-col items-center justify-center'>
@@ -128,13 +128,13 @@ export default function SignUp() {
             >
               Sign Up
             </button>
-            <button
+            {/* <button
               disabled={loading}
               className='btn mb-5 '
               onClick={handleGoogleSignUp}
             >
               Sign Up with Google
-            </button>
+            </button> */}
             <div className='flex justify-center text-sm'>
               <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>
                 Already have an account?

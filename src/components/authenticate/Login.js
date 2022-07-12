@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import SignOut from './SignOut';
 import { Link, useNavigate } from 'react-router-dom';
+import { collection, query, getDocs } from 'firebase/firestore';
+import { db } from '../../firebase';
 
 export default function Login() {
   const emailRef = useRef();
@@ -11,6 +12,17 @@ export default function Login() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const users = [];
+  const getUsers = async () => {
+    const usersRef = collection(db, 'profiles');
+    const qUsers = query(usersRef);
+    const usersSnapshot = await getDocs(qUsers);
+    usersSnapshot.forEach((doc) => {
+      users.push({ ...doc.data(), id: doc.id });
+    });
+  };
+  getUsers();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -24,46 +36,14 @@ export default function Login() {
       setError('Failed to sign in.');
     }
     setLoading(false);
-    // emailRef.current.value = "";
-    // passwordRef.current.value = "";
   }
-
-  // const handleGoogleSignIn = useCallback(
-  //   async (e) => {
-  //     e.preventDefault();
-  //     setError('');
-  //     setLoading(true);
-  //     if (loading) {
-  //       await signInWithGoogle()
-  //         .then(() => setLoading(false))
-  //         .catch(() => setError('Failed to sign in'));
-  //     } else navigate('/home');
-  //     setLoading(false);
-  //   },
-  //   [loading]
-  // );
-
-  // async function handleGoogleSignIn(e) {
-  //   e.preventDefault();
-  //   try {
-  //     setError('');
-  //     setLoading(true);
-  //     await signInWithGoogle();
-  //     navigate('/home');
-  //   } catch {
-  //     setError('Failed to sign in.');
-  //   }
-  //   setLoading(false);
-  // }
 
   async function handleGoogleSignIn(e) {
     e.preventDefault();
     try {
       setError('');
       setLoading(true);
-      await signInWithGoogle();
-      // below line sends you to home page
-      navigate('/home');
+      await signInWithGoogle(users);
     } catch {
       setError('Failed to sign in.');
     }
@@ -101,7 +81,9 @@ export default function Login() {
             <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
               <strong>Login</strong>
             </h1>
-            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Email</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>
+              Email
+            </label>
             <input
               type='email'
               placeholder='email...'
@@ -111,7 +93,9 @@ export default function Login() {
               className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-5 leading-tight focus:outline-none focus:bg-white'
               required
             ></input>
-            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>Password</label>
+            <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'>
+              Password
+            </label>
             <input
               type='password'
               placeholder='password...'
@@ -137,7 +121,9 @@ export default function Login() {
               Sign in with Google
             </button>
             <div className='flex justify-center text-sm'>
-              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>Need an account?</div>
+              <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2'>
+                Need an account?
+              </div>
               <div className='block tracking-wide text-gray-300 text-xs font-bold mb-2 underline mx-2'>
                 <Link to='/signup'>Sign Up</Link>
               </div>

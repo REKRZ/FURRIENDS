@@ -20,7 +20,6 @@ insert video here
 :balloon: Edit your posts and your profile<br/>
 :balloon: Real-time chat functionality<br/>
 
-
 ## Tech Stack :books:
 Below is a non-exhaustive list of technologies used throughout the project.
 
