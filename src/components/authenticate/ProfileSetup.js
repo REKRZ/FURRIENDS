@@ -117,9 +117,9 @@ export default function ProfileSetup() {
     e.preventDefault();
 
     try {
-      console.log('@@@@', bioRef.current.value);
-      console.log('!!!!', ownerNameRef.current.value);
-      console.log('name', petNameRef.current.value);
+      // console.log('@@@@', bioRef.current.value);
+      // console.log('!!!!', ownerNameRef.current.value);
+      // console.log('name', petNameRef.current.value);
 
       if (
         ownerNameRef.current.value === '' ||
@@ -161,7 +161,7 @@ export default function ProfileSetup() {
       <div className='hero-overlay bg-opacity-60'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='h-screen flex flex-col items-center justify-center'>
-          {/* Error display */}
+          {/* Error display VVV */}
           {error && (
             <div className='alert alert-warning shadow-lg max-w-fit'>
               <div>
@@ -182,7 +182,7 @@ export default function ProfileSetup() {
               </div>
             </div>
           )}
-          {/* Error display */}
+          {/* Error display ^^^ */}
           <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
             <strong>Profile Setup</strong>
           </h1>
