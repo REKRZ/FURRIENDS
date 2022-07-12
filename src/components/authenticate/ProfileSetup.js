@@ -30,9 +30,11 @@ export default function ProfileSetup() {
   const [preview, setPreview] = useState();
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
-      setLatLng({ lat: latitude, lng: longitude });
-    });
+    navigator.geolocation.getCurrentPosition(
+      ({ coords: { latitude, longitude } }) => {
+        setLatLng({ lat: latitude, lng: longitude });
+      }
+    );
   }, []);
 
   // logic to create user profile (document) in profile collection
@@ -47,7 +49,8 @@ export default function ProfileSetup() {
         petBreed: '',
         petName: '',
         petSize: 'S',
-        photoURL: 'https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg',
+        photoURL:
+          'https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg',
       });
     }
 
@@ -72,7 +75,9 @@ export default function ProfileSetup() {
     uploadTask.on(
       'stage_changed',
       (snapshot) => {
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgress(prog);
       },
       (err) => console.log(err),
@@ -140,82 +145,168 @@ export default function ProfileSetup() {
             <strong>Profile Setup</strong>
           </h1>
           <div className='w-full max-w-lg'>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-owner-name'>
-                  Owner Name
-                </label>
-                <input className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white' id='grid-owner-name' type='text' placeholder='Bruce' ref={ownerNameRef} />
-              </div>
-              <div className='w-full md:w-1/2 px-3'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-display-name'>
-                  Display Name
-                </label>
-                <input className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-display-name' type='text' placeholder='DarkKnight1' ref={displayNameRef} />
-              </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-pet-name'>
-                  Pet Name
-                </label>
-                <input className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-pet-name' type='text' placeholder='Ace' ref={petNameRef} />
-              </div>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-pet-breed'>
-                  Pet Breed
-                </label>
-                <input className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-pet-breed' type='text' placeholder='Doberman' ref={petBreedRef} />
-              </div>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-state'>
-                  Pet Size
-                </label>
-                <div className='relative'>
-                  <select className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-400 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-state' ref={petSizeRef}>
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                  </select>
-                  {/* Below is the pointer pic for drop down */}
-                  <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300'>
-                    <svg className='fill-current h-4 w-4 text-gray-500' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'>
-                      <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                    </svg>
-                  </div>
-                  {/* above is the pointer pic for drop down */}
+            <form>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-owner-name'
+                  >
+                    Owner Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                    id='grid-owner-name'
+                    type='text'
+                    placeholder='Bruce'
+                    ref={ownerNameRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/2 px-3'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-display-name'
+                  >
+                    Display Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-display-name'
+                    type='text'
+                    placeholder='DarkKnight1'
+                    ref={displayNameRef}
+                    required
+                  />
                 </div>
               </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2' htmlFor='grid-bio'>
-                  Bio
-                </label>
-                <input className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500' id='grid-bio' type='text' placeholder='Write a short biography for your pet!' ref={bioRef} />
-                <p className='text-gray-400 text-xs italic'>Make it as long and as crazy as you'd like!</p>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-pet-name'
+                  >
+                    Pet Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-pet-name'
+                    type='text'
+                    placeholder='Ace'
+                    ref={petNameRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-pet-breed'
+                  >
+                    Pet Breed
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-pet-breed'
+                    type='text'
+                    placeholder='Doberman'
+                    ref={petBreedRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-state'
+                  >
+                    Pet Size
+                  </label>
+                  <div className='relative'>
+                    <select
+                      className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-400 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      id='grid-state'
+                      ref={petSizeRef}
+                    >
+                      <option>S</option>
+                      <option>M</option>
+                      <option>L</option>
+                    </select>
+                    {/* Below is the pointer pic for drop down */}
+                    <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300'>
+                      <svg
+                        className='fill-current h-4 w-4 text-gray-500'
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 20 20'
+                      >
+                        <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                      </svg>
+                    </div>
+                    {/* above is the pointer pic for drop down */}
+                  </div>
+                </div>
               </div>
-            </div>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full px-3'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-bio'
+                  >
+                    Bio
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-bio'
+                    type='text'
+                    placeholder='Write a short biography for your pet!'
+                    ref={bioRef}
+                    required
+                  />
+                  <p className='text-gray-400 text-xs italic'>
+                    Make it as long and as crazy as you'd like!
+                  </p>
+                </div>
+              </div>
+            </form>
             {/* Form for pic upload */}
             <>
-              <label className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-6' htmlFor='grid-bio'>
+              <label
+                className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-6'
+                htmlFor='grid-bio'
+              >
                 Upload A Profile Picture
               </label>
 
               <form onSubmit={formHandler} className='mb-6'>
-                {selectedFile && <img className='block object-scale-down h-60 w-full my-4' src={preview} alt='' />}
+                {selectedFile && (
+                  <img
+                    className='block object-scale-down h-60 w-full my-4'
+                    src={preview}
+                    alt=''
+                  />
+                )}
                 <div className='flex justify-center'>
                   <div className='place-self-center'>
-                    <label htmlFor='file-upload-profile-setup' className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
+                    <label
+                      htmlFor='file-upload-profile-setup'
+                      className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    >
                       choose a photo
                     </label>
-                    <input type='file' name='file-upload-profile-setup' id='file-upload-profile-setup' className='input opacity-0 w-1 h-1' onChange={onSelectFile} />
+                    <input
+                      type='file'
+                      name='file-upload-profile-setup'
+                      id='file-upload-profile-setup'
+                      className='input opacity-0 w-1 h-1'
+                      onChange={onSelectFile}
+                    />
                   </div>
                   <div className='place-self-center pr-7'>
                     <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
                   </div>
                   <div className='place-self-center'>
-                    <button className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md' type='submit'>
+                    <button
+                      className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                      type='submit'
+                    >
                       Pupload
                     </button>
                   </div>
@@ -223,7 +314,11 @@ export default function ProfileSetup() {
               </form>
             </>
             <div className='divider'></div>
-            {progress < 100 ? <h3 className='flex justify-center my-6'>{progress}%</h3> : <h3 className='flex justify-center my-6'>Pupload Complete!</h3>}
+            {progress < 100 ? (
+              <h3 className='flex justify-center my-6'>{progress}%</h3>
+            ) : (
+              <h3 className='flex justify-center my-6'>Pupload Complete!</h3>
+            )}
             {/* Form for pic upload */}
             <div className='flex items-center justify-center mb-6'>
               <button className='btn' onClick={handleSubmit}>

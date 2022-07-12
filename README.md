@@ -10,7 +10,7 @@ short description of project here with screenshots
 ## Video Walkthrough
 insert video here
 
-
+Screen Shot 2022-07-11 at 5.33.07 PM.png
 
 ## Tech Stack
 Below is a non-exhaustive list of technologies used throughout the project.
