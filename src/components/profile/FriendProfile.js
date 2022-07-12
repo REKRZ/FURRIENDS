@@ -56,11 +56,11 @@ const FriendProfile = () => {
   };
 
   return (
-    <div className='flex w-full'>
-      <div className=''>
+    <div className='flex w-screen'>
+      <div className='h-screen'>
         <FriendProfileCard userInfo={userInfo} uid={uid} />
       </div>
-      <div className='grid flex-grow bg-base-300 place-items-center rounded-bl-lg'>
+      <div className='grid w-full h-full bg-base-300 place-items-center rounded-bl-lg pt-8'>
         {userPosts.length ? (
           userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
             <div key={i}>
@@ -85,7 +85,9 @@ const FriendProfile = () => {
             </div>
           ))
         ) : (
-          <h1>No Posts at this time</h1>
+          <div className='py-5'>
+            <h1 className='text-3xl'>Create a post in the navigation bar!</h1>
+          </div>
         )}
       </div>
     </div>

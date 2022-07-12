@@ -2,7 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-import { collection, doc, getDoc, getDocs, setDoc, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
 
 export default function FollowFurriend() {
@@ -33,7 +40,9 @@ export default function FollowFurriend() {
     let allFriendsIDsProfiles = [];
 
     async function getAllFriends() {
-      const querySnapshot = await getDocs(collection(db, 'profiles', uid, 'friends'));
+      const querySnapshot = await getDocs(
+        collection(db, 'profiles', uid, 'friends')
+      );
       querySnapshot.forEach((friendDoc) => {
         allFriendsProfiles.push({
           ...friendDoc.data(),
@@ -50,7 +59,9 @@ export default function FollowFurriend() {
   }, []);
 
   // logic to remove logged in user's profile from displaying in follow furriend table... this variable will be mapped over
-  let filtUsersProfiles = usersProfiles.filter((profile) => profile.uid !== uid);
+  let filtUsersProfiles = usersProfiles.filter(
+    (profile) => profile.uid !== uid
+  );
 
   // Logic attached to Add button in modal furriends table to add a specific user
   async function handleAddFurriend(userId, e) {
@@ -73,7 +84,9 @@ export default function FollowFurriend() {
   // Logic attached to Add button in modal furriends table to add a specific user
   async function handleDeleteFurriend(userId, e) {
     try {
-      const furriendToDeleteRef = await deleteDoc(doc(db, 'profiles', uid, 'friends', userId));
+      const furriendToDeleteRef = await deleteDoc(
+        doc(db, 'profiles', uid, 'friends', userId)
+      );
 
       e.target.className = 'btn btn-warning';
     } catch (error) {
@@ -88,21 +101,32 @@ export default function FollowFurriend() {
   return (
     <>
       {/* <!-- The button to open modal --> */}
-      <label htmlFor='follow-furriend-modal' className='btn btn-ghost normal modal-button'>
+      <label
+        htmlFor='follow-furriend-modal'
+        className='btn btn-ghost normal modal-button'
+      >
         Follow a Furriend
       </label>
       {/* <!-- The modal --> */}
-      <input type='checkbox' id='follow-furriend-modal' className='modal-toggle' />
+      <input
+        type='checkbox'
+        id='follow-furriend-modal'
+        className='modal-toggle'
+      />
       <div className='modal'>
         <div className='modal-box relative w-11/12 max-w-5xl'>
-          <label htmlFor='follow-furriend-modal' className='btn btn-sm btn-circle absolute right-2 top-2' onClick={() => refreshHomeOnExit()}>
+          <label
+            htmlFor='follow-furriend-modal'
+            className='btn btn-sm btn-circle absolute right-2 top-2'
+            onClick={() => refreshHomeOnExit()}
+          >
             ✕
           </label>
           <h3 className='font-bold text-lg'>Furriends</h3>
           <p className='py-4'>Meet new Furriends and set up a playdate!</p>
 
           {/* THIS IS THE TABLE OF FURRIENDS VVV */}
-          <div className='overflow-x-auto w-full'>
+          <div className='w-full'>
             <table className='table w-full'>
               {/* <!-- head --> */}
               <thead>
@@ -122,26 +146,48 @@ export default function FollowFurriend() {
                         <div className='flex items-center space-x-3'>
                           <div className='avatar'>
                             <div className='mask mask-squircle w-12 h-12'>
-                              <img src={profile.photoURL} alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg' />
+                              <img
+                                src={profile.photoURL}
+                                alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                              />
                             </div>
                           </div>
                           <div>
-                            <div className='font-bold'>{profile.displayName}</div>
-                            <div className='text-sm opacity-50'>{profile.ownerName}</div>
+                            <div className='font-bold'>
+                              {profile.displayName}
+                            </div>
+                            <div className='text-sm opacity-50'>
+                              {profile.ownerName}
+                            </div>
                           </div>
                         </div>
                       </td>
                       <td>
                         {profile.petName}
                         <br />
-                        <span className='badge badge-ghost badge-sm'>{profile.petBreed}</span>
+                        <span className='badge badge-ghost badge-sm'>
+                          {profile.petBreed}
+                        </span>
                       </td>
-                      <td className='max-w-3xl'>
-                        <div className='max-w-3xl'>{profile.bio}</div>
+                      <td className='max-w-sm'>
+                        <div className='max-w-sm truncate'>{profile.bio}</div>
                       </td>
                       <th>
-                        <button className={friendsIDsList.includes(profile.uid) ? 'btn btn-warning btn-outline' : 'btn btn-success btn-outline'} onClick={friendsIDsList.includes(profile.uid) ? (e) => handleDeleteFurriend(profile.uid, e) : (e) => handleAddFurriend(profile.uid, e)}>
-                          {friendsIDsList.includes(profile.uid) ? 'Unfollow 💩💩💩' : 'Follow '}
+                        <button
+                          className={
+                            friendsIDsList.includes(profile.uid)
+                              ? 'btn btn-warning btn-outline'
+                              : 'btn btn-success btn-outline'
+                          }
+                          onClick={
+                            friendsIDsList.includes(profile.uid)
+                              ? (e) => handleDeleteFurriend(profile.uid, e)
+                              : (e) => handleAddFurriend(profile.uid, e)
+                          }
+                        >
+                          {friendsIDsList.includes(profile.uid)
+                            ? 'Unfollow 💩💩💩'
+                            : 'Follow '}
                         </button>
                       </th>
                     </tr>
@@ -157,7 +203,10 @@ export default function FollowFurriend() {
                       <div className='flex items-center space-x-3'>
                         <div className='avatar'>
                           <div className='mask mask-squircle w-12 h-12'>
-                            <img src='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg' alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg' />
+                            <img
+                              src='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                              alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
+                            />
                           </div>
                         </div>
                         <div>
@@ -169,7 +218,9 @@ export default function FollowFurriend() {
                     <td>
                       petName
                       <br />
-                      <span className='badge badge-ghost badge-sm'>petBreed</span>
+                      <span className='badge badge-ghost badge-sm'>
+                        petBreed
+                      </span>
                     </td>
                     <td>Bio</td>
                     <th>
@@ -193,7 +244,11 @@ export default function FollowFurriend() {
           {/* THIS IS THE TABLE OF FURRIENDS ^^^ */}
 
           <div className='modal-action'>
-            <label htmlFor='follow-furriend-modal' className='btn' onClick={() => refreshHomeOnExit()}>
+            <label
+              htmlFor='follow-furriend-modal'
+              className='btn'
+              onClick={() => refreshHomeOnExit()}
+            >
               Done
             </label>
           </div>
