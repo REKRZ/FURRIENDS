@@ -21,26 +21,17 @@ const EditPost = ({ caption, id }) => {
     } catch (err) {
       console.log(err);
     }
+    window.location.reload(false);
   };
   return (
     <>
-      <label
-        htmlFor={`edit-post-modal-${id}}`}
-        className='btn m-1 btn-sm btn-circle modal-button'
-      >
+      <label htmlFor={`edit-post-modal-${id}`} className='btn m-1 btn-sm btn-circle modal-button'>
         <BsFillPencilFill />
       </label>
-      <input
-        type='checkbox'
-        id={`edit-post-modal-${id}}`}
-        className='modal-toggle'
-      />
+      <input type='checkbox' id={`edit-post-modal-${id}`} className='modal-toggle' />
       <div className='modal modal-bottom sm:modal-middle'>
         <div className='modal-box'>
-          <label
-            htmlFor={`edit-post-modal-${id}}`}
-            className='btn btn-sm btn-circle absolute right-2 top-2'
-          >
+          <label htmlFor={`edit-post-modal-${id}`} className='btn btn-sm btn-circle absolute right-2 top-2'>
             ✕
           </label>
           <h3 className='font-bold text-lg pb-4 text-center'>Edit Caption</h3>
@@ -49,23 +40,13 @@ const EditPost = ({ caption, id }) => {
               <label className='input-group flex flex-col items-center space-y-4'>
                 <div className='flex flex-row'>
                   <span>Caption</span>
-                  <input
-                    ref={captionRef}
-                    type='text'
-                    defaultValue={caption}
-                    className='input input-bordered'
-                    size={40}
-                  />
+                  <input ref={captionRef} type='text' defaultValue={caption} className='input input-bordered' size={40} />
                 </div>
               </label>
             </div>
             <div className='modal-action'>
-              <button
-                type='submit'
-                htmlFor='edit-post-modal'
-                className='btn btn-m1'
-              >
-                <label htmlFor='edit-post-modal'>Submit</label>
+              <button type='submit' htmlFor={`edit-post-modal-${id}`} className='btn btn-m1'>
+                <label htmlFor={`edit-post-modal-${id}`}>Submit</label>
               </button>
             </div>
           </form>
