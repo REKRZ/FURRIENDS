@@ -145,125 +145,127 @@ export default function ProfileSetup() {
             <strong>Profile Setup</strong>
           </h1>
           <div className='w-full max-w-lg'>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-owner-name'
-                >
-                  Owner Name
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
-                  id='grid-owner-name'
-                  type='text'
-                  placeholder='Bruce'
-                  ref={ownerNameRef}
-                  required
-                />
-              </div>
-              <div className='w-full md:w-1/2 px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-display-name'
-                >
-                  Display Name
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-display-name'
-                  type='text'
-                  placeholder='DarkKnight1'
-                  ref={displayNameRef}
-                  required
-                />
-              </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-pet-name'
-                >
-                  Pet Name
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-pet-name'
-                  type='text'
-                  placeholder='Ace'
-                  ref={petNameRef}
-                  required
-                />
-              </div>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-pet-breed'
-                >
-                  Pet Breed
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-pet-breed'
-                  type='text'
-                  placeholder='Doberman'
-                  ref={petBreedRef}
-                  required
-                />
-              </div>
-              <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-state'
-                >
-                  Pet Size
-                </label>
-                <div className='relative'>
-                  <select
-                    className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-400 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                    id='grid-state'
-                    ref={petSizeRef}
+            <form>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-owner-name'
                   >
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                  </select>
-                  {/* Below is the pointer pic for drop down */}
-                  <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300'>
-                    <svg
-                      className='fill-current h-4 w-4 text-gray-500'
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 20 20'
-                    >
-                      <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
-                    </svg>
-                  </div>
-                  {/* above is the pointer pic for drop down */}
+                    Owner Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white'
+                    id='grid-owner-name'
+                    type='text'
+                    placeholder='Bruce'
+                    ref={ownerNameRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/2 px-3'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-display-name'
+                  >
+                    Display Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-display-name'
+                    type='text'
+                    placeholder='DarkKnight1'
+                    ref={displayNameRef}
+                    required
+                  />
                 </div>
               </div>
-            </div>
-            <div className='flex flex-wrap -mx-3 mb-6'>
-              <div className='w-full px-3'>
-                <label
-                  className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
-                  htmlFor='grid-bio'
-                >
-                  Bio
-                </label>
-                <input
-                  className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
-                  id='grid-bio'
-                  type='text'
-                  placeholder='Write a short biography for your pet!'
-                  ref={bioRef}
-                  required
-                />
-                <p className='text-gray-400 text-xs italic'>
-                  Make it as long and as crazy as you'd like!
-                </p>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-pet-name'
+                  >
+                    Pet Name
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-pet-name'
+                    type='text'
+                    placeholder='Ace'
+                    ref={petNameRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-pet-breed'
+                  >
+                    Pet Breed
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-pet-breed'
+                    type='text'
+                    placeholder='Doberman'
+                    ref={petBreedRef}
+                    required
+                  />
+                </div>
+                <div className='w-full md:w-1/3 px-3 mb-6 md:mb-0'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-state'
+                  >
+                    Pet Size
+                  </label>
+                  <div className='relative'>
+                    <select
+                      className='block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-400 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                      id='grid-state'
+                      ref={petSizeRef}
+                    >
+                      <option>S</option>
+                      <option>M</option>
+                      <option>L</option>
+                    </select>
+                    {/* Below is the pointer pic for drop down */}
+                    <div className='pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-300'>
+                      <svg
+                        className='fill-current h-4 w-4 text-gray-500'
+                        xmlns='http://www.w3.org/2000/svg'
+                        viewBox='0 0 20 20'
+                      >
+                        <path d='M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z' />
+                      </svg>
+                    </div>
+                    {/* above is the pointer pic for drop down */}
+                  </div>
+                </div>
               </div>
-            </div>
+              <div className='flex flex-wrap -mx-3 mb-6'>
+                <div className='w-full px-3'>
+                  <label
+                    className='block uppercase tracking-wide text-gray-300 text-xs font-bold mb-2'
+                    htmlFor='grid-bio'
+                  >
+                    Bio
+                  </label>
+                  <input
+                    className='appearance-none block w-full bg-gray-200 text-gray-500 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500'
+                    id='grid-bio'
+                    type='text'
+                    placeholder='Write a short biography for your pet!'
+                    ref={bioRef}
+                    required
+                  />
+                  <p className='text-gray-400 text-xs italic'>
+                    Make it as long and as crazy as you'd like!
+                  </p>
+                </div>
+              </div>
+            </form>
             {/* Form for pic upload */}
             <>
               <label
