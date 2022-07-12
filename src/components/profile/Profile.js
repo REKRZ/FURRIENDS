@@ -1,7 +1,15 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  getDocs,
+  getDoc,
+  doc,
+  orderBy,
+  deleteDoc,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import ProfileCard from './ProfileCard';
 import FriendsList from './FriendsList';
@@ -38,7 +46,9 @@ const Profile = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const userInfoSnapshot = await getDoc(qUserInfo);
-      userInfoSnapshot.exists() ? setUserInfo(userInfoSnapshot.data()) : console.log('no such document!');
+      userInfoSnapshot.exists()
+        ? setUserInfo(userInfoSnapshot.data())
+        : console.log('no such document!');
     };
     getUserInfo();
   }, []);
@@ -64,13 +74,20 @@ const Profile = () => {
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div className='card lg:card-side bg-base-100 shadow-xl w-[800px]'>
                   <div className='dropdown dropdown-left absolute top-1 right-1'>
-                    <label onClick={() => handleDelete(id)} className='btn m-1 btn-sm btn-circle mr-2 text-red-500'>
+                    <label
+                      onClick={() => handleDelete(id)}
+                      className='btn m-1 btn-sm btn-circle mr-2 text-red-500'
+                    >
                       <BsTrash />
                     </label>
                     <EditPost caption={caption} id={id} />
                   </div>
                   <figure>
-                    <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
+                    <img
+                      className='object-contain h-60 w-60'
+                      src={`${uploadedPhoto}`}
+                      alt='pic'
+                    />
                   </figure>
                   <div className='card-body flex justify-center'>
                     <h6 className='card-title'>{caption}</h6>
