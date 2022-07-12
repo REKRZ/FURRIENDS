@@ -8,7 +8,7 @@ export const LandingPage = () => {
   const navigate = useNavigate();
 
   return (
-    <>
+    <div>
       <div className='hero min-h-screen bg-[url(https://placeimg.com/1000/800/animals)]'>
         <div className='hero-overlay bg-opacity-60'></div>
         <div className='hero-content text-center text-neutral-content'>
@@ -29,7 +29,7 @@ export const LandingPage = () => {
         </div>
       </div>
       {/* <!-- Features --> */}
-      <section class='bg-bookmark-white py-5 mt-5 lg:mt-5'>
+      <section class='bg-bookmark-white py-10 mt-10 lg:mt-10'>
         {/* <!-- Heading --> */}
         <div class='sm:w-3/4 lg:w-5/12 mx-auto px-2'>
           <h1 class='text-3xl text-center text-bookmark-blue'>Features</h1>
@@ -41,8 +41,8 @@ export const LandingPage = () => {
         </div>
 
         {/* <!-- Feature #1 --> */}
-        <div class='relative mt-20 lg:mt-24 '>
-          <div class='container flex flex-col lg:flex-row gap-x-24'>
+        <div class='relative mt-20 lg:mt-24 lg:p-10 lg:m-10'>
+          <div class='container flex flex-col lg:flex-row items-center justify-center gap-x-24'>
             {/* <!-- Image --> */}
             <div class='flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
               <img
@@ -83,8 +83,9 @@ export const LandingPage = () => {
           '
           ></div>
         </div>
+
         {/* <!-- Feature #2 --> */}
-        <div class='relative mt-20 lg:mt-52'>
+        <div class='relative mt-20 lg:mt-10 lg:p-10 lg:m-10'>
           <div class='container flex flex-col lg:flex-row-reverse items-center justify-center gap-x-24'>
             {/* <!-- Image --> */}
             <div class='flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
@@ -100,6 +101,7 @@ export const LandingPage = () => {
               <p class='text-bookmark-grey my-4 text-center lg:text-left sm:w-3/4 lg:w-full'>
                 Our powerful search feature will help you find saved sites in no
                 time at all. No need to crawl through all of your bookmarks.
+                Ryan's additional sentence to see if this thing tops off.
               </p>
               <button
                 type='button'
@@ -126,20 +128,20 @@ export const LandingPage = () => {
           ></div>
         </div>
         {/* <!-- Feature #3 --> */}
-        <div class='relative mt-20 lg:mt-52'>
+        <div class='relative mt-20 lg:mt-10 lg:p-10 lg:m-10'>
           <div class='container flex flex-col lg:flex-row items-center justify-center gap-x-24'>
             {/* <!-- Image --> */}
             <div class='flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
               <img
                 class='w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full'
-                src='https://i.pinimg.com/originals/48/64/42/486442361fa7d6ca0a5213e40c001122.jpg'
-                alt='https://i.pinimg.com/originals/48/64/42/486442361fa7d6ca0a5213e40c001122.jpg'
+                src='https://www.k9magazine.com/wp-content/uploads/why-do-dogs-attack-unprovoked.jpg'
+                alt='https://www.k9magazine.com/wp-content/uploads/why-do-dogs-attack-unprovoked.jpg'
               />
             </div>
             {/* <!-- Content --> */}
             <div class='flex flex-1 flex-col items-center lg:items-start'>
               <h1 class='text-3xl text-bookmark-blue'>Share your bookmarks</h1>
-              <p class='text-bookmark-grey my-4 text-center lg:text-left sm:w-3/4 lg:w-full'>
+              <p class='text-bookmark-grey my-4 text-center lg:text-left sm:w-full lg:w-full'>
                 Easily share your bookmarks and collections with others. Create
                 a shareable link that you can send at the click of a button.
               </p>
@@ -170,8 +172,8 @@ export const LandingPage = () => {
       </section>
 
       {/* <!-- FAQ --> */}
-      <section class='bg-bookmark-white py-20 items-center justify-center'>
-        <div class='container'>
+      <section class='bg-bookmark-white py-20'>
+        <div className=''>
           {/* <!-- Heading --> */}
           <div class='sm:w-3/4 lg:w-5/12 mx-auto px-2'>
             <h1 class='text-3xl text-center text-bookmark-blue'>
@@ -211,8 +213,8 @@ export const LandingPage = () => {
       </section>
 
       {/* <!-- Contact Us --> */}
-      <section class='bg-bookmark-purple text-white py-20'>
-        <div class='container items-center justify-center'>
+      <section class='hero bg-opacity-60 first-letter:bg-bookmark-purple text-white py-20 bg-[url(https://betterpet.com/wp-content/uploads/2021/03/dog-stuffy-nose-scaled.jpeg)]'>
+        <div class='items-center justify-center'>
           <div class='sm:w-3/4 lg:w-2/4 mx-auto'>
             <p class='font-light uppercase text-center mb-8'>
               35,000+ ALREADY JOINED
@@ -236,6 +238,6 @@ export const LandingPage = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };
