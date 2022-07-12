@@ -16,6 +16,7 @@ const About = () => {
           </div>
           <div className='flex flex-col items-center justify-center'>
             <div className='font-bold text-indigo-500 md:text-lg mb-3'>Kenji Zhang</div>
+
             <div className='flex'>
               <div className='flex gap-4'>
                 <a href='https://www.linkedin.com/in/kenji-zhang/' target='blank'>
@@ -36,7 +37,9 @@ const About = () => {
             <img src='/images/edward-geng.jpeg' alt='Ed' className='object-contain object-center w-full h-full p-2 rounded-2xl' />
           </div>
           <div className='flex flex-col items-center justify-center'>
+
             <div className='font-bold text-indigo-500 md:text-lg mb-3'>Ed Geng</div>
+
             <div className='flex'>
               <div className='flex gap-4'>
                 <a target='blank' href='https://www.linkedin.com/in/edward-geng/'>
@@ -59,6 +62,7 @@ const About = () => {
           </div>
           <div className='flex flex-col items-center justify-center'>
             <div className='font-bold text-indigo-500 md:text-lg mb-3'>Ryan Tang</div>
+
             <div className='flex'>
               <div className='flex gap-4'>
                 <a target='blank' href='https://www.linkedin.com/in/ryan-tang-clu/'>
@@ -80,7 +84,9 @@ const About = () => {
             <img src='/images/roy-neville.jpeg' alt='Roy' className='object-contain object-center w-full h-full p-2 rounded-2xl' />
           </div>
           <div className='flex flex-col items-center justify-center'>
+
             <div className='font-bold text-indigo-500 md:text-lg mb-3'>Roy Neville</div>
+
             <div className='flex'>
               <div className='flex gap-4'>
                 <a target='blank' href='https://www.linkedin.com/in/royneville/'>
