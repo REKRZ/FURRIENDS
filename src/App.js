@@ -16,6 +16,8 @@ import { Navbar } from './components/navbar/Navbar.js';
 import { LandingPage } from './components/home/LandingPage.js';
 import About from './components/About/About.js';
 import Footer from './components/Footer/Footer.js';
+// Ryan's draft of new landing page VVV
+import LandingPage2 from './components/home/LandingPage2.js';
 
 function App() {
   const [user] = useAuthState(auth);
@@ -43,6 +45,8 @@ function App() {
             )}
             <Route path='/about' element={<About />} />
             <Route path='/' element={<LandingPage />} />
+            {/* Ryan's draft of new landing page VVV  */}
+            <Route path='/2' element={<LandingPage2 />} />
             <Route path='*' element={<NotFound />} />
           </Routes>
           <Footer />
