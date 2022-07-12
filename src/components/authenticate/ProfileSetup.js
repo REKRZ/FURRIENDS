@@ -28,6 +28,7 @@ export default function ProfileSetup() {
   const [latLng, setLatLng] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
+  const [error, setError] = useState('');
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
@@ -116,6 +117,25 @@ export default function ProfileSetup() {
     e.preventDefault();
 
     try {
+      console.log('@@@@', bioRef.current.value);
+      console.log('!!!!', ownerNameRef.current.value);
+      console.log('name', petNameRef.current.value);
+
+      if (
+        ownerNameRef.current.value === '' ||
+        bioRef.current.value === '' ||
+        displayNameRef.current.value === '' ||
+        petNameRef.current.value === '' ||
+        petBreedRef.current.value === ''
+      ) {
+        setError(
+          'MUST CONTRUCT ADDITIONAL PYLONS. Jk... some fields on your forms require input.'
+        );
+        throw new Error(
+          'MUST CONTRUCT ADDITIONAL PYLONS. Jk... some fields on your forms require input.'
+        );
+      }
+
       const newUserDocRef = doc(db, 'profiles', uid);
       await updateDoc(newUserDocRef, {
         bio: bioRef.current.value,
@@ -141,11 +161,33 @@ export default function ProfileSetup() {
       <div className='hero-overlay bg-opacity-60'></div>
       <div className='hero-content text-center text-neutral-content'>
         <div className='h-screen flex flex-col items-center justify-center'>
+          {/* Error display */}
+          {error && (
+            <div className='alert alert-warning shadow-lg max-w-fit'>
+              <div>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='stroke-current flex-shrink-0 h-6 w-6'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'
+                  />
+                </svg>
+                <span>Warning: {error}</span>
+              </div>
+            </div>
+          )}
+          {/* Error display */}
           <h1 className='flex justify-center text-gray-300 text-xl mb-6'>
             <strong>Profile Setup</strong>
           </h1>
           <div className='w-full max-w-lg'>
-            <form>
+            <form className='form-control'>
               <div className='flex flex-wrap -mx-3 mb-6'>
                 <div className='w-full md:w-1/2 px-3 mb-6 md:mb-0'>
                   <label
