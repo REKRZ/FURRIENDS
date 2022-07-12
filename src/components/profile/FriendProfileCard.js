@@ -4,7 +4,7 @@ const ProfileCard = ({ userInfo, uid }) => {
   const { photoURL, displayName, bio } = userInfo;
 
   return (
-    <div className='card w-60 h-96 bg-base-100 shadow-xl items-center'>
+    <div className='card w-60 h-auto bg-base-100 shadow-xl items-center'>
       <div className='avatar pt-10'>
         <div className='w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
           <img
