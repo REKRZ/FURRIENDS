@@ -14,12 +14,20 @@ const EditProfile = ({ userInfo, uid }) => {
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
   const [newPhotoURL, setNewPhotoURL] = useState('');
+  const [uploadMsg, setUploadMsg] = useState('');
+  const [bigFile, setBigFile] = useState(false);
 
   // handles photo upload form
   const formHandler = (e) => {
     e.preventDefault();
     const file = e.target[0].files[0];
-    uploadFiles(file);
+    if (file.size > 5000000) {
+      setBigFile(true);
+      setUploadMsg('File is too large! 5MB maximum, paw-lease!');
+    } else {
+      setUploadMsg('Pupload Complete!');
+      uploadFiles(file);
+    }
   };
 
   // uploads photo into storage
@@ -30,12 +38,16 @@ const EditProfile = ({ userInfo, uid }) => {
     uploadTask.on(
       'stage_changed',
       (snapshot) => {
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgress(prog);
       },
       (err) => console.log(err),
       () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => setNewPhotoURL(url));
+        getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          setNewPhotoURL(url)
+        );
       }
     );
   };
@@ -46,7 +58,6 @@ const EditProfile = ({ userInfo, uid }) => {
       setPreview(undefined);
       return;
     }
-    console.log('USE EFFECT RENDERED');
     const objectUrl = URL.createObjectURL(selectedFile);
     setPreview(objectUrl);
     // free memory when ever this component is unmounted
@@ -81,52 +92,108 @@ const EditProfile = ({ userInfo, uid }) => {
   return (
     <>
       {/* BUTTON TO OPEN MODAL*/}
-      <label htmlFor='test-modal' className='btn btn-primary modal-button btn-sm rounded'>
+      <label
+        htmlFor='test-modal'
+        className='btn btn-primary modal-button btn-sm rounded'
+      >
         Edit Profile
       </label>
       {/* BELOW IS THE MODAL CODE */}
       <input type='checkbox' id='test-modal' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box relative grid grid-rows-1 place-items-center'>
-          <label htmlFor='test-modal' className='btn btn-sm btn-circle absolute right-2 top-2'>
+          <label
+            htmlFor='test-modal'
+            className='btn btn-sm btn-circle absolute right-2 top-2'
+          >
             ✕
           </label>
           <h3 className='font-bold text-3xl pt-7 mb-5'>EDIT PROFILE</h3>
           <div className=''>
             <form onSubmit={formHandler}>
-              {!preview ? <img className='block object-scale-down h-60 w-full my-4 border-4' src={photoURL} alt='' /> : selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />}
+              {!preview ? (
+                <img
+                  className='block object-scale-down h-60 w-full my-4 border-4'
+                  src={photoURL}
+                  alt=''
+                />
+              ) : (
+                selectedFile && (
+                  <img
+                    className='block object-scale-down h-60 w-full my-4 border-4'
+                    src={preview}
+                    alt=''
+                  />
+                )
+              )}
               <div className='flex justify-center'>
                 <div className='place-self-center'>
-                  <label htmlFor='edit-profile-file' className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
+                  <label
+                    htmlFor='edit-profile-file'
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                  >
                     choose a photo
                   </label>
-                  <input type='file' name='edit-profile-file' id='edit-profile-file' className='input opacity-0 w-1 h-1' onChange={onSelectFile} />
+                  <input
+                    type='file'
+                    name='edit-profile-file'
+                    id='edit-profile-file'
+                    className='input opacity-0 w-1 h-1'
+                    onChange={onSelectFile}
+                  />
                 </div>
                 <div className='place-self-center pr-7'>
                   <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
                 </div>
                 <div className='place-self-center'>
-                  <button className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md' type='submit'>
+                  <button
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    type='submit'
+                  >
                     Pupload
                   </button>
                 </div>
               </div>
             </form>
           </div>
-          <div className='divider'>{progress < 100 ? <h3 className='flex justify-center my-3'>{progress}%</h3> : <h3 className='flex justify-center my-3'>Pupload Complete!</h3>}</div>
+          <div className='divider'>
+            {bigFile && (
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
+            )}
+            {progress < 100 ? (
+              <h3 className='flex justify-center my-3'>{progress}%</h3>
+            ) : (
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
+            )}
+          </div>
           <form onSubmit={handleSubmit} className='flex w-full justify-center'>
             <div className='form-control w-3/5'>
               <label className='input-group input-group-vertical pb-4'>
                 <span>Display Name</span>
-                <input ref={displayNameRef} defaultValue={displayName} type='text' className='input input-bordered' />
+                <input
+                  ref={displayNameRef}
+                  defaultValue={displayName}
+                  type='text'
+                  className='input input-bordered'
+                />
               </label>
               <label className='input-group input-group-vertical w-full grow'>
                 <span>Bio</span>
-                <input ref={bioRef} defaultValue={bio} type='text' className='input input-bordered' />
+                <input
+                  ref={bioRef}
+                  defaultValue={bio}
+                  type='text'
+                  className='input input-bordered'
+                />
               </label>
             </div>
             <div className='modal-action'>
-              <button disabled={loading} type='submit' htmlFor='test-modal' className='btn absolute bottom-3 right-3'>
+              <button
+                disabled={loading}
+                type='submit'
+                htmlFor='test-modal'
+                className='btn absolute bottom-3 right-3'
+              >
                 <label htmlFor='test-modal'>Submit</label>
               </button>
             </div>
