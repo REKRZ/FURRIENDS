@@ -126,8 +126,8 @@ const Maps = () => {
               </div>
             ))}
           </div>
-          <div className='h-full w-full relative'>
-            <div ref={mapElement} style={{ height: '80%', width: '80%' }} className='mt-20 ml-36' />
+          <div className='h-full w-full relative p-20'>
+            <div ref={mapElement} style={{ height: '100%', width: '100%' }} />
           </div>
         </div>
       )}
