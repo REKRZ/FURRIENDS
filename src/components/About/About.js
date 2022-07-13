@@ -52,7 +52,7 @@ const About = () => {
         <div className='p-4 shadow-2xl rounded-lg'>
           <div className='h-48 mb-2 overflow-hidden shadow-lg md:h-60'>
             <img
-              src='/images/edward-geng.jpeg'
+              src='/images/Ed_work_photo.jpeg'
               alt='Ed'
               className='object-contain object-center w-full h-full p-2 rounded-2xl'
             />

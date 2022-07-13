@@ -43,9 +43,9 @@ export const LandingPage = () => {
         <div className='relative mt-20 lg:mt-24 lg:p-10 lg:m-10 bg-base-200 rounded-2xl'>
           <div className='flex flex-col lg:flex-row gap-x-24 items-center justify-center'>
             {/* <!-- Image --> */}
-            <div className='h-64 flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
+            <div className='flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
               <img
-                className='bg-contain rounded-xl '
+                className='w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full rounded-xl '
                 src='https://images.unsplash.com/photo-1523480717984-24cba35ae1ef?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
                 alt='https://i.pinimg.com/originals/48/64/42/486442361fa7d6ca0a5213e40c001122.jpg'
               />
@@ -58,7 +58,10 @@ export const LandingPage = () => {
               <ul className='list-outside my-4'>
                 <li>🦴 Create a unique bio to show off your pets profile</li>
                 <br />
-                <li>'s journey by puploading all your favorite photos</li>
+                <li>
+                  🦴 Document your beloved companion's journey by puploading all
+                  of their best photos
+                </li>
               </ul>
             </div>
           </div>
@@ -82,15 +85,15 @@ export const LandingPage = () => {
         <div className='relative mt-20 lg:mt-10 lg:p-10 lg:m-10 bg-base-200 rounded-2xl'>
           <div className='flex flex-col lg:flex-row-reverse items-center justify-center gap-x-24'>
             {/* <!-- Image --> */}
-            <div className=' h-64 flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
+            <div className='flex flex-1 justify-center z-10 mb-10 lg:mb-0'>
               <img
-                className='bg-contain rounded-xl'
+                className='w-5/6 h-5/6 sm:w-3/4 sm:h-3/4 md:w-full md:h-full rounded-xl'
                 src='https://images.unsplash.com/photo-1623387641168-d9803ddd3f35?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'
                 alt='https://i.pinimg.com/originals/48/64/42/486442361fa7d6ca0a5213e40c001122.jpg'
               />
             </div>
             {/* <!-- Content --> */}
-            <div className='flex flex-1 flex-col items-center lg:items-start'>
+            <div className='flex flex-1 flex-col items-center lg:items-start pl-14'>
               <h1 className='text-3xl text-bookmark-blue'>
                 Set up play dates!
               </h1>
@@ -218,7 +221,7 @@ export const LandingPage = () => {
           <div className=' items-center justify-center'>
             <div className='sm:w-3/4 lg:w-2/4 mx-auto'>
               <p className='font-light uppercase text-center mb-8'>
-                ZACH & RUSTY HAVE ALREADY JOINED. WHERE ARE YOU?
+                ZACH, ALFRED, & RUSTY HAVE ALREADY JOINED. WHERE ARE YOU?
               </p>
               <h1 className='text-3xl text-center'>
                 Stay up-to-date with what we're doing
