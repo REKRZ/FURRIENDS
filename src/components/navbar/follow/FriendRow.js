@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
 import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
 
 export default function FriendRow(props) {
   const { profile, friendsIDsList, uid } = props;
+  const [followed, setFollowed] = useState(false);
+
+  useEffect(() => {
+    if (friendsIDsList.includes(profile.uid)) {
+      setFollowed(true);
+    }
+  }, [followed]);
 
   // Logic attached to Add button in modal furriends table to add a specific user
   async function handleAddFurriend(userId, e) {
@@ -18,6 +25,7 @@ export default function FriendRow(props) {
       });
 
       e.target.className = 'btn btn-success';
+      setFollowed(true);
     } catch (error) {
       console.log(error);
     }
@@ -31,6 +39,7 @@ export default function FriendRow(props) {
       );
 
       e.target.className = 'btn btn-warning';
+      setFollowed(false);
     } catch (error) {
       console.log(error);
     }
@@ -65,17 +74,17 @@ export default function FriendRow(props) {
       <th>
         <button
           className={
-            friendsIDsList.includes(profile.uid)
+            followed
               ? 'btn btn-warning btn-outline'
               : 'btn btn-success btn-outline'
           }
           onClick={
-            friendsIDsList.includes(profile.uid)
+            followed
               ? (e) => handleDeleteFurriend(profile.uid, e)
               : (e) => handleAddFurriend(profile.uid, e)
           }
         >
-          {friendsIDsList.includes(profile.uid) ? 'Unfollow 💩💩💩' : 'Follow '}
+          {followed ? 'Unfollow 💩💩💩' : 'Follow'}
         </button>
       </th>
     </>

@@ -18,6 +18,7 @@ export default function AddPost() {
   const [uploadMsg, setUploadMsg] = useState('');
   const [bigFile, setBigFile] = useState(false);
   const [preview, setPreview] = useState();
+  // const [currentFile, setCurrentFile] = useState();
   const { currentUser } = useAuth();
 
   useEffect(() => {
@@ -43,6 +44,7 @@ export default function AddPost() {
       setUploadMsg('File is too large! 5MB maximum, paw-lease!');
     } else {
       setUploadMsg('Pupload Complete!');
+      // setCurrentFile(file);
       uploadFiles(file);
     }
   };
@@ -95,6 +97,7 @@ export default function AddPost() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // uploadFiles(currentFile);
       setLoading(true);
       const postsRef = collection(db, 'profiles', currentUser.uid, 'posts');
       await addDoc(postsRef, {
