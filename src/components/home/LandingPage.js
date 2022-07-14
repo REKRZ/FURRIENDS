@@ -81,6 +81,7 @@ export const LandingPage = () => {
           '
           ></div>
         </div>
+
         {/* <!-- Feature #2 --> */}
         <div className='relative mt-20 lg:mt-10 lg:p-10 lg:m-10 bg-base-200 rounded-2xl'>
           <div className='flex flex-col lg:flex-row-reverse items-center justify-center gap-x-24'>
