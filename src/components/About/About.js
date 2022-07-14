@@ -160,7 +160,7 @@ const About = () => {
           <div className='flex flex-col sm:w-3/4 lg:w-5/12 mt-12 mx-auto'>
             <div className='flex items-center border-b py-4'>
               <span className='flex-1'>What is Roy's favorite food? </span>
-              <span>Pup-peroni pizza</span>
+              <span>"Pup-peroni pizza"</span>
               <i className='text-bookmark-purple fas fa-chevron-down'></i>
             </div>
             <div className='flex  border-b py-4'>
@@ -172,10 +172,8 @@ const About = () => {
               <i className='text-bookmark-purple fas fa-chevron-down'></i>
             </div>
             <div className='flex items-center border-b py-4'>
-              <span className='flex-1'>
-                What is Ryan's favorite pickup line?{' '}
-              </span>
-              <span>I'll collie you later!</span>
+              <span className='flex-1'>What is Ryan's pickup line? </span>
+              <span>"I'll collie you later!"</span>
               <i className='text-bookmark-purple fas fa-chevron-down'></i>
             </div>
             <div className='flex items-center border-b py-4'>
