@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../../firebase';
-import { doc, getDoc, setDoc, deleteDoc } from 'firebase/firestore';
+import {
+  doc,
+  getDoc,
+  setDoc,
+  deleteDoc,
+  collection,
+  getDocs,
+} from 'firebase/firestore';
 
 export default function FriendRow(props) {
   const { profile, friendsIDsList, uid } = props;
@@ -10,6 +17,23 @@ export default function FriendRow(props) {
     if (friendsIDsList.includes(profile.uid)) {
       setFollowed(true);
     }
+  }, []);
+
+  useEffect(() => {
+    let allFriendsIDsProfiles = [];
+    async function getAllFriends() {
+      const querySnapshot = await getDocs(
+        collection(db, 'profiles', uid, 'friends')
+      );
+      querySnapshot.forEach((friendDoc) => {
+        allFriendsIDsProfiles.push(friendDoc.id);
+      });
+    }
+    getAllFriends().then(() => {
+      if (allFriendsIDsProfiles.includes(profile.uid)) {
+        setFollowed(true);
+      }
+    });
   }, [followed]);
 
   // Logic attached to Add button in modal furriends table to add a specific user

@@ -64,37 +64,6 @@ export default function FollowFurriend() {
     (profile) => profile.uid !== uid
   );
 
-  // Logic attached to Add button in modal furriends table to add a specific user
-  async function handleAddFurriend(userId, e) {
-    e.preventDefault();
-    try {
-      const furriendToAddRef = doc(db, 'profiles', userId);
-      const furriendSnap = await getDoc(furriendToAddRef);
-
-      await setDoc(doc(db, 'profiles', uid, 'friends', userId), {
-        ...furriendSnap.data(),
-        friendDisplayName: furriendSnap.data().displayName,
-      });
-
-      e.target.className = 'btn btn-success';
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Logic attached to Add button in modal furriends table to add a specific user
-  async function handleDeleteFurriend(userId, e) {
-    try {
-      const furriendToDeleteRef = await deleteDoc(
-        doc(db, 'profiles', uid, 'friends', userId)
-      );
-
-      e.target.className = 'btn btn-warning';
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   function refreshHomeOnExit() {
     window.location.reload(false);
   }
