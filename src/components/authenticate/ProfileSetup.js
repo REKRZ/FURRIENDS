@@ -24,7 +24,7 @@ export default function ProfileSetup() {
   const navigate = useNavigate();
 
   const [progress, setProgress] = useState(0);
-  const [picURL, setPicURL] = useState('');
+  const [picURL, setPicURL] = useState('https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg');
   const [latLng, setLatLng] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
