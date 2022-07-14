@@ -11,6 +11,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import { useAuth } from '../../../contexts/AuthContext';
+import FriendRow from './FriendRow';
 
 export default function FollowFurriend() {
   // current logged-in user's id
@@ -140,56 +141,13 @@ export default function FollowFurriend() {
               <tbody>
                 {/* LOGIC TO MAP OVER ALL USERS IN 'profiles' coll and make rows */}
                 {filtUsersProfiles.length >= 1 ? (
-                  filtUsersProfiles.map((profile) => (
-                    <tr key={profile.uid}>
-                      <td>
-                        <div className='flex items-center space-x-3'>
-                          <div className='avatar'>
-                            <div className='mask mask-squircle w-12 h-12'>
-                              <img
-                                src={profile.photoURL}
-                                alt='https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg'
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <div className='font-bold'>
-                              {profile.displayName}
-                            </div>
-                            <div className='text-sm opacity-50'>
-                              {profile.ownerName}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        {profile.petName}
-                        <br />
-                        <span className='badge badge-ghost badge-sm'>
-                          {profile.petBreed}
-                        </span>
-                      </td>
-                      <td className='max-w-sm'>
-                        <div className='max-w-sm truncate'>{profile.bio}</div>
-                      </td>
-                      <th>
-                        <button
-                          className={
-                            friendsIDsList.includes(profile.uid)
-                              ? 'btn btn-warning btn-outline'
-                              : 'btn btn-success btn-outline'
-                          }
-                          onClick={
-                            friendsIDsList.includes(profile.uid)
-                              ? (e) => handleDeleteFurriend(profile.uid, e)
-                              : (e) => handleAddFurriend(profile.uid, e)
-                          }
-                        >
-                          {friendsIDsList.includes(profile.uid)
-                            ? 'Unfollow 💩💩💩'
-                            : 'Follow '}
-                        </button>
-                      </th>
+                  filtUsersProfiles.map((profile, i) => (
+                    <tr key={i}>
+                      <FriendRow
+                        profile={profile}
+                        uid={uid}
+                        friendsIDsList={friendsIDsList}
+                      />
                     </tr>
                   ))
                 ) : (
