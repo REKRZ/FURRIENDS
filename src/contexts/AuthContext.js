@@ -2,18 +2,8 @@
 
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { auth, storage, db } from '../firebase';
-import {
-  GoogleAuthProvider,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signOut,
-  sendPasswordResetEmail,
-  onAuthStateChanged,
-  updateEmail,
-  updatePassword,
-} from 'firebase/auth';
+import { auth } from '../firebase';
+import { GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, signOut, sendPasswordResetEmail, onAuthStateChanged, updateEmail, updatePassword } from 'firebase/auth';
 
 const AuthContext = React.createContext();
 // custom hook
@@ -83,7 +73,6 @@ export function AuthProvider({ children }) {
     });
     return unsubscribe;
   }, []);
-  // ask Zach re: unsubscribing?
 
   const value = {
     currentUser,
@@ -98,9 +87,5 @@ export function AuthProvider({ children }) {
   };
 
   // only want to render children if loading is set to false
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading && children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }

@@ -15,6 +15,8 @@ export default function AddPost() {
   const [loading, setLoading] = useState(false);
   const [uploaded, setUploaded] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
+  const [uploadMsg, setUploadMsg] = useState('');
+  const [bigFile, setBigFile] = useState(false);
   const [preview, setPreview] = useState();
   const { currentUser } = useAuth();
 
@@ -36,7 +38,13 @@ export default function AddPost() {
   const formHandler = (e) => {
     e.preventDefault();
     const file = e.target[0].files[0];
-    uploadFiles(file);
+    if (file.size > 5000000) {
+      setBigFile(true);
+      setUploadMsg('File is too large! 5MB maximum, paw-lease!');
+    } else {
+      setUploadMsg('Pupload Complete!');
+      uploadFiles(file);
+    }
   };
 
   // uploads photo into storage
@@ -48,7 +56,9 @@ export default function AddPost() {
     uploadTask.on(
       'stage_changed',
       (snapshot) => {
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
         setProgress(prog);
       },
       (err) => console.log(err),
@@ -78,8 +88,6 @@ export default function AddPost() {
       setSelectedFile(undefined);
       return;
     }
-
-    // I've kept this example simple by using the first image instead of multiple
     setSelectedFile(e.target.files[0]);
   };
 
@@ -117,37 +125,75 @@ export default function AddPost() {
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box relative grid grid-rows-1 place-items-center'>
-          <label htmlFor='my-modal-3' className='btn btn-sm btn-circle absolute right-2 top-2'>
+          <label
+            htmlFor='my-modal-3'
+            className='btn btn-sm btn-circle absolute right-2 top-2'
+          >
             ✕
           </label>
           <h3 className='text-3xl font-bold mb-7'>CREATE A POST</h3>
           <div className=''>
             <form onSubmit={formHandler}>
-              {selectedFile && <img className='block object-scale-down h-60 w-full my-4 border-4' src={preview} alt='' />}
+              {selectedFile && (
+                <img
+                  className='block object-scale-down h-60 w-full my-4 border-4'
+                  src={preview}
+                  alt=''
+                />
+              )}
               <div className='flex justify-center'>
                 <div className='place-self-center'>
-                  <label htmlFor='file' className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
+                  <label
+                    htmlFor='file'
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                  >
                     choose a photo
                   </label>
-                  <input type='file' name='file' id='file' className='input opacity-0 w-1 h-1' onChange={onSelectFile} />
+                  <input
+                    type='file'
+                    name='file'
+                    id='file'
+                    className='input opacity-0 w-1 h-1'
+                    onChange={onSelectFile}
+                  />
                 </div>
                 <div className='place-self-center pr-7'>
                   <TbArrowBigRightLines className='sm:text-xl md:text-2xl lg:text-3xl' />
                 </div>
                 <div className='place-self-center'>
-                  <button className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md' type='submit'>
+                  <button
+                    className='btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+                    type='submit'
+                  >
                     Pupload
                   </button>
                 </div>
               </div>
             </form>
             <div className='divider'></div>
-            {progress < 100 ? <h3 className='flex justify-center my-3'>{progress}%</h3> : <h3 className='flex justify-center my-3'>Pupload Complete!</h3>}
+            {bigFile && (
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
+            )}
+            {progress < 100 ? (
+              <h3 className='flex justify-center my-3'>{progress}%</h3>
+            ) : (
+              <h3 className='flex justify-center my-3'>{uploadMsg}</h3>
+            )}
           </div>
           <form className='' onSubmit={handleSubmit}>
             <div className='flex place-items-center'>
-              <textarea type='text' placeholder='add a caption' className='textarea textarea-bordered w-full max-w-xs' maxLength={100} ref={captionRef} />
-              <button disabled={loading || !uploaded} type='submit' className='ml-4 btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'>
+              <textarea
+                type='text'
+                placeholder='add a caption'
+                className='textarea textarea-bordered w-full max-w-xs'
+                maxLength={100}
+                ref={captionRef}
+              />
+              <button
+                disabled={loading || !uploaded}
+                type='submit'
+                className='ml-4 btn btn-outline btn-xs sm:btn-sm md:btn-md lg:btn-md'
+              >
                 <label htmlFor='my-modal-3'>Share</label>
               </button>
             </div>

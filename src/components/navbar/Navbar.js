@@ -3,7 +3,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { doc, getDoc, collection, query, getDocs, setDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AddPost from './post/AddPost';
 import FollowFurriend from './follow/FollowFurriend';
@@ -13,7 +13,6 @@ export const Navbar = () => {
   const { logout, currentUser } = useAuth();
   const [displayName, setDisplayName] = useState('Guest');
   const [userInfo, setUserInfo] = useState({});
-  // const [profilePic, setProfilePic] = useState('');
   const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
 
@@ -26,8 +25,6 @@ export const Navbar = () => {
       if (userRef) {
         const getProfile = async function () {
           getDoc(userRef).then((doc) => {
-            // setDisplayName(doc.data().displayName);
-            // setProfilePic(doc.data().photoURL);
             setUserInfo({ ...doc.data(), id: userId });
           });
         };
@@ -53,11 +50,6 @@ export const Navbar = () => {
 
   // switch themes
   const themeValues = ['Default', 'Cupcake', 'Retro', 'Aqua', 'Cyberpunk', 'Valentine'];
-
-  // RYAN'S NOTE: PUT THE THEMECHANGE FUNC OUTSIDE OF USEEFFECT - IF IN USEEFFECT THEME CHANGE WILL NOT WORK ON FIRST RENDER.
-  // useEffect(() => {
-  //   themeChange(false);
-  // }, []);
 
   const handleLogout = useCallback(() => {
     logout();
@@ -120,7 +112,6 @@ export const Navbar = () => {
         ) : null}
       </div>
       <div className='flex-none gap-2 mx-2'>
-        <div className='form-control'>{/* <input type='text' placeholder='Search' className='input input-bordered' /> */}</div>
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { collection, query, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -11,8 +11,6 @@ export default function Home() {
   const [userPosts, setUserPosts] = useState([]);
   const [friendsPosts, setFriendsPosts] = useState([]);
   const [allPosts, setAllPosts] = useState([]);
-
-  const [loaded, setLoaded] = useState(false);
 
   const { currentUser } = useAuth();
   const { uid } = currentUser;
@@ -91,7 +89,7 @@ export default function Home() {
   return (
     <>
       {allPosts.length ? (
-        <div className='container my-12 mx-auto px-4 md:px-12 h-screen'>
+        <div className='container my-12 mx-auto px-4 md:px-12 h-full'>
           <div className='flex flex-wrap -mx-1 lg:-mx-4'>
             {allPosts.map((post, i) => (
               <PostCard key={i} post={post} i={i} uid={uid} />

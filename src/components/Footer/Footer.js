@@ -12,10 +12,10 @@ const Footer = () => {
         <a className='btn btn-ghost btn-sm' href='/about'>
           About
         </a>
-        <a target='_blank' href='https://github.com/REKRZ/FURRIENDS'>
+        <a target='blank' href='https://github.com/REKRZ/FURRIENDS'>
           <BsGithub size='1.5rem' />
         </a>
-        <a>
+        <a href='#'>
           <BsYoutube size='1.5rem' />
         </a>
       </div>
