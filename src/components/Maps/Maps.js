@@ -25,7 +25,7 @@ const Maps = () => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setLat(latitude);
       setLng(longitude);
-      setDoc(userInfoRef, { lat: latitude, lng: longitude }, { merge: true });
+      setDoc(userInfoRef, { lat: latitude || 40.7050758, lng: longitude || -74.0113544 }, { merge: true });
     });
   }, []);
 
