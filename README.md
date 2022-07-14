@@ -7,6 +7,8 @@ Furriends is a social web application that captures and shares moments between d
 
 ## [Try Furriends Here!](https://furriends-32ebf.web.app) :computer:
 
+![Screen Shot 2022-07-14 at 12 42 57 PM](https://user-images.githubusercontent.com/99780324/179034760-51d2dda8-5eb0-4afb-8aee-2d01e65b8d5d.png)
+
 ## Video Walkthrough :movie_camera:
 insert video here
 
@@ -19,6 +21,7 @@ insert video here
 :balloon: See your Furriend list and your own posts on your profile page<br/>
 :balloon: Edit your posts and your profile<br/>
 :balloon: Real-time chat functionality<br/>
+:balloon: Personalized user experience with theme changer functionality<br/>
 
 ## Tech Stack :books:
 Below is a non-exhaustive list of technologies used throughout the project.
