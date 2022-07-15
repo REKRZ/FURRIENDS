@@ -1,14 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from 'react';
-import {
-  collection,
-  query,
-  getDocs,
-  getDoc,
-  doc,
-  orderBy,
-  deleteDoc,
-} from 'firebase/firestore';
+import { collection, query, getDocs, getDoc, doc, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import FriendProfileCard from './FriendProfileCard';
 import { useLocation } from 'react-router-dom';
@@ -43,9 +35,7 @@ const FriendProfile = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       const userInfoSnapshot = await getDoc(qUserInfo);
-      userInfoSnapshot.exists()
-        ? setUserInfo(userInfoSnapshot.data())
-        : console.log('no such document!');
+      userInfoSnapshot.exists() ? setUserInfo(userInfoSnapshot.data()) : console.log('no such document!');
     };
     getUserInfo();
   }, []);
@@ -58,24 +48,21 @@ const FriendProfile = () => {
   return (
     <div className='flex w-screen'>
       <div className='h-screen'>
-        <FriendProfileCard userInfo={userInfo} uid={uid} />
+        <FriendProfileCard userInfo={userInfo} />
       </div>
       <div className='grid w-full h-full bg-base-300 place-items-center rounded-bl-lg pt-8'>
         {userPosts.length ? (
-          userPosts.map(({ uploadedPhoto, caption, displayName, id }, i) => (
+          userPosts.map(({ uploadedPhoto, caption, displayName, createdAt, id }, i) => (
             <div key={i}>
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div className='card lg:card-side bg-base-100 shadow-xl w-[800px]'>
                   <figure>
-                    <img
-                      className='object-contain h-60 w-60'
-                      src={`${uploadedPhoto}`}
-                      alt='pic'
-                    />
+                    <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
                   </figure>
                   <div className='card-body flex justify-center'>
                     <h6 className='card-title'>{caption}</h6>
                     <div className='card-actions justify-end absolute bottom-2 right-2'>
+                      <h6>{createdAt.toDate().toDateString().split(' ').join(' ')}</h6>
                       <div className='badge badge-outline'>{displayName}</div>
                     </div>
                   </div>
