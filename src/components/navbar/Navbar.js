@@ -57,6 +57,8 @@ export const Navbar = () => {
     navigate('/');
   }, []);
 
+  console.dir(currentUser);
+
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1 '>
@@ -115,7 +117,7 @@ export const Navbar = () => {
         <div className='dropdown dropdown-end'>
           <label tabIndex='0' className='btn btn-ghost btn-circle avatar'>
             <div className='w-10 rounded-full'>
-              <img src={currentUser ? userInfo.photoURL : '/images/dogLogo.svg'} alt='Profile-Pic' />
+              <img src={currentUser ? (userInfo.photoURL ? userInfo.photoURL : '/images/dogLogo.svg') : '/images/dogLogo.svg'} alt='Profile-Pic' />
             </div>
           </label>
           <ul tabIndex='0' className='p-2 shadow menu menu-compact dropdown-content bg-base-300 rounded-box w-52'>
