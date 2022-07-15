@@ -3,11 +3,11 @@ import EditProfile from './EditProfile';
 
 const ProfileCard = ({ userInfo, uid }) => {
   const { photoURL, displayName, bio, petBreed, petName, ownerName, petSize } = userInfo;
-  const petSizes = {
-    S: 'small',
-    M: 'medium',
-    L: 'large',
-  };
+  // const petSizes = {
+  //   S: 'small',
+  //   M: 'medium',
+  //   L: 'large',
+  // };
 
   return (
     <div className='card w-60 h-auto bg-base-100 items-center'>
@@ -22,13 +22,10 @@ const ProfileCard = ({ userInfo, uid }) => {
           <span className='font-bold'>Name:</span> {petName}
         </h3>
         <h3>
-          <span className='font-bold'>My Parent is:</span> {ownerName}
+          <span className='font-bold'>Paw-rent:</span> {ownerName}
         </h3>
         <h3>
           <span className='font-bold'>Breed:</span> {petBreed}
-        </h3>
-        <h3>
-          <span className='font-bold'>Size:</span> {petSizes[petSize]}
         </h3>
         <p>
           <span className='font-bold'>Bio:</span> {bio}

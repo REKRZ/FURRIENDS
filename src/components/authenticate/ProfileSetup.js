@@ -38,26 +38,6 @@ export default function ProfileSetup() {
     });
   }, []);
 
-  // logic to create user profile (document) in profile collection
-  // useEffect(() => {
-  //   async function createUserProf() {
-  //     await setDoc(doc(db, 'profiles', uid), {
-  //       bio: '',
-  //       displayName: '',
-  //       lat: latLng.lat || 40.7050758 + Math.random() / 100,
-  //       lng: latLng.lng || -74.0113544 + Math.random() / 100,
-  //       ownerName: '',
-  //       petBreed: '',
-  //       petName: '',
-  //       petSize: 'S',
-  //       photoURL: 'https://www.akc.org/wp-content/uploads/2017/11/Beagle-laying-down-in-the-shade-outdoors.jpg',
-  //     });
-  //   }
-
-  //   createUserProf();
-  //   // eslint-disable-next-line
-  // }, []);
-
   //generates random number between .01 and .001 with 4 to 5 trailing numbers
   const precision = 10000000;
   const randomNum = Math.floor(Math.random() * (0.01 * precision - 0.001 * precision) + 0.001 * precision) / (1 * precision);

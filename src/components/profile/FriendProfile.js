@@ -57,7 +57,7 @@ const FriendProfile = () => {
               <div className='grid h-300 card bg-base-300 rounded-box place-items-center'>
                 <div className='card lg:card-side bg-base-100 shadow-xl w-[800px]'>
                   <figure>
-                    <img className='object-contain h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
+                    <img className='object-cover h-60 w-60' src={`${uploadedPhoto}`} alt='pic' />
                   </figure>
                   <div className='card-body flex justify-center'>
                     <h6 className='card-title'>{caption}</h6>
