@@ -76,9 +76,7 @@ export default function Home() {
     // combine all posts
     if (friendsPosts.length) {
       const combined = [...userPosts, ...friendsPosts];
-      const timeOrderedCombined = combined.sort(
-        (a, b) => b.createdAt.seconds - a.createdAt.seconds
-      );
+      const timeOrderedCombined = combined.sort((a, b) => b.createdAt.seconds - a.createdAt.seconds);
       setAllPosts(timeOrderedCombined);
       setAllPosts(combined);
     } else {
@@ -103,19 +101,11 @@ export default function Home() {
           <div className='hero-overlay bg-opacity-60'></div>
           <div className='hero-content text-center text-neutral-content'>
             <div className='max-w-md'>
-              <h1 className='mb-5 text-4xl text-gray-300 font-bold'>
-                Follow some Furriends to see posts! 🐾
-              </h1>
+              <h1 className='mb-5 text-4xl text-gray-300 font-bold'>Follow some Furriends to see posts! 🐾</h1>
               <p className='flex flex-col items-center justify-center mb-6'>
-                <img
-                  src='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png'
-                  alt='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png'
-                />
+                <img src='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png' alt='https://emojipedia-us.s3.amazonaws.com/source/skype/289/dog_1f415.png' />
               </p>
-              <label
-                htmlFor='follow-furriend-modal'
-                className='btn btn-primary normal modal-button'
-              >
+              <label htmlFor='follow-furriend-modal' className='btn btn-primary normal modal-button'>
                 Follow a Furriend
               </label>
             </div>
