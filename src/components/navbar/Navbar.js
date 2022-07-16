@@ -57,8 +57,6 @@ export const Navbar = () => {
     navigate('/');
   }, []);
 
-  console.dir(currentUser);
-
   return (
     <div className='navbar bg-base-300'>
       <div className='flex-1 '>
