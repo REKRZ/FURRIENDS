@@ -19,6 +19,7 @@ const Maps = () => {
   const userInfo = useLocation();
   const [lat, setLat] = useState(userInfo.state.user.lat);
   const [lng, setLng] = useState(userInfo.state.user.lng);
+  const [distance, setDistance] = useState(0);
   const { id, photoURL } = userInfo.state.user;
   const friends = userInfo.state.friends;
 
@@ -135,10 +136,11 @@ const Maps = () => {
           const resultsArr = results.map((result, i) => {
             return {
               location: parksArr[i],
-              drivingtime: result.response.routeSummary.travelTimeInSeconds,
+              distanceMeters: result.response.routeSummary.lengthInMeters,
             };
           });
-          resultsArr.sort((a, b) => a.drivingtime - b.drivingtime);
+          setDistance(Number(resultsArr[0].distanceMeters));
+          resultsArr.sort((a, b) => a.distanceMeters - b.distanceMeters);
           const sortedPlaces = resultsArr.map((result) => result.location);
           resolve(sortedPlaces);
         });
@@ -164,6 +166,8 @@ const Maps = () => {
     map.on('click', (evt) => {
       if (destinations.length) {
         destinations.pop();
+        destinations.push(evt.lngLat);
+        calculateRoutes();
       } else {
         destinations.push(evt.lngLat);
         calculateRoutes();
@@ -187,6 +191,7 @@ const Maps = () => {
             ))}
           </div>
           <div className='h-full w-full relative p-20'>
+            <h3 className='absolute top-10 font-bold'>Distance to Park: {distance / 1609.344} mi</h3>
             <div ref={mapElement} style={{ height: '100%', width: '100%' }} />
           </div>
         </div>
