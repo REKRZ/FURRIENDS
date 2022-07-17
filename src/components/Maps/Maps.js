@@ -2,11 +2,13 @@ import React, { useEffect, useState, useRef } from 'react';
 import '../../App.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
 import * as tt from '@tomtom-international/web-sdk-maps';
+import * as ttapi from '@tomtom-international/web-sdk-services';
 import { useLocation } from 'react-router-dom';
 import { getDogParks } from '../../api/getDogParks';
-import PlacesCard from './PlacesCard';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { convertCoords, drawRoute } from './mapFn';
+import PlacesCard from './PlacesCard';
 
 const Maps = () => {
   const [map, setMap] = useState({});
@@ -25,7 +27,7 @@ const Maps = () => {
     navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
       setLat(latitude);
       setLng(longitude);
-      setDoc(userInfoRef, { lat: latitude || 40.7050758, lng: longitude || -74.0113544 }, { merge: true });
+      setDoc(userInfoRef, { lat: latitude, lng: longitude }, { merge: true });
     });
   }, []);
 
@@ -36,6 +38,9 @@ const Maps = () => {
   }, [lat, lng]);
 
   useEffect(() => {
+    const origin = { lng: lng, lat: lat };
+    let destinations = [];
+
     let map = tt.map({
       key: process.env.REACT_APP_TOMTOM_API_KEY,
       container: mapElement.current,
@@ -47,6 +52,9 @@ const Maps = () => {
     });
     map.addControl(new tt.FullscreenControl(), 'top-left');
     map.addControl(new tt.NavigationControl(), 'top-left');
+
+    setMap(map);
+
     const addMarker = () => {
       const element = document.createElement('div');
       element.className = 'marker';
@@ -68,6 +76,7 @@ const Maps = () => {
         setLat(lngLat.lat);
       });
     };
+
     friends?.forEach((friend) => {
       let friendLng = Number(friend.lng);
       let friendLat = Number(friend.lat);
@@ -97,7 +106,6 @@ const Maps = () => {
         setTimeout(() => {
           placesScroll.scrollIntoView({ behavior: 'smooth' });
         });
-        console.log(i);
       });
 
       new tt.Marker({
@@ -108,8 +116,59 @@ const Maps = () => {
         .setPopup(popup);
     });
 
-    setMap(map);
     addMarker();
+
+    const sortDestinations = async (parksArr) => {
+      const placesCoords = parksArr.map((park) => convertCoords(park));
+
+      const callParameters = {
+        key: process.env.REACT_APP_TOMTOM_API_KEY,
+        destinations: placesCoords,
+        origins: [convertCoords(origin)],
+      };
+
+      return new Promise((resolve, reject) => {
+        ttapi.services.matrixRouting(callParameters).then((matrixResults) => {
+          const results = matrixResults.matrix[0];
+          const resultsArr = results.map((result, i) => {
+            return {
+              location: parksArr[i],
+              drivingtime: result.response.routeSummary.travelTimeInSeconds,
+            };
+          });
+          resultsArr.sort((a, b) => a.drivingtime - b.drivingtime);
+          const sortedPlaces = resultsArr.map((result) => result.location);
+          resolve(sortedPlaces);
+        });
+      });
+    };
+
+    const calculateRoutes = () => {
+      sortDestinations(destinations).then((sorted) => {
+        sorted.unshift(origin);
+
+        ttapi.services
+          .calculateRoute({
+            key: process.env.REACT_APP_TOMTOM_API_KEY,
+            locations: sorted,
+          })
+          .then((routeData) => {
+            const geoJSON = routeData.toGeoJson();
+            drawRoute(geoJSON, map);
+          });
+      });
+    };
+
+    map.on('click', (evt) => {
+      if (destinations.length) {
+        destinations.pop();
+      } else {
+        destinations.push(evt.lngLat);
+        calculateRoutes();
+      }
+      console.log(destinations);
+    });
+
     return () => map.remove();
   }, [lat, lng, dogParks]);
 
