@@ -50,6 +50,7 @@ const Maps = () => {
       center: [lng, lat],
       zoom: 14,
     });
+
     map.addControl(new tt.FullscreenControl(), 'top-left');
     map.addControl(new tt.NavigationControl(), 'top-left');
 
@@ -166,7 +167,6 @@ const Maps = () => {
         destinations.push(evt.lngLat);
         calculateRoutes();
       }
-      console.log(destinations);
     });
 
     return () => map.remove();
