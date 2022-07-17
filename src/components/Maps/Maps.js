@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState, useRef } from 'react';
 import '../../App.css';
 import '@tomtom-international/web-sdk-maps/dist/maps.css';
