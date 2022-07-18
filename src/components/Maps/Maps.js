@@ -191,7 +191,7 @@ const Maps = () => {
             ))}
           </div>
           <div className='h-full w-full relative p-20'>
-            <h3 className='absolute top-10 font-bold'>Distance to Park: {distance / 1609.344} mi</h3>
+            <h3 className='absolute bottom-10 font-bold'>Distance: {(distance / 1609.344).toFixed(2)} mi</h3>
             <div ref={mapElement} style={{ height: '100%', width: '100%' }} />
           </div>
         </div>

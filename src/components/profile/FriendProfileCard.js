@@ -10,7 +10,7 @@ const ProfileCard = ({ userInfo }) => {
   // };
   return (
     <div className='card w-60 h-auto bg-base-100 shadow-xl items-center'>
-      <h2 className='card-title text-secondary py-3'>{displayName}</h2>
+      <h2 className='card-title text-secondary py-5'>{displayName}</h2>
       <div className='avatar'>
         <div className='w-40 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2'>
           <img src={photoURL} alt='profileImage' className='btn-circle avatar ' />
@@ -20,15 +20,13 @@ const ProfileCard = ({ userInfo }) => {
         <h3>
           <span className='font-bold'>Name:</span> {petName}
         </h3>
-        <h3>
+        {/* <h3>
           <span className='font-bold'>Paw-rent:</span> {ownerName}
         </h3>
         <h3>
           <span className='font-bold'>Breed:</span> {petBreed}
-        </h3>
-        <p>
-          <span className='font-bold'>Bio:</span> {bio}
-        </p>
+        </h3> */}
+        <p>{bio}</p>
       </div>
     </div>
   );
