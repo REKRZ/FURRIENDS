@@ -94,7 +94,6 @@ export default function ProfileSetup() {
       setSelectedFile(undefined);
       return;
     }
-    console.log(e.target.files[0].size);
     setSelectedFile(e.target.files[0]);
   };
   // ^^ LOGIC UPLOAD PHOTO
