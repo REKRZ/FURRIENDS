@@ -9,8 +9,7 @@ Furriends is a social web application that captures and shares moments between d
 
 ![Screen Shot 2022-07-14 at 12 42 57 PM](https://user-images.githubusercontent.com/99780324/179034760-51d2dda8-5eb0-4afb-8aee-2d01e65b8d5d.png)
 
-## Video Walkthrough :movie_camera:
-insert video here
+## [Video Walkthrough](https://www.youtube.com/watch?v=iLs-nqAp1XU&ab_channel=KenjiZhang) :movie_camera:
 
 ## Key Features :key:
 :balloon: Sign in with Google or Email<br/>
