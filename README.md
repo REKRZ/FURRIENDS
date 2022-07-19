@@ -1,23 +1,23 @@
-# :dog: FURRIENDS :dog:
+# :dog: FURRIENDS :cat:
 <em>A social media web application for your furry friends!</em>
 
 ---
 ## About Furriends
-Furriends is a social web application that captures and shares moments between dog owners and their dogs. Users can create profiles for their dogs and upload photo posts for all their furry friends to see! This app features a chat function to connect with friends and a map feature for users to use their location to find nearby dog parks and friends.
+Furriends is a social web application that captures and shares moments between pet owners and their pets. Users can create profiles for their pets and upload photo posts for all their furry friends to see! This app features a chat function to connect with friends and a map feature for users to use their location to find nearby parks and friends.
 
 ## [Try Furriends Here!](https://furriends-32ebf.web.app) :computer:
 
 ![Screen Shot 2022-07-14 at 12 42 57 PM](https://user-images.githubusercontent.com/99780324/179034760-51d2dda8-5eb0-4afb-8aee-2d01e65b8d5d.png)
 
-## Video Walkthrough :movie_camera:
-insert video here
+## [Video Walkthrough](https://www.youtube.com/watch?v=iLs-nqAp1XU&ab_channel=KenjiZhang) :movie_camera:
+
 
 ## Key Features :key:
 :balloon: Sign in with Google or Email<br/>
 :balloon: Pupload a photo and share with your Furriends<br/>
 :balloon: Follow your Furriends and see their posts on your homepage<br/>
 :balloon: Click on posts of your favorite photos and send them a like :heart:<br/>
-:balloon: Use the map to find dog parks and Furriends near you<br/>
+:balloon: Use the map to find and route to parks and Furriends near you<br/>
 :balloon: See your Furriend list and your own posts on your profile page<br/>
 :balloon: Edit your posts and your profile<br/>
 :balloon: Real-time chat functionality<br/>
